@@ -1,0 +1,11 @@
+{
+  "status": "team_proposal_not_measured",
+  "scale_factors": [
+    1,
+    0.75,
+    0.5,
+    0.25
+  ],
+  "interpolation": "INTER_AREA",
+  "apply_blur": false
+}

@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "coordinate_format": "xyxy_pixels_exclusive_max",
+  "images": []
+}

@@ -1,10 +1,18 @@
 # Yapay zekâ kullanım beyanı
 
-## Proje iskeletinin hazırlanması
+## İlk proje iskeleti
 
 - Araç: OpenAI Codex.
-- Amaç: Ödev metnine uygun klasör yapısı, başlangıç belgeleri, veri/sonuç şemaları, notebook taslağı ve yerel Git deposu oluşturmak.
-- Etkilenen dosyalar: `README.md`, `.gitignore`, `.gitattributes`, `requirements.txt`, `configs/experiment.json`, `data/README.md`, `data/annotations/*.csv`, `docs/*.md`, `docs/predictions.csv`, `notebooks/01_experiments.ipynb`, `src/baret_tespiti/__init__.py`, `outputs/results.csv`, `presentation/README.md` ve boş klasörlerin `.gitkeep` dosyaları.
-- Doğrulama: Yapı ödevin gereklilikleriyle karşılaştırıldı; JSON/notebook biçimleri ve CSV başlıkları yapısal olarak kontrol edildi. Git deposu ve takip edilen dosyalar kontrol edildi. Deney kodu çalıştırılmadı; veri etiketlenmedi ve sonuç üretilmedi.
+- Amaç: Ana ödev gerekliliklerine göre başlangıç depo yapısı, belgeler ve şemalar oluşturmak.
+- Etkilenen dosyalar: İlk commit'teki README, veri/deney belgeleri, ayarlar, CSV ve notebook şablonları.
+- Doğrulama: JSON ve CSV yapıları, geliştirme/kontrol ayrımı ve Git durumu kontrol edildi. Deney çalıştırılmadı.
 
-Sonraki yapay zekâ kullanımlarında araç, amaç, etkilenen dosya/hücre ve gerçekten yapılan doğrulama ayrı kayıt olarak eklenmelidir. Grup üyelerinin içerikleri gözden geçirmesi ve sonuçları kendi ortamlarında doğrulaması gerekir.
+## Altı kişilik görev planına uyarlama
+
+- Araç: OpenAI Codex.
+- Amaç: Dosya yollarını ve veri sözleşmesini görev paylaşımıyla eşleştirmek; altı kişisel notebook, ortak demo altyapısı, modül arayüzleri, bireysel not şablonları ve GitHub çalışma akışını hazırlamak.
+- Etkilenen dosyalar: README.md, CONTRIBUTING.md, .gitattributes, .gitignore, requirements.txt; annotations/, configs/, data/, docs/, individual_notes/, models/, notebooks/, results/, scripts/ ve src/ altındaki bu değişiklikle eklenen/güncellenen dosyalar.
+- Doğrulama: JSON/notebook/CSV sözleşmeleri, Python sözdizimi, boş veri durumunda notebook başlangıcı ve ortak demo entegrasyonu kontrol edildi. Gerçek görüntüler üzerinde üye deneyleri çalıştırılmadı.
+- Sınır: Üye algoritmaları NotImplementedError veren açık arayüzlerdir. RGB/HSV eşikleri seçilmedi; model, etiket ve ölçülmüş sonuç üretilmedi.
+
+Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve gerçekten yaptığı doğrulamayı ekler. İlgili üye içeriği ve sonuçları kendi ortamında doğrular.

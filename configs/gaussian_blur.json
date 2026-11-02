@@ -1,0 +1,14 @@
+{
+  "status": "team_proposal_not_measured",
+  "include_unfiltered_reference": true,
+  "sigma_values": [
+    0.5,
+    1.5,
+    3
+  ],
+  "kernel_size": [
+    15,
+    15
+  ],
+  "fixed_scale": 1
+}

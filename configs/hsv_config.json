@@ -1,0 +1,7 @@
+{
+  "status": "not_configured",
+  "frozen": false,
+  "color_space": "HSV_OPENCV_8BIT",
+  "lower": null,
+  "upper": null
+}

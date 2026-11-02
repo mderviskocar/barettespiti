@@ -1,32 +1,39 @@
-# Veri ve etiketleme
+# Ortak veri ve çıktı sözleşmesi
 
-Özgün görüntüler değiştirilmeden `raw/development/` ve `raw/control/` altında saklanır. Dönüştürülmüş görüntüler yeni bağımsız örnek sayılmaz; geçici kopyalar `outputs/scratch/` altında tutulabilir.
+Özgün görüntüler data/development/ (G1, G2) ve data/control/ (K1–K4) altında tutulur. Dönüştürülmüş kopyalar bağımsız örnek değildir. Geçici dosyalar results/scratch/ altındadır. Altı görüntü; normal ışık, gölge, küçük/uzak baret, aynı renkli başka nesne ve başta / elde-masada baret karşılaştırmasını kapsamalıdır.
 
-## Görüntü seçimi
+## Kaynaklar ve etiketler
 
-Geliştirme için `G-1`, `G-2`; kontrol için `K-1`–`K-4` kimlikleri ayrılmıştır. CSV dosyaları henüz veri içermez. Toplam altı görüntü normal ışık, gölge, küçük/uzak baret, baretle aynı renkte farklı nesne ve başta baret / elde veya masada baret karşılaştırmasını kapsamalıdır. Bir görüntü birden fazla koşulu karşılayabilir.
+data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın.
 
-Bu küçük çalışma için hedef kişisi açık olan görüntüler seçin. Birden çok kişinin bulunduğu görüntüler kullanılacaksa hedef kişinin seçimini ve görüntü düzeyindeki sınıf kararını deneyden önce açıkça tanımlayın.
+annotations/ground_truth.json içindeki images listesi başlangıçta boştur. Her görüntü kaydı şu alanları içerir:
 
-## CSV dosyaları
+- image_id: G1, G2 veya K1–K4.
+- ground_truth_class: dört ortak sınıftan biri.
+- reason: yöntemden önce görüntüdeki kanıta dayanan gerekçe.
+- head_roi: baş görünüyorsa [xmin, ymin, xmax, ymax], görünmüyorsa null.
+- helmet_boxes: gerçek baret kutularının listesi; kutu değerlendirmesi yapılacaksa doldurulur.
 
-Tüm dosyalar UTF-8 ve virgülle ayrılmış biçimdedir. Koordinatlar özgün görüntünün piksel koordinatlarıdır: sol üst başlangıçlı, `x_max` ve `y_max` hariç tutulan kutular. Geçerli kutular için `0 <= x_min < x_max <= width` ve `0 <= y_min < y_max <= height` olmalıdır.
-
-| Dosya | İçerik |
+| Sınıf | Anlam |
 | --- | --- |
-| `annotations/images.csv` | Her görüntü için bir satır; kimlik, ayrım, depoya göre yol, boyutlar, koşul, kaynak, lisans ve yöntemden önce belirlenen doğru sınıf |
-| `annotations/heads.csv` | Elle belirlenen hedef baş bölgesi; `head_id` ile görüntüye bağlanır |
-| `annotations/helmets.csv` | İsteğe bağlı dedektör değerlendirmesi için her gerçek baretin kutusu; başta olmayan baretler de dahildir |
+| helmet_on_head | Görünen baret kişinin başındadır. |
+| helmet_off_head | Baret görünür, kişinin başında değildir. |
+| no_helmet | Baş görünür ve başta baret yoktur. |
+| uncertain | Baş görünmemesi, karanlık veya küçük nesne gibi nedenlerle kanıt yetersizdir. |
 
-`images.csv` içindeki `split`: `development` veya `control`. Kaynak URL'si görsele mümkün olduğunca doğrudan işaret etmelidir. Kendi çekiminizde `source_type=own_photo` yazın; belirsiz lisans bilgisini tahmin etmeyin. Yeniden dağıtım koşullarını kaynak kaydında belirtin.
+Koordinatlar özgün piksel koordinatlarıdır, sol üst başlangıçlıdır; xmax/ymax hariçtir. 0 <= xmin < xmax <= width ve 0 <= ymin < ymax <= height olmalıdır. Baş kutusu uydurulmaz. Sarı kova gerçek baret kutusu olarak etiketlenmez. Ölçek deneyinde kutular da ölçeklenir. Birden çok kişi varsa hedef kişi ve tek sınıf karar kuralı önceden yazılır.
 
-| Sınıf kimliği | Anlamı |
-| --- | --- |
-| `helmet_on_head` | Baret görünür ve kişinin başındadır. |
-| `helmet_off_head` | Baret vardır, ancak kişinin başında değildir. |
-| `no_helmet` | Baş görünür ve başta baret yoktur. |
-| `uncertain` | Başın görünmemesi, karanlık veya küçük nesne gibi nedenlerle kanıt yetersizdir. |
+## Ortak sonuç şeması
 
-Baş görünmüyorsa bir baş kutusu uydurmayın; `images.csv` içindeki gerekçeyi ve `uncertain` sınıfını kullanın. Baş kutuları algoritmanın elle sağlanan girdisidir; sonuçlar otomatik baş tespiti yapılmış gibi sunulmaz.
+~~~text
+experiment_id,image_id,method,condition,parameter,mask_area_percent,head_overlap_percent,predicted_class,ground_truth_class,correct,tp,fp,fn,note
+~~~
 
-Kutular ve doğru sınıflar model çıktılarından kopyalanmaz. Gerçek baret olmayan aynı renkli bir nesne `helmets.csv` dosyasına baret olarak eklenmez.
+- parameter: baseline veya sigma/ölçek gibi değiştirilen parametre ve değeri.
+- mask_area_percent = 100 × seçilen piksel / kullanılan görüntünün toplam pikseli.
+- head_overlap_percent = 100 × baş kutusu içindeki seçilen piksel / baş kutusunun alanı. ROI yoksa N/A.
+- correct: true/false; sınıf değerlendirmesi yapılmadıysa N/A.
+- tp/fp/fn: kutu düzeyinde tam sayılar; değerlendirme yapılmadıysa N/A.
+- Ölçülmeyen diğer metrikler N/A olur. Yüzdeler 0–100 aralığında, yüzde işareti olmadan yazılır.
+
+Üye sonuçları results/rgb_results.csv, results/hsv_results.csv ve diğer results alt klasörlerindedir. Nesli nihai tabloyu results/results.csv içinde birleştirir. Temel karşılaştırma 4 görüntü × 2 yöntem = 8 maske ve 8 satırdır; ek deneyler experiment_id/parameter ile ayrılır. Sonuç dosyaları şimdilik yalnızca başlık içerir.

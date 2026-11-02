@@ -1,32 +1,26 @@
 {
-  "status": "not_configured",
-  "random_seed": 411,
-  "split": {
-    "development_ids": ["G-1", "G-2"],
-    "control_ids": ["K-1", "K-2", "K-3", "K-4"]
-  },
-  "classes": ["helmet_on_head", "helmet_off_head", "no_helmet", "uncertain"],
-  "rgb": {"lower": null, "upper": null},
-  "hsv_opencv": {"lower": null, "upper": null},
+  "schema_version": 1,
+  "development_ids": [
+    "G1",
+    "G2"
+  ],
+  "control_ids": [
+    "K1",
+    "K2",
+    "K3",
+    "K4"
+  ],
+  "classes": [
+    "helmet_on_head",
+    "helmet_off_head",
+    "no_helmet",
+    "uncertain"
+  ],
   "decision_rule": {
-    "min_color_area_ratio": null,
-    "min_head_overlap_ratio": null,
+    "status": "not_configured",
+    "frozen": false,
+    "min_color_area_percent": null,
+    "min_head_overlap_percent": null,
     "insufficient_evidence_rule": null
-  },
-  "robustness": {
-    "gaussian_kernel_sizes": [],
-    "gaussian_sigma_values": [],
-    "scale_factors": [],
-    "resize_interpolation": null
-  },
-  "detector": {
-    "enabled": false,
-    "weights_source": null,
-    "weights_local_path": null,
-    "class_names": [],
-    "input_size": null,
-    "confidence_threshold": null,
-    "nms_iou_threshold": null,
-    "evaluation_iou_threshold": 0.5
   }
 }

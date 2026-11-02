@@ -1,0 +1,11 @@
+{
+  "enabled": false,
+  "status": "not_configured",
+  "weights_source": null,
+  "weights_local_path": null,
+  "class_names": [],
+  "input_size": null,
+  "confidence_threshold": null,
+  "nms_iou_threshold": null,
+  "evaluation_iou_threshold": 0.5
+}
