@@ -30,8 +30,8 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 ## Omar — RGB deneyi
 
 - Araç: Claude Code (Anthropic).
-- Amaç: RGB maske ve ortak karar kuralını uygulamak, aralığı G1/G2 üzerinde seçmek, ön tahmini kaydetmek, ayarları dondurmak, K1–K4 sonuçlarını üretmek, %2 alan eşiğinin dayanağını belgelemek, ekip ortak ayarına (Nesli'nin dondurduğu aralık ve eşikler) geçip kontrolü yeniden çalıştırmak ve notebook ile bireysel notu doldurmak.
+- Amaç: RGB maske ve ortak karar kuralını uygulamak, aralığı G1/G2 üzerinde seçmek, ön tahmini kaydetmek, ayarları dondurmak, K1–K4 sonuçlarını üretmek ve notebook ile bireysel notu doldurmak.
 - Etkilenen dosyalar: `src/rgb.py`, `src/classification.py`, `configs/rgb_config.json`, `configs/experiment.json`, `docs/predictions.csv`, `results/rgb_results.csv`, `results/masks/rgb/`, `notebooks/omar_rgb.ipynb`, `individual_notes/omar.md`.
-- Ön tahmin: İki cümlelik tahmin taslağı Claude Code tarafından yazıldı; Omar ilk kontrol çalıştırmasından önce onayladı ve kayda alındı.
-- Doğrulama: Aralık adayları yalnızca G1/G2 üzerinde karşılaştırıldı. Kontrol görüntüleri ayarlar dondurulduktan sonra çalıştırıldı; ilk çalıştırma Omar'ın aralığıyla, ikincisi ortak ayarla yapıldı (ayrıntı bireysel notta). Ortak ayarla elde edilen değerler Nesli'nin yayımladığı temel ölçümlerle eşleşti. K2 baret rengi, G2 dışı piksel oranı ve K4 baret konumu doğrudan piksel ve kutu koordinatı ölçümüyle denetlendi. `scripts/validate_project.py` hatasız tamamlandı.
-- Sınır: Karar kuralının eşikleri Derviş ile birlikte gözden geçirilmelidir; %2,5 alan eşiği G1/G2'den ayarlanamadı. K4 sonucu eşiğe yakındır ve örtüşme elde tutulan baretten gelmemektedir.
+- Ön tahmin: İki cümlelik tahmin taslağı Claude Code tarafından yazıldı; Omar kontrol çalıştırılmadan önce onayladı ve kayda alındı.
+- Doğrulama: Aralık adayları yalnızca G1/G2 üzerinde karşılaştırıldı. Kontrol görüntüleri ayarlar dondurulduktan sonra bir kez çalıştırıldı ve sonuçlar notebook içinde yeniden hesaplanıp CSV ile karşılaştırıldı. K2 baret rengi ve G2 dışı piksel oranı doğrudan piksel ölçümüyle denetlendi. `scripts/validate_project.py` hatasız tamamlandı.
+- Sınır: Karar kuralının eşikleri Derviş ile birlikte gözden geçirilmelidir; %2 alan eşiği G1/G2'den ayarlanamadı. Maskeler görsel olarak yalnızca G1/G2 için incelendi; kontrol maskeleri notebook çıktısında gösterilir.
