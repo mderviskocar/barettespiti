@@ -1,12 +1,21 @@
+
 # Ortak veri ve çıktı sözleşmesi
 
 Özgün görüntüler data/development/ (G1, G2) ve data/control/ (K1–K4) altında tutulur. Dönüştürülmüş kopyalar bağımsız örnek değildir. Geçici dosyalar results/scratch/ altındadır. Altı görüntü; normal ışık, gölge, küçük/uzak baret, aynı renkli başka nesne ve başta / elde-masada baret karşılaştırmasını kapsamalıdır.
 
 ## Kaynaklar ve etiketler
 
-data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın.
+data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın. Kullanıcı tarafından sağlanan bir görselin kaynak URL'si verilmemişse source_url alanına not provided with user attachment, lisans alanına unknown yazın; URL veya lisans uydurmayın. Filigrandaki sağlayıcı ve görsel kimliği notes alanında belirtilmelidir.
 
-annotations/ground_truth.json içindeki images listesi başlangıçta boştur. Her görüntü kaydı şu alanları içerir:
+Kullanıcının bildirimine göre bu altı başlangıç görüntüsünün kaynağı ML tarafından Roboflow Universe'te yayımlanan chv DATASET'tir. Dataset sayfasında CC BY 4.0 lisansı belirtilmiştir; bu nedenle her görüntü satırında source_type=roboflow_universe_dataset, source_url=https://universe.roboflow.com/ml-pzfty/chv-dataset ve license=CC BY 4.0 kayıtlıdır. Görseller yeniden adlandırılarak G1–K4 dosya adlarına yerleştirildi ve manuel ground truth etiketleri eklendi; piksel içeriği değiştirilmedi. Görseldeki Paixin/Dreamstime filigranları ve görünür stok kimlikleri ayrıca notes alanında korunmuştur.
+
+### Veri kümesi atfı
+
+ML, “chv DATASET Dataset,” Roboflow Universe, 2023. https://universe.roboflow.com/ml-pzfty/chv-dataset. Lisans: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Erişim tarihi: 2 Kasım 2026. Bu projede dosya adları ve veri kümesi ayrımı düzenlendi, ayrıca manuel ground truth anotasyonları eklendi; görsel piksel içeriği değiştirilmedi.
+
+Altı başlangıç görüntüsü G1/G2 (development) ve K1–K4 (control) olarak sabitlenmiştir. Birden fazla kişi varsa görüntü sınıfı için hedef kişi, baş merkezi görüntü merkezine en yakın görünür kişi olarak seçilir; eşitlikte daha büyük baş kullanılır. Tüm görünür gerçek baretler helmet_boxes içinde kaydedilir. Baş görünmüyorsa head_roi null kalır ve sınıf uncertain olur.
+
+annotations/ground_truth.json içindeki images listesinde altı görüntünün ground truth kaydı bulunur. Her görüntü kaydı şu alanları içerir:
 
 - image_id: G1, G2 veya K1–K4.
 - ground_truth_class: dört ortak sınıftan biri.
