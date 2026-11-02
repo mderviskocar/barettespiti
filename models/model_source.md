@@ -1,15 +1,7 @@
 # İsteğe bağlı hazır dedektör
 
-Durum: Model henüz seçilmedi; model çıktısı veya ölçüm yoktur.
+Durum: Hazır dedektör kullanılmadı.
 
-- Ağırlık kaynağı / indirme URL'si:
-- Model adı ve sürümü:
-- Lisans:
-- Sınıf listesi:
-- Giriş boyutu:
-- Yerel ağırlık yolu:
-- Gerekli ek kurulum ve çalıştırma komutu:
-- Confidence / NMS ayarları:
-- Gerçekten yapılan çalıştırma doğrulaması:
+Ödev yönergesinin 6. maddesi hazır dedektör karşılaştırmasını isteğe bağlı tutar. Ekip renk tabanlı başlangıç yöntemiyle ilerlemiştir; bu nedenle model ağırlığı, sınıf listesi veya model çıktısı yoktur ve hiçbir yerde hazır model sonucu sunulmaz.
 
-Uygun hazır model yoksa çalışma renk tabanlı başlangıç yöntemi olarak sunulur. Maske-kutusu karşılaştırması hazır model sonucu olarak adlandırılmaz. Ağırlıklar Git'e eklenmez.
+Kutu düzeyi TP/FP/FN sayımı bunun yerine **renk maskesi kutu değerlendirmesi** ile yapılmıştır: RGB/HSV maskesinin bağlı bileşenlerinden aday kutular üretilir ve elle çizilmiş gerçek baret kutularıyla IoU ≥ 0.50 bire bir eşleştirme yapılır (`src/detection.py`, `src/metrics.py`, `scripts/evaluate_color_mask_boxes.py`). Bu sonuç bir YOLO/dedektör sonucu değildir.
