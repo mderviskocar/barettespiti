@@ -2,7 +2,7 @@
 
 YZM411 Bilgisayarlı Görü, 2026–2027 Güz dönemi. Altı kişilik ortak çalışma deposu.
 
-**Durum:** Ekip çalışma altyapısı hazırdır. Gerçek görüntüler, etiketler, üyelere ait görüntü işleme uygulamaları ve ölçülmüş sonuçlar henüz eklenmemiştir. Kişisel notebook'lar şablondur; ortak demo eksik veri veya uygulamayı açıkça bildirir. Hazır dedektör isteğe bağlıdır.
+**Durum:** Altı görüntü data/development ve data/control altına, dört sınıflı manuel ground truth ile eklendi. Üye görüntü işleme deneyleri ve ölçülmüş sonuçlar henüz eklenmemiştir. Kişisel notebook'lar başlangıç şablonudur; ortak demo deney uygulaması tamamlanana kadar bunu açıkça bildirir. Hazır dedektör isteğe bağlıdır.
 
 ## Yapı
 
@@ -60,7 +60,7 @@ Omar ve Derviş src/classification.py karar sözleşmesinin teknik sahipleridir;
 - Kaynakların tek kaynağı data/sources.csv; gerçek sınıf ve kutuların tek kaynağı annotations/ground_truth.json.
 - Alan ve baş örtüşmesi tüm sonuçlarda **0–100 arası yüzde**. Ölçülmeyen/uygulanmayan metrik N/A; sıfır değildir.
 - RGB/HSV ayarları yalnızca geliştirmede seçilir; kontrol öncesinde renk ve ortak karar ayarları frozen=true yapılır.
-- CSV'ler şimdilik yalnızca başlık içerir. Ayrıntılar: [veri sözleşmesi](data/README.md).
+- Kaynak ve lisans bilgisi mevcut olduğunda kaydedilir; bilinmeyen değerler uydurulmaz. Ayrıntılar: [veri sözleşmesi](data/README.md).
 
 ## GitHub akışı
 
