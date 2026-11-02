@@ -1,7 +1,8 @@
 {
-  "status": "not_configured",
-  "frozen": false,
+  "status": "configured",
+  "frozen": true,
   "color_space": "RGB",
-  "lower": null,
-  "upper": null
+  "lower": [180, 140, 0],
+  "upper": [255, 255, 120],
+  "calibration_note": "Selected from G1/G2 development images before processing control images."
 }
