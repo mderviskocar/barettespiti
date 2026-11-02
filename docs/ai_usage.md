@@ -16,3 +16,13 @@
 - Sınır: Üye algoritmaları NotImplementedError veren açık arayüzlerdir. RGB/HSV eşikleri seçilmedi; model, etiket ve ölçülmüş sonuç üretilmedi.
 
 Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve gerçekten yaptığı doğrulamayı ekler. İlgili üye içeriği ve sonuçları kendi ortamında doğrular.
+
+## Altı görüntünün ground truth anotasyonu
+
+- Araç: OpenAI Codex (görsel inceleme ve dosya düzenleme).
+- Amaç: Kullanıcının sağladığı altı görüntüyü G1/G2 development ve K1–K4 control düzenine yerleştirmek; proje sözleşmesindeki dört sınıf, hedef baş ROI ve gerçek baret kutularını doldurmak.
+- Etkilenen dosyalar: `data/development/`, `data/control/`, `data/sources.csv`, `data/README.md`, `annotations/ground_truth.json`, `README.md`.
+- Sınıf kararları: G1 `no_helmet`, G2 `helmet_on_head`, K1 `uncertain`, K2/K3 `helmet_on_head`, K4 `helmet_off_head`. K1'de baş kadraj dışında olduğundan kutu eklenmedi; K4'te elde tutulan baret başta takılı sayılmadı.
+- Kaynaklar: Lisanslar bilinmediğinden `unknown` kaydedildi. Watermark görülen görseller için sağlayıcı ve stok kimliği not edildi; kaynağı verilmeyen görseller için kaynak URL'si verilmediği açıkça kaydedildi.
+- Doğrulama: Kaynak boyutları görsel dosyalarla karşılaştırıldı ve tüm kutuların görüntü sınırları içinde olduğu denetlendi. `python scripts/validate_project.py --require-data` başarıyla tamamlandı; hiçbir segmentasyon/model deneyi veya sonuç ölçümü bu değişiklikte yapılmadı.
+- Sınırlılık: Kutular manuel görsel tahmindir; K3 gibi uzak işçi örneklerinde kutu sınırları yaklaşık tutulmuştur ve piksel hassasiyeti için ikinci gözden geçirme gerekir.
