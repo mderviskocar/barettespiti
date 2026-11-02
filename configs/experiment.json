@@ -17,10 +17,10 @@
     "uncertain"
   ],
   "decision_rule": {
-    "status": "not_configured",
-    "frozen": false,
-    "min_color_area_percent": null,
-    "min_head_overlap_percent": null,
-    "insufficient_evidence_rule": null
+    "status": "configured",
+    "frozen": true,
+    "min_color_area_percent": 2.5,
+    "min_head_overlap_percent": 5.0,
+    "insufficient_evidence_rule": "If head_roi is null, predict uncertain. With a visible head, mask area below 2.5 percent predicts no_helmet; otherwise head overlap of at least 5 percent predicts helmet_on_head, and lower overlap predicts helmet_off_head. These thresholds were selected on G1/G2 and frozen before control evaluation."
   }
 }

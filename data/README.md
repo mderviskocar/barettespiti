@@ -3,6 +3,8 @@
 
 Özgün görüntüler data/development/ (G1, G2) ve data/control/ (K1–K4) altında tutulur. Dönüştürülmüş kopyalar bağımsız örnek değildir. Geçici dosyalar results/scratch/ altındadır. Altı görüntü; normal ışık, gölge, küçük/uzak baret, aynı renkli başka nesne ve başta / elde-masada baret karşılaştırmasını kapsamalıdır.
 
+Bu seçimde G1 gün ışığında sarı ekipman renk çeldiricisi, K2 gece/düşük ışık ve derin gölgeler, K3 küçük/uzak baretler, G2 başta baret ve K4 elde tutulan baret örneğidir. Bu koşullar kaynak tablosunda görüntü başına kaydedilmiştir.
+
 ## Kaynaklar ve etiketler
 
 data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın. Kullanıcı tarafından sağlanan bir görselin kaynak URL'si verilmemişse source_url alanına not provided with user attachment, lisans alanına unknown yazın; URL veya lisans uydurmayın. Filigrandaki sağlayıcı ve görsel kimliği notes alanında belirtilmelidir.
@@ -45,4 +47,4 @@ experiment_id,image_id,method,condition,parameter,mask_area_percent,head_overlap
 - tp/fp/fn: kutu düzeyinde tam sayılar; değerlendirme yapılmadıysa N/A.
 - Ölçülmeyen diğer metrikler N/A olur. Yüzdeler 0–100 aralığında, yüzde işareti olmadan yazılır.
 
-Üye sonuçları results/rgb_results.csv, results/hsv_results.csv ve diğer results alt klasörlerindedir. Nesli nihai tabloyu results/results.csv içinde birleştirir. Temel karşılaştırma 4 görüntü × 2 yöntem = 8 maske ve 8 satırdır; ek deneyler experiment_id/parameter ile ayrılır. Sonuç dosyaları şimdilik yalnızca başlık içerir.
+Üye sonuçları results/rgb_results.csv, results/hsv_results.csv ve diğer results alt klasörlerindedir. Nesli nihai tabloyu results/results.csv içinde birleştirir. Temel karşılaştırma 4 görüntü × 2 yöntem = 8 maske ve 8 satırdır; ek deneyler experiment_id/parameter ile ayrılır. nesli_rgb_hsv_baseline deneyi dört kontrol görüntüsünde sekiz RGB/HSV renk maskesi ve sekiz sonuç satırı üretir. Eşikler yalnızca G1/G2 geliştirme görüntülerinden kalibre edilip kontrol değerlendirmesinden önce dondurulmuştur. Bu, renk tabanlı başlangıç sezgisidir; eğitilmiş dedektör değildir. Kutu düzeyinde IoU değerlendirmesi yapılmadığından tp/fp/fn değerleri N/A'dır. Ground truth kutu önizlemeleri annotations/previews/ içindedir ve özgün görüntülere ek bağımsız örnek sayılmaz.

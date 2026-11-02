@@ -26,3 +26,13 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 - Kaynaklar: Kullanıcının bildirimine göre altı görsel ML tarafından Roboflow Universe'te yayımlanan chv DATASET'ten alınmıştır. Dataset sayfasında CC BY 4.0 belirtilir; data/sources.csv içindeki altı satır bu URL ve lisansla güncellendi. Görünen Paixin/Dreamstime filigranları ve stok kimlikleri notes alanında ayrıca kaydedildi.
 - Doğrulama: Kaynak boyutları görsel dosyalarla karşılaştırıldı ve tüm kutuların görüntü sınırları içinde olduğu denetlendi. `python scripts/validate_project.py --require-data` başarıyla tamamlandı; hiçbir segmentasyon/model deneyi veya sonuç ölçümü bu değişiklikte yapılmadı.
 - Sınırlılık: Kutular manuel görsel tahmindir; K3 gibi uzak işçi örneklerinde kutu sınırları yaklaşık tutulmuştur ve piksel hassasiyeti için ikinci gözden geçirme gerekir.
+
+## Nesli veri analizi ve RGB/HSV başlangıç ölçümü
+
+- Araç: OpenAI Codex; Python 3.14, NumPy ve OpenCV.
+- Amaç: Altı kaynak/etiket kaydını ve özgün boyutları denetlemek; manuel kutu önizlemelerini oluşturmak; G1/G2 ile renk eşiklerini kalibre edip dondurduktan sonra K1–K4 üzerinde RGB/HSV maskelerini ölçmek.
+- Etkilenen dosyalar: notebooks/nesli_dataset_analysis.ipynb, scripts/run_nesli_dataset_analysis.py, configs/rgb_config.json, configs/hsv_config.json, configs/experiment.json, data/sources.csv, annotations/previews/, results/masks/, results/rgb_results.csv, results/hsv_results.csv, results/results.csv, docs/predictions.csv, individual_notes/nesli.md, data/README.md ve README.md.
+- Sabit ayarlar: RGB alt/üst [180,140,0]/[255,255,120]; OpenCV HSV alt/üst [18,80,80]/[50,255,255]; maske alanı eşiği 2.5%; baş örtüşme eşiği 5%. Renk aralıkları ve karar kuralı yalnızca G1/G2 geliştirme ölçülerinden seçilip K görüntülerinden önce donduruldu.
+- Ölçülen kontrol sonucu: 8 maske ve 8 CSV satırı. Sınıf doğruluğu RGB 2/4, HSV 2/4; iki yöntemde K2 ve K3 yanlış sınıflandı. Kutu düzeyinde dedektör/IoU ölçümü yapılmadı; tp/fp/fn N/A bırakıldı.
+- Doğrulama: python scripts/run_nesli_dataset_analysis.py ile ölçüm çıktıları tekrar üretildi; notebook beş kod hücresiyle yürütülüp çıktılar kaydedildi; python scripts/validate_project.py --require-data başarılı oldu.
+- Sınırlılık: Renk maskesi baret nesnesini tek başına kanıtlamaz. Karanlık ve uzak örneklerdeki hatalar saklanmadı; altı görüntü genelleme veya gerçek saha performansı iddiasını desteklemez.
