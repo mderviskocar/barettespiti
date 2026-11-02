@@ -1,0 +1,1363 @@
+{
+  "settings": {
+    "enabled": false,
+    "status": "not_used",
+    "note": "Hazır dedektör kullanılmadı. Kutu düzeyi sayım renk maskesi kutu değerlendirmesi ile yapıldı (mask_box bölümü).",
+    "weights_source": null,
+    "weights_local_path": null,
+    "class_names": [],
+    "input_size": null,
+    "confidence_threshold": null,
+    "nms_iou_threshold": null,
+    "evaluation_iou_threshold": 0.5,
+    "mask_box": {
+      "frozen": true,
+      "color_configs": [
+        "rgb_config.json",
+        "hsv_config.json"
+      ],
+      "morph_kernel_size": 3,
+      "min_component_area_px": 50,
+      "calibration_note": "Morfoloji çekirdeği ve en küçük bileşen alanı yalnızca G1/G2 geliştirme görüntülerinde seçildi ve K1-K4 çalıştırılmadan önce donduruldu. 50 piksel sınırı G1'deki 20 pikselden küçük gürültü lekelerini atar; G2'deki baret parçalarını korur."
+    }
+  },
+  "images": {
+    "K1": {
+      "gt_helmet_boxes": [],
+      "rgb": {
+        "components": [],
+        "evaluation": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "iou_threshold": 0.5,
+          "matches": [],
+          "false_positives": [],
+          "false_negative_gt_indices": []
+        }
+      },
+      "hsv": {
+        "components": [],
+        "evaluation": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "iou_threshold": 0.5,
+          "matches": [],
+          "false_positives": [],
+          "false_negative_gt_indices": []
+        }
+      }
+    },
+    "K2": {
+      "gt_helmet_boxes": [
+        [
+          981,
+          94,
+          1070,
+          165
+        ]
+      ],
+      "rgb": {
+        "components": [
+          {
+            "box": [
+              457,
+              187,
+              466,
+              200
+            ],
+            "area_px": 87
+          },
+          {
+            "box": [
+              56,
+              869,
+              85,
+              874
+            ],
+            "area_px": 83
+          },
+          {
+            "box": [
+              1014,
+              229,
+              1025,
+              239
+            ],
+            "area_px": 73
+          },
+          {
+            "box": [
+              1175,
+              28,
+              1184,
+              44
+            ],
+            "area_px": 71
+          },
+          {
+            "box": [
+              26,
+              869,
+              48,
+              873
+            ],
+            "area_px": 70
+          }
+        ],
+        "evaluation": {
+          "tp": 0,
+          "fp": 5,
+          "fn": 1,
+          "iou_threshold": 0.5,
+          "matches": [],
+          "false_positives": [
+            {
+              "prediction_index": 0,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 1,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 2,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 3,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 4,
+              "best_iou": 0.0,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": [
+            0
+          ]
+        }
+      },
+      "hsv": {
+        "components": [
+          {
+            "box": [
+              20,
+              868,
+              86,
+              944
+            ],
+            "area_px": 3838
+          },
+          {
+            "box": [
+              136,
+              162,
+              181,
+              268
+            ],
+            "area_px": 2935
+          },
+          {
+            "box": [
+              1000,
+              108,
+              1068,
+              144
+            ],
+            "area_px": 1906
+          },
+          {
+            "box": [
+              1015,
+              416,
+              1114,
+              457
+            ],
+            "area_px": 1860
+          },
+          {
+            "box": [
+              100,
+              158,
+              132,
+              266
+            ],
+            "area_px": 1687
+          },
+          {
+            "box": [
+              253,
+              151,
+              285,
+              231
+            ],
+            "area_px": 1447
+          },
+          {
+            "box": [
+              304,
+              158,
+              332,
+              209
+            ],
+            "area_px": 1137
+          },
+          {
+            "box": [
+              195,
+              146,
+              223,
+              196
+            ],
+            "area_px": 799
+          },
+          {
+            "box": [
+              60,
+              156,
+              81,
+              224
+            ],
+            "area_px": 783
+          },
+          {
+            "box": [
+              988,
+              149,
+              1071,
+              164
+            ],
+            "area_px": 638
+          },
+          {
+            "box": [
+              454,
+              181,
+              478,
+              231
+            ],
+            "area_px": 613
+          },
+          {
+            "box": [
+              1031,
+              918,
+              1054,
+              941
+            ],
+            "area_px": 518
+          },
+          {
+            "box": [
+              463,
+              43,
+              482,
+              84
+            ],
+            "area_px": 505
+          },
+          {
+            "box": [
+              396,
+              167,
+              417,
+              231
+            ],
+            "area_px": 474
+          },
+          {
+            "box": [
+              1031,
+              883,
+              1054,
+              906
+            ],
+            "area_px": 445
+          },
+          {
+            "box": [
+              832,
+              868,
+              879,
+              895
+            ],
+            "area_px": 400
+          },
+          {
+            "box": [
+              292,
+              160,
+              301,
+              207
+            ],
+            "area_px": 325
+          },
+          {
+            "box": [
+              183,
+              169,
+              193,
+              222
+            ],
+            "area_px": 306
+          },
+          {
+            "box": [
+              47,
+              160,
+              57,
+              191
+            ],
+            "area_px": 211
+          },
+          {
+            "box": [
+              363,
+              170,
+              373,
+              200
+            ],
+            "area_px": 211
+          },
+          {
+            "box": [
+              965,
+              423,
+              980,
+              444
+            ],
+            "area_px": 209
+          },
+          {
+            "box": [
+              0,
+              247,
+              6,
+              289
+            ],
+            "area_px": 164
+          },
+          {
+            "box": [
+              487,
+              180,
+              502,
+              200
+            ],
+            "area_px": 155
+          },
+          {
+            "box": [
+              441,
+              172,
+              453,
+              197
+            ],
+            "area_px": 140
+          },
+          {
+            "box": [
+              60,
+              134,
+              70,
+              149
+            ],
+            "area_px": 87
+          },
+          {
+            "box": [
+              72,
+              151,
+              80,
+              165
+            ],
+            "area_px": 80
+          },
+          {
+            "box": [
+              1029,
+              97,
+              1039,
+              105
+            ],
+            "area_px": 74
+          },
+          {
+            "box": [
+              975,
+              367,
+              990,
+              373
+            ],
+            "area_px": 65
+          },
+          {
+            "box": [
+              93,
+              147,
+              99,
+              161
+            ],
+            "area_px": 61
+          },
+          {
+            "box": [
+              428,
+              180,
+              435,
+              192
+            ],
+            "area_px": 60
+          },
+          {
+            "box": [
+              339,
+              197,
+              344,
+              216
+            ],
+            "area_px": 60
+          },
+          {
+            "box": [
+              1227,
+              288,
+              1234,
+              298
+            ],
+            "area_px": 59
+          },
+          {
+            "box": [
+              314,
+              230,
+              320,
+              242
+            ],
+            "area_px": 53
+          },
+          {
+            "box": [
+              207,
+              277,
+              212,
+              288
+            ],
+            "area_px": 51
+          },
+          {
+            "box": [
+              173,
+              305,
+              180,
+              315
+            ],
+            "area_px": 50
+          }
+        ],
+        "evaluation": {
+          "tp": 0,
+          "fp": 35,
+          "fn": 1,
+          "iou_threshold": 0.5,
+          "matches": [],
+          "false_positives": [
+            {
+              "prediction_index": 0,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 1,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 2,
+              "best_iou": 0.3874030701060294,
+              "confidence": null
+            },
+            {
+              "prediction_index": 3,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 4,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 5,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 6,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 7,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 8,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 9,
+              "best_iou": 0.19419008525418377,
+              "confidence": null
+            },
+            {
+              "prediction_index": 10,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 11,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 12,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 13,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 14,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 15,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 16,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 17,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 18,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 19,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 20,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 21,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 22,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 23,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 24,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 25,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 26,
+              "best_iou": 0.012660231049216647,
+              "confidence": null
+            },
+            {
+              "prediction_index": 27,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 28,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 29,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 30,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 31,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 32,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 33,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 34,
+              "best_iou": 0.0,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": [
+            0
+          ]
+        }
+      }
+    },
+    "K3": {
+      "gt_helmet_boxes": [
+        [
+          1094,
+          859,
+          1135,
+          908
+        ],
+        [
+          1633,
+          963,
+          1658,
+          1005
+        ]
+      ],
+      "rgb": {
+        "components": [
+          {
+            "box": [
+              1096,
+              860,
+              1123,
+              886
+            ],
+            "area_px": 306
+          },
+          {
+            "box": [
+              1130,
+              889,
+              1146,
+              901
+            ],
+            "area_px": 86
+          },
+          {
+            "box": [
+              1636,
+              970,
+              1642,
+              990
+            ],
+            "area_px": 81
+          }
+        ],
+        "evaluation": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 2,
+          "iou_threshold": 0.5,
+          "matches": [],
+          "false_positives": [
+            {
+              "prediction_index": 0,
+              "best_iou": 0.34942757590841217,
+              "confidence": null
+            },
+            {
+              "prediction_index": 1,
+              "best_iou": 0.02802428771602055,
+              "confidence": null
+            },
+            {
+              "prediction_index": 2,
+              "best_iou": 0.11428571428571428,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": [
+            0,
+            1
+          ]
+        }
+      },
+      "hsv": {
+        "components": [
+          {
+            "box": [
+              1095,
+              860,
+              1129,
+              890
+            ],
+            "area_px": 429
+          },
+          {
+            "box": [
+              1634,
+              965,
+              1654,
+              1002
+            ],
+            "area_px": 307
+          },
+          {
+            "box": [
+              1128,
+              888,
+              1146,
+              901
+            ],
+            "area_px": 120
+          }
+        ],
+        "evaluation": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "iou_threshold": 0.5,
+          "matches": [
+            {
+              "prediction_index": 0,
+              "gt_index": 0,
+              "iou": 0.507715281234445,
+              "confidence": null
+            },
+            {
+              "prediction_index": 1,
+              "gt_index": 1,
+              "iou": 0.7047619047619048,
+              "confidence": null
+            }
+          ],
+          "false_positives": [
+            {
+              "prediction_index": 2,
+              "best_iou": 0.0,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": []
+        }
+      }
+    },
+    "K4": {
+      "gt_helmet_boxes": [
+        [
+          697,
+          668,
+          941,
+          868
+        ]
+      ],
+      "rgb": {
+        "components": [
+          {
+            "box": [
+              714,
+              667,
+              941,
+              867
+            ],
+            "area_px": 29638
+          },
+          {
+            "box": [
+              578,
+              366,
+              645,
+              527
+            ],
+            "area_px": 1494
+          },
+          {
+            "box": [
+              546,
+              209,
+              613,
+              263
+            ],
+            "area_px": 744
+          },
+          {
+            "box": [
+              530,
+              382,
+              575,
+              478
+            ],
+            "area_px": 651
+          },
+          {
+            "box": [
+              580,
+              681,
+              620,
+              718
+            ],
+            "area_px": 522
+          },
+          {
+            "box": [
+              368,
+              337,
+              379,
+              399
+            ],
+            "area_px": 501
+          },
+          {
+            "box": [
+              511,
+              181,
+              524,
+              224
+            ],
+            "area_px": 253
+          },
+          {
+            "box": [
+              550,
+              122,
+              570,
+              150
+            ],
+            "area_px": 197
+          },
+          {
+            "box": [
+              600,
+              181,
+              629,
+              197
+            ],
+            "area_px": 196
+          },
+          {
+            "box": [
+              508,
+              248,
+              520,
+              270
+            ],
+            "area_px": 155
+          },
+          {
+            "box": [
+              552,
+              700,
+              573,
+              711
+            ],
+            "area_px": 151
+          },
+          {
+            "box": [
+              777,
+              342,
+              786,
+              364
+            ],
+            "area_px": 148
+          },
+          {
+            "box": [
+              611,
+              556,
+              622,
+              582
+            ],
+            "area_px": 131
+          },
+          {
+            "box": [
+              22,
+              869,
+              47,
+              874
+            ],
+            "area_px": 103
+          },
+          {
+            "box": [
+              64,
+              869,
+              86,
+              874
+            ],
+            "area_px": 72
+          },
+          {
+            "box": [
+              487,
+              166,
+              492,
+              181
+            ],
+            "area_px": 58
+          },
+          {
+            "box": [
+              627,
+              204,
+              631,
+              221
+            ],
+            "area_px": 55
+          },
+          {
+            "box": [
+              514,
+              131,
+              528,
+              136
+            ],
+            "area_px": 53
+          }
+        ],
+        "evaluation": {
+          "tp": 1,
+          "fp": 17,
+          "fn": 0,
+          "iou_threshold": 0.5,
+          "matches": [
+            {
+              "prediction_index": 0,
+              "gt_index": 0,
+              "iou": 0.9213902543496441,
+              "confidence": null
+            }
+          ],
+          "false_positives": [
+            {
+              "prediction_index": 1,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 2,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 3,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 4,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 5,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 6,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 7,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 8,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 9,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 10,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 11,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 12,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 13,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 14,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 15,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 16,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 17,
+              "best_iou": 0.0,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": []
+        }
+      },
+      "hsv": {
+        "components": [
+          {
+            "box": [
+              711,
+              666,
+              942,
+              898
+            ],
+            "area_px": 31777
+          },
+          {
+            "box": [
+              20,
+              868,
+              86,
+              944
+            ],
+            "area_px": 3818
+          },
+          {
+            "box": [
+              0,
+              525,
+              68,
+              630
+            ],
+            "area_px": 1863
+          },
+          {
+            "box": [
+              0,
+              173,
+              75,
+              320
+            ],
+            "area_px": 1839
+          },
+          {
+            "box": [
+              598,
+              368,
+              644,
+              469
+            ],
+            "area_px": 916
+          },
+          {
+            "box": [
+              533,
+              389,
+              574,
+              466
+            ],
+            "area_px": 615
+          },
+          {
+            "box": [
+              580,
+              681,
+              618,
+              717
+            ],
+            "area_px": 542
+          },
+          {
+            "box": [
+              1065,
+              918,
+              1088,
+              941
+            ],
+            "area_px": 474
+          },
+          {
+            "box": [
+              579,
+              473,
+              604,
+              528
+            ],
+            "area_px": 457
+          },
+          {
+            "box": [
+              1065,
+              883,
+              1088,
+              906
+            ],
+            "area_px": 436
+          },
+          {
+            "box": [
+              367,
+              335,
+              379,
+              393
+            ],
+            "area_px": 411
+          },
+          {
+            "box": [
+              778,
+              340,
+              786,
+              364
+            ],
+            "area_px": 176
+          },
+          {
+            "box": [
+              38,
+              771,
+              44,
+              806
+            ],
+            "area_px": 137
+          },
+          {
+            "box": [
+              45,
+              696,
+              53,
+              721
+            ],
+            "area_px": 126
+          },
+          {
+            "box": [
+              552,
+              699,
+              571,
+              709
+            ],
+            "area_px": 123
+          },
+          {
+            "box": [
+              36,
+              842,
+              54,
+              852
+            ],
+            "area_px": 115
+          },
+          {
+            "box": [
+              42,
+              730,
+              51,
+              749
+            ],
+            "area_px": 114
+          },
+          {
+            "box": [
+              611,
+              557,
+              620,
+              565
+            ],
+            "area_px": 62
+          },
+          {
+            "box": [
+              58,
+              140,
+              63,
+              152
+            ],
+            "area_px": 50
+          },
+          {
+            "box": [
+              46,
+              636,
+              55,
+              645
+            ],
+            "area_px": 50
+          }
+        ],
+        "evaluation": {
+          "tp": 1,
+          "fp": 19,
+          "fn": 0,
+          "iou_threshold": 0.5,
+          "matches": [
+            {
+              "prediction_index": 0,
+              "gt_index": 0,
+              "iou": 0.8157185416371117,
+              "confidence": null
+            }
+          ],
+          "false_positives": [
+            {
+              "prediction_index": 1,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 2,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 3,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 4,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 5,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 6,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 7,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 8,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 9,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 10,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 11,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 12,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 13,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 14,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 15,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 16,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 17,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 18,
+              "best_iou": 0.0,
+              "confidence": null
+            },
+            {
+              "prediction_index": 19,
+              "best_iou": 0.0,
+              "confidence": null
+            }
+          ],
+          "false_negative_gt_indices": []
+        }
+      }
+    }
+  }
+}
