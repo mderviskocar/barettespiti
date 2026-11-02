@@ -19,9 +19,9 @@
   "decision_rule": {
     "status": "configured",
     "frozen": true,
-    "min_color_area_percent": 2.0,
-    "min_head_overlap_percent": 10.0,
-    "insufficient_evidence_rule": "head_roi is null (head not visible) -> uncertain",
-    "calibration_note": "min_head_overlap_percent=10: G2 (helmet on head) overlap 20.66, G1 (no helmet) overlap 0.00, so any value between about 1 and 20 separates them. min_color_area_percent=2: only G1 constrains it (no_helmet, area 0.54, so the value must be above 0.54); G2 never reaches the area test because the overlap test fires first. No development image has a helmet held in the hand, so the upper side is untuned and 2 is a stated assumption, not a measured value."
+    "min_color_area_percent": 2.5,
+    "min_head_overlap_percent": 5.0,
+    "insufficient_evidence_rule": "If head_roi is null, predict uncertain. With a visible head, head overlap of at least 5 percent predicts helmet_on_head; otherwise a whole-image mask area of at least 2.5 percent predicts helmet_off_head; otherwise no_helmet.",
+    "calibration_note": "Thresholds taken from Nesli's frozen configuration; the overlap-first order is Omar's. With the shared RGB range, G2 (helmet on head) overlap is 24.56 and G1 (no helmet) overlap is 0.03, so any overlap threshold between about 0.1 and 24 separates them. The area threshold is constrained only by G1 (no_helmet, area 0.87, so it must be above 0.87); G2 never reaches the area test because the overlap test fires first. No development image has a helmet held in the hand, so 2.5 is an assumption, not a measured value."
   }
 }

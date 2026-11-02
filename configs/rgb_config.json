@@ -3,13 +3,14 @@
   "frozen": true,
   "color_space": "RGB",
   "lower": [
-    170,
-    150,
+    180,
+    140,
     0
   ],
   "upper": [
     255,
     255,
-    100
-  ]
+    120
+  ],
+  "calibration_note": "Shared baseline range taken from Nesli's frozen configuration (selected from G1/G2 development images). Omar's first range [170,150,0]-[255,255,100] was replaced by it so that all members use one setting."
 }
