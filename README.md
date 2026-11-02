@@ -2,24 +2,26 @@
 
 YZM411 Bilgisayarlı Görü, 2026–2027 Güz dönemi. Altı kişilik ortak çalışma deposu.
 
-**Durum:** Altı görüntü data/development ve data/control altına, dört sınıflı manuel ground truth ile eklendi. Üye görüntü işleme deneyleri ve ölçülmüş sonuçlar henüz eklenmemiştir. Kişisel notebook'lar başlangıç şablonudur; ortak demo deney uygulaması tamamlanana kadar bunu açıkça bildirir. Hazır dedektör isteğe bağlıdır.
+**Durum:** Altı görüntü ve dört sınıflı manuel ground truth eklendi. Nesli'nin RGB/HSV başlangıç ölçümü dört kontrol görüntüsünde çalıştırıldı ve sonuçlar kaydedildi. Diğer üye deneyleri ile ortak demo tamamlanmamıştır. Hazır dedektör isteğe bağlıdır.
 
 ## Yapı
 
 ~~~text
 annotations/ground_truth.json       # Manuel sınıflar, baş ROI ve gerçek baret kutuları
+annotations/previews/               # Ground truth kutularını gösteren önizlemeler
 configs/                           # Ortak karar, RGB, HSV, blur, ölçek ve dedektör ayarları
 data/development/                   # G1 ve G2
 data/control/                       # K1, K2, K3 ve K4
 data/sources.csv                    # Kaynak, lisans, koşul, yol ve özgün boyutlar
 docs/                              # Deney protokolü, ön tahminler ve yapay zekâ beyanı
-individual_notes/                  # Altı kişisel not şablonu
+individual_notes/                  # Altı kişisel deney notu
 models/model_source.md              # İsteğe bağlı modelin indirme ve lisans bilgileri
 notebooks/main_demo.ipynb            # Ortak görüntü seçimi, maske ve sınıf kararı akışı
 notebooks/<uye>_<deney>.ipynb        # Altı bağımsız deney notebook'u
+scripts/run_nesli_dataset_analysis.py # Nesli ölçümlerini yeniden üretir
 results/results.csv                 # Ortak nihai sonuç tablosu
-results/masks/rgb/                  # Dört temel RGB maskesi
-results/masks/hsv/                  # Dört temel HSV maskesi
+results/masks/rgb/                  # Dört RGB kontrol maskesi
+results/masks/hsv/                  # Dört HSV kontrol maskesi
 results/gaussian_blur/              # Bulanıklık tablosu ve görselleri
 results/scale/                      # Ölçek tablosu ve görselleri
 results/detector/                   # İsteğe bağlı kutu değerlendirmesi
