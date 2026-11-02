@@ -1,0 +1,38 @@
+# Python ve yerel ortam
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Yerel ayarlar ve sırlar
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Geçici dosyalar; özgün altı görüntü ve teslim sonuçları takip edilir
+tmp/
+outputs/scratch/
+*.log
+
+# İsteğe bağlı dedektörün büyük ağırlıkları ve veri arşivleri
+*.pt
+*.pth
+*.onnx
+*.zip
+*.7z
+*.rar
+
+# Çevrimdışı video yerelde tutulur; paylaşım adresi sunum README'sine yazılır
+presentation/recordings/*
+!presentation/recordings/.gitkeep

@@ -1,0 +1,1 @@
+experiment_id,image_id,method,condition,ground_truth,prediction,mask_area_ratio,tp,fp,fn,notes
