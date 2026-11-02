@@ -34,8 +34,8 @@
       "image_id": "K3",
       "ground_truth_class": "helmet_on_head",
       "reason": "Görüntü merkezine en yakın çalışan başında sarı baret taşır. Diğer uzaktaki çalışan da baretlidir; iki görünür baret kutusu kaydedilmiştir.",
-      "head_roi": [1092, 826, 1140, 887],
-      "helmet_boxes": [[1094, 826, 1138, 859], [1634, 897, 1694, 946]]
+      "head_roi": [1093, 858, 1136, 909],
+      "helmet_boxes": [[1094, 859, 1135, 908], [1633, 963, 1658, 1005]]
     },
     {
       "image_id": "K4",
