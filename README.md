@@ -64,7 +64,7 @@ Omar ve Derviş src/classification.py karar sözleşmesinin teknik sahipleridir;
 
 ## GitHub akışı
 
-Kendi branch'inizde çalışın, main'e pull request açın. Başlangıç ve güncelleme komutları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir. Main için bir PR onayı gerekir; davet kabulü üyelerin kendi hesaplarından yapılır.
+Her üye için ayrı çalışma branch'i hazırdır. Main'e doğrudan push açıktır; PR veya inceleme onayı zorunlu değildir. Başlangıç, güncelleme ve birleştirme komutları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir. Davet kabulü üyelerin kendi hesaplarından yapılır.
 
 ## Doğrulama ve teslim
 

@@ -1,6 +1,6 @@
 # Ekip çalışma sözleşmesi
 
-Her üye kendi branch'inde ve notebook'unda çalışır; main'e doğrudan push yapılmaz. Pull request için en az bir onay gerekir. Nesli veri/etiket incelemesini ve entegrasyonu koordine eder; kendi PR'ını başka bir üye inceler.
+Her üye için ayrı çalışma branch'i ve notebook hazırlanmıştır. Main'e doğrudan push açıktır; pull request ve inceleme onayı zorunlu değildir. Nesli veri/etiket kontrolünü ve entegrasyonu koordine eder. PR, ekip isterse değişiklikleri birlikte incelemek için kullanılabilir.
 
 ## Başlama
 
@@ -14,7 +14,7 @@ git switch --track origin/feat/hsv-segmentation
 
 Branch yerelde zaten varsa git switch feat/hsv-segmentation kullanın.
 
-## Güncelleme ve PR
+## Güncelleme ve paylaşım
 
 ~~~bash
 git fetch origin
@@ -25,7 +25,16 @@ git commit -m "Describe your experiment change"
 git push
 ~~~
 
-GitHub'da kendi branch'inizden main'e pull request açın. Amaç, dosyalar, ön tahmin, gerçekten çalıştırılan kontroller ve sınırlılıkları yazın. Ortak dosyaları değiştirmeden önce ilgili sahiplerle veri sözleşmesini koruyun.
+İsterseniz GitHub'da kendi branch'inizden main'e pull request açabilirsiniz; onay zorunluluğu yoktur. Kendi branch'inizdeki değişiklikleri doğrudan main'e almak için aşağıdaki örnekte kendi branch adınızı kullanın:
+
+~~~bash
+git switch main
+git pull --ff-only origin main
+git merge feat/hsv-segmentation
+git push origin main
+~~~
+
+Main üzerinde çalışıyorsanız güncel değişiklikleri aldıktan sonra doğrudan commit ve push da yapabilirsiniz. Değişikliğin amacı, ön tahmini, gerçekten çalıştırılan kontroller ve sınırlılıkları kaydedin. Ortak dosyaları değiştirmeden önce ilgili sahiplerle veri sözleşmesini koruyun.
 
 ## Kabul koşulları
 
