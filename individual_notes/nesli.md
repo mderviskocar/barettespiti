@@ -11,3 +11,7 @@
 - **Kutu ölçümü:** Hazır dedektör/IoU değerlendirmesi çalıştırılmadı; tp/fp/fn=N/A bırakıldı. Ground truth koordinat önizlemeleri annotations/previews/ altındadır.
 - **Yeniden üretim:** notebooks/nesli_dataset_analysis.ipynb veya python scripts/run_nesli_dataset_analysis.py. Sonuçlar results/results.csv, maskeler results/masks/ altındadır.
 - **Yapay zekâ kullanımı ve doğrulama:** docs/ai_usage.md içindeki bu deney kaydına bakın. Ortak doğrulama: python scripts/validate_project.py --require-data.
+
+## K3 koordinat düzeltmesi
+
+Önceki K3 önizlemesinde baş ROI ve iki baret kutusu nesnelerin üstünde kalıyordu. Özgün görüntü büyütülerek elle yeniden incelendi: head_roi=[1093,858,1136,909], helmet_boxes=[[1094,859,1135,908],[1633,963,1658,1005]]. Bu, ilk kontrol deneyinden sonra yapılan etiket koordinatı düzeltmesidir. Görüntüler, split, sınıf etiketleri ve renk eşikleri değiştirilmedi. Notebook ve sonuçlar yeniden üretildi; K3 baş örtüşmesi RGB için 17.7383%, HSV için 23.6662% oldu. Her iki yöntemin K3 tahmini no_helmet ve toplam doğruluğu 2/4 olarak kaldı.
