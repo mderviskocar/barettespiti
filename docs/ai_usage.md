@@ -26,3 +26,12 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 - Kaynaklar: Kullanıcının bildirimine göre altı görsel ML tarafından Roboflow Universe'te yayımlanan chv DATASET'ten alınmıştır. Dataset sayfasında CC BY 4.0 belirtilir; data/sources.csv içindeki altı satır bu URL ve lisansla güncellendi. Görünen Paixin/Dreamstime filigranları ve stok kimlikleri notes alanında ayrıca kaydedildi.
 - Doğrulama: Kaynak boyutları görsel dosyalarla karşılaştırıldı ve tüm kutuların görüntü sınırları içinde olduğu denetlendi. `python scripts/validate_project.py --require-data` başarıyla tamamlandı; hiçbir segmentasyon/model deneyi veya sonuç ölçümü bu değişiklikte yapılmadı.
 - Sınırlılık: Kutular manuel görsel tahmindir; K3 gibi uzak işçi örneklerinde kutu sınırları yaklaşık tutulmuştur ve piksel hassasiyeti için ikinci gözden geçirme gerekir.
+
+## Omar — RGB deneyi
+
+- Araç: Claude Code (Anthropic).
+- Amaç: RGB maske ve ortak karar kuralını uygulamak, aralığı G1/G2 üzerinde seçmek, ön tahmini kaydetmek, ayarları dondurmak, K1–K4 sonuçlarını üretmek ve notebook ile bireysel notu doldurmak.
+- Etkilenen dosyalar: `src/rgb.py`, `src/classification.py`, `configs/rgb_config.json`, `configs/experiment.json`, `docs/predictions.csv`, `results/rgb_results.csv`, `results/masks/rgb/`, `notebooks/omar_rgb.ipynb`, `individual_notes/omar.md`.
+- Ön tahmin: İki cümlelik tahmin taslağı Claude Code tarafından yazıldı; Omar kontrol çalıştırılmadan önce onayladı ve kayda alındı.
+- Doğrulama: Aralık adayları yalnızca G1/G2 üzerinde karşılaştırıldı. Kontrol görüntüleri ayarlar dondurulduktan sonra bir kez çalıştırıldı ve sonuçlar notebook içinde yeniden hesaplanıp CSV ile karşılaştırıldı. K2 baret rengi ve G2 dışı piksel oranı doğrudan piksel ölçümüyle denetlendi. `scripts/validate_project.py` hatasız tamamlandı.
+- Sınır: Karar kuralının eşikleri Derviş ile birlikte gözden geçirilmelidir; %2 alan eşiği G1/G2'den ayarlanamadı. Maskeler görsel olarak yalnızca G1/G2 için incelendi; kontrol maskeleri notebook çıktısında gösterilir.
