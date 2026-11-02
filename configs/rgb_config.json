@@ -1,7 +1,15 @@
 {
-  "status": "not_configured",
-  "frozen": false,
+  "status": "configured",
+  "frozen": true,
   "color_space": "RGB",
-  "lower": null,
-  "upper": null
+  "lower": [
+    170,
+    150,
+    0
+  ],
+  "upper": [
+    255,
+    255,
+    100
+  ]
 }
