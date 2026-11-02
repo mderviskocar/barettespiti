@@ -1,6 +1,7 @@
 {
   "status": "team_proposal_not_measured",
   "include_unfiltered_reference": true,
+  "reference_sigma": 0,
   "sigma_values": [
     0.5,
     1.5,
