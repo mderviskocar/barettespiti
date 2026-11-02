@@ -4,9 +4,11 @@
 
 ## Kaynaklar ve etiketler
 
-data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın.
+data/sources.csv her görüntü için bir satır içerir. relative_path depo köküne göredir (örneğin data/development/G1.jpg). width/height özgün piksel boyutlarıdır. Kaynak URL'si, lisans ve koşul kaydedilir; lisans tahmin edilmez. Kendi çekiminiz için source_type=own_photo kullanın. Kullanıcı tarafından sağlanan bir görselin kaynak URL'si verilmemişse source_url alanına not provided with user attachment, lisans alanına unknown yazın; URL veya lisans uydurmayın. Filigrandaki sağlayıcı ve görsel kimliği notes alanında belirtilmelidir.
 
-annotations/ground_truth.json içindeki images listesi başlangıçta boştur. Her görüntü kaydı şu alanları içerir:
+Altı başlangıç görüntüsü G1/G2 (development) ve K1–K4 (control) olarak sabitlenmiştir. Birden fazla kişi varsa görüntü sınıfı için hedef kişi, baş merkezi görüntü merkezine en yakın görünür kişi olarak seçilir; eşitlikte daha büyük baş kullanılır. Tüm görünür gerçek baretler helmet_boxes içinde kaydedilir. Baş görünmüyorsa head_roi null kalır ve sınıf uncertain olur.
+
+annotations/ground_truth.json içindeki images listesinde altı görüntünün ground truth kaydı bulunur. Her görüntü kaydı şu alanları içerir:
 
 - image_id: G1, G2 veya K1–K4.
 - ground_truth_class: dört ortak sınıftan biri.
