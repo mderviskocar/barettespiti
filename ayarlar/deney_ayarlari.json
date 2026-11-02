@@ -1,0 +1,87 @@
+{
+  "gelistirme_kimlikleri": [
+    "G1",
+    "G2"
+  ],
+  "kontrol_kimlikleri": [
+    "K1",
+    "K2",
+    "K3",
+    "K4"
+  ],
+  "siniflar": {
+    "basta_baret": "Başta baret: baret görünür ve kişinin başında",
+    "baret_var_basta_degil": "Baret var, başta değil: elde, masada veya yerde",
+    "baret_yok": "Baret yok: baş görünür ve başta baret yok",
+    "belirsiz": "Belirsiz: baş görünmüyor, nesne çok küçük veya görüntü çok karanlık"
+  },
+  "renk_araliklari": {
+    "dondurulmus": false,
+    "not": "Veri seti değişti: aralıklar yeni G1/G2 üzerinde betikler/aralik_kalibrasyonu.py ile yeniden seçilip dondurulacak (Omar: RGB, Derviş: HSV). Aşağıdaki değerler önceki veri setinde dondurulmuş başlangıç aralıklarıdır. K1-K4 sonucu görüldükten sonra değiştirilmez.",
+    "RGB": {
+      "alt": [
+        180,
+        140,
+        0
+      ],
+      "ust": [
+        255,
+        255,
+        120
+      ]
+    },
+    "HSV": {
+      "alt": [
+        18,
+        80,
+        80
+      ],
+      "ust": [
+        50,
+        255,
+        255
+      ],
+      "aciklama": "OpenCV 8-bit: H 0-179, S ve V 0-255"
+    }
+  },
+  "karar_kurali": {
+    "dondurulmus": false,
+    "en_az_renk_alani_yuzde": 2.5,
+    "en_az_bas_ortusmesi_yuzde": 5.0,
+    "kural": "1) Baş görünmüyorsa (bas_roi yok): belirsiz. 2) Görüntüdeki renkli alan < %2.5: baret_yok. 3) Baş bölgesindeki renkli piksel oranı >= %5: basta_baret. 4) Aksi halde: baret_var_basta_degil. Renk maskesi baret nesnesini kanıtlamaz; kural yalnızca renk ve konuma bakar.",
+    "not": "Eşikler yeni G1/G2 ölçümleriyle gözden geçirilip renk aralıklarıyla birlikte dondurulacak."
+  },
+  "kutu_degerlendirme": {
+    "dondurulmus": true,
+    "morfoloji_cekirdegi": 3,
+    "en_kucuk_bilesen_piksel": 50,
+    "iou_esigi": 0.5,
+    "not": "Renk maskesinin bağlı bileşenleri aday kutu olur; elle çizilmiş baret kutularıyla IoU >= 0.50 bire bir eşleşme TP, eşleşmeyen aday FP, bulunamayan baret FN. Hazır dedektör kullanılmadı."
+  },
+  "bulaniklik": {
+    "degisken": "sigma",
+    "sigma_degerleri": [
+      0,
+      0.5,
+      1.5,
+      3.0
+    ],
+    "cekirdek": [
+      15,
+      15
+    ],
+    "not": "sigma=0 filtresiz referanstır. Çözünürlük, baş ROI, renk aralıkları ve karar eşikleri sabittir."
+  },
+  "olcek": {
+    "degisken": "olcek_katsayisi",
+    "katsayilar": [
+      1.0,
+      0.75,
+      0.5,
+      0.25
+    ],
+    "kucultme_yontemi": "INTER_AREA",
+    "geri_buyutme_yontemi": "INTER_LINEAR",
+    "not": "Baş ROI ve baret kutuları aynı katsayıyla dönüştürülür. Piksel eşikleri (en küçük bileşen) ölçekle değiştirilmez; bu bilinçli olarak sabit tutulur."
+  }
+}

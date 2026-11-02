@@ -1,8 +1,0 @@
-{
-  "status": "configured",
-  "frozen": true,
-  "color_space": "HSV_OPENCV_8BIT",
-  "lower": [18, 80, 80],
-  "upper": [50, 255, 255],
-  "calibration_note": "Selected from G1/G2 development images before processing control images."
-}

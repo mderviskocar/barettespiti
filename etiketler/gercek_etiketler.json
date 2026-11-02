@@ -1,0 +1,73 @@
+{
+  "bicim_surumu": 1,
+  "koordinat_bicimi": "[xmin, ymin, xmax, ymax] piksel; sağ ve alt sınır hariç",
+  "kaynak": "Sınıflar yöntemler çalıştırılmadan önce yazıldı. Baş ROI ve baret kutuları fırça maskelerinden (etiketler/maskeler) betikler/etiketleri_uret.py --yaz ile üretilir; K2 kutuları Nesli'nin düzeltilmiş elle etiketidir.",
+  "goruntuler": [
+    {
+      "kimlik": "G1",
+      "dogru_sinif": "basta_baret",
+      "gerekce": "Gün ışığında sarı baret kişinin başında; yüz ve baret net görünür.",
+      "bas_roi": null,
+      "baret_kutulari": [],
+      "etiket_durumu": "boyanacak"
+    },
+    {
+      "kimlik": "G2",
+      "dogru_sinif": "baret_yok",
+      "gerekce": "Hedef kişi sağdaki çalışan: başı görünür ve gri kumaş şapka takıyor; kumaş şapka baret değildir. Soldaki çalışanın başı kadraj dışında olduğu için değerlendirilmez.",
+      "bas_roi": null,
+      "baret_kutulari": [],
+      "etiket_durumu": "boyanacak"
+    },
+    {
+      "kimlik": "K1",
+      "dogru_sinif": "basta_baret",
+      "gerekce": "Sarı baret kişinin başında; güçlü yan ışık nedeniyle baretin bir kısmı gölgede.",
+      "bas_roi": null,
+      "baret_kutulari": [],
+      "etiket_durumu": "boyanacak"
+    },
+    {
+      "kimlik": "K2",
+      "dogru_sinif": "basta_baret",
+      "gerekce": "Görüntü merkezine en yakın çalışan başında sarı baret taşır. Diğer uzaktaki çalışan da baretlidir; iki görünür baret kutusu kaydedilmiştir.",
+      "bas_roi": [
+        1093,
+        858,
+        1136,
+        909
+      ],
+      "baret_kutulari": [
+        [
+          1094,
+          859,
+          1135,
+          908
+        ],
+        [
+          1633,
+          963,
+          1658,
+          1005
+        ]
+      ],
+      "etiket_durumu": "tamam (Nesli, PR #3/#4)"
+    },
+    {
+      "kimlik": "K3",
+      "dogru_sinif": "basta_baret",
+      "gerekce": "Kişinin başında BEYAZ baret var; çevredeki sarı vana ve sarı zemin sarı renk aralığına giren, baret olmayan nesnelerdir (aynı renkte nesne). Renk yöntemi sarı arar; doğru sınıf görüntüdeki kanıta göre başta barettir.",
+      "bas_roi": null,
+      "baret_kutulari": [],
+      "etiket_durumu": "boyanacak"
+    },
+    {
+      "kimlik": "K4",
+      "dogru_sinif": "baret_var_basta_degil",
+      "gerekce": "Sarı baret elde tutuluyor; kişinin başı kadraj dışında. Baret açıkça elde olduğu için sınıf 'baret var, başta değil' (yönerge 3a-ii: elde, masada veya yerde baret).",
+      "bas_roi": null,
+      "baret_kutulari": [],
+      "etiket_durumu": "boyanacak"
+    }
+  ]
+}
