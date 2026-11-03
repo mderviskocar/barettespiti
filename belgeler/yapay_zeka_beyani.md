@@ -59,3 +59,11 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 - Amaç: tahmin ve yorumlarımı dosyalara kaydetmek, 05_olcek defterini çalıştırmak, bireysel notu düzenlemek.
 - Etkilenen dosyalar: belgeler/tahminler.csv, defterler/05_olcek.ipynb, bireysel_notlar/efe.md.
 - Doğrulama: tahmin ve yorum cümleleri benimdir; sayıları sonuclar/olcek/olcek_sonuclari.csv ve geri_buyutme.csv ile karşılaştırdım; python betikler/dogrula.py hatasız çalıştı.
+
+## Derviş — HSV deneyi
+
+- Araç: OpenAI Codex.
+- Amaç: Tahmin metnimin ve sonuç/hata yorumlarımın taslaklarını yazmak/düzenlemek, HSV defterini çalıştırmak ve bireysel notumu düzenlemek.
+- Etkilenen dosyalar: `defterler/03_hsv_segmentasyonu.ipynb`, `bireysel_notlar/dervis.md`.
+- Doğrulama: Tahmin ve yorum cümlelerinin taslakları Codex tarafından yazıldı; metinleri gözden geçirip kendi görüşüm olarak onayladım. Defter Run All ile çalıştırılıp çıktıları kaydedildi. Sayılar `sonuclar/temel_sonuclar.csv` ve `sonuclar/sonuc_tablosu.csv` ile karşılaştırıldı; `python betikler/dogrula.py` hatasız tamamlandı (yalnızca sunum dosyasının henüz bulunmadığı uyarısı var).
+- Korunan içerik: `dervis_hsv_baseline` tahmini, notumdaki mevcut deney öncesi metin ve dondurulmuş ayarlar değiştirilmedi.

@@ -14,3 +14,23 @@
 - **Yeniden üretim:** `src/hsv.py`, `configs/hsv_config.json`, `notebooks/dervis_hsv.ipynb`, `results/hsv_results.csv` ve `results/masks/hsv/` kullanılacaktır.
 
 > Kayıt notu: Bu metin deney çalıştırılmadan önce yazılmıştır. Görüntü kimlikleri önceki veri setine göredir (metindeki K2 düşük ışık → yeni K1; K3 küçük baret → yeni K2; "başları görünmeyen K1" → artık G2). Yeni yapıdaki dosyalar: `kaynak/renk.py`, `ayarlar/deney_ayarlari.json`, `defterler/03_hsv_segmentasyonu.ipynb`, `sonuclar/temel_sonuclar.csv`, `sonuclar/maskeler/`.
+
+## Sonuç (güncel veri, 3 Kasım)
+
+- **Ölçüm kaynağı:** `sonuclar/temel_sonuclar.csv`; yeniden çalıştırılan `defterler/03_hsv_segmentasyonu.ipynb` çıktılarıyla karşılaştırıldı.
+- **Güncel görüntüler:** K1 loş ışıkta başta baret; K2 uzak/küçük baret; K3 sarı iş makinesi ve baret yok; K4 elde baret. Önceki tahmin metni ve eski kimlik açıklaması yukarıda korunmuştur.
+- **Dondurulmuş ayarlar:** HSV alt [18,120,80], üst [30,255,255]; toplam renk alanı eşiği %2,5, baş örtüşmesi eşiği %5.
+- **Sınıf sonucu:** HSV 2/4, RGB 1/4 doğru.
+
+| Görüntü | HSV alan (%) | HSV baş örtüşmesi (%) | HSV sınıfı | RGB alan / baş örtüşmesi (%) | RGB sınıfı |
+| --- | ---: | ---: | --- | ---: | --- |
+| K1 | 0,81 | 12,69 | Baret yok (yanlış) | 0,40 / 6,08 | Baret yok (yanlış) |
+| K2 | 0,03 | 17,88 | Baret yok (yanlış) | 0,03 / 17,74 | Baret yok (yanlış) |
+| K3 | 1,46 | 2,57 | Baret yok (doğru) | 2,65 / 0,00 | Baret var, başta değil (yanlış) |
+| K4 | 17,01 | 0,00 | Baret var, başta değil (doğru) | 17,59 / 2,61 | Baret var, başta değil (doğru) |
+
+- **Kutu ve sınıf sonuçları:** K1'de HSV 1 TP ile baret kutusunu buldu; görüntü sınıfı yine yanlış kaldı. K3'te HSV 33 FP ürettiği hâlde görüntü sınıfı doğru kaldı. K4'te HSV baş/yüz ROI'sindeki pikselleri seçmedi (baş örtüşmesi %0,00); eldeki baret için sınıf doğru çıktı.
+
+- **Tahmin–sonuç:** Tahminim kısmen tuttu. HSV dört görüntünün ikisini, RGB ise birini doğru sınıflandırdı. K1’de HSV baş bölgesindeki baret rengini RGB’den daha fazla seçti; ancak ortak karar kuralı nedeniyle sınıf yine yanlış çıktı. Bu yüzden HSV’nin bu veri setinde avantaj sağladığını, fakat her durumda doğru karar vermediğini gördüm.
+
+- **Hata nedeni ve sonraki kontrol:** K1’deki yanlış sınıf kararını seçtim. HSV bareti bulmasına ve baş örtüşmesi %12,69 olmasına rağmen toplam maske alanı %0,81 ile %2,5 eşiğinin altında kaldığı için “baret yok” sonucu çıktı. Sonraki kontrolde baş bölgesindeki renk oranını önceleyen bir kuralı geliştirme görüntülerinde incelerdim; mevcut kontrol sonuçlarına bakarak eşikleri değiştirmezdim.
