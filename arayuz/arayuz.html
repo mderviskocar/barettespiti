@@ -79,6 +79,32 @@ tr.secili td{background:#fff7ea;font-weight:600}
 #yukleniyor{position:fixed;inset:0;background:rgba(243,246,249,.7);display:none;align-items:center;justify-content:center;z-index:9;font-weight:700;color:var(--lacivert)}
 .hata{background:#fdecea;border:1px solid var(--kirmizi);color:var(--kirmizi);padding:10px;border-radius:8px;margin-bottom:12px}
 .bos{color:var(--gri);text-align:center;padding:60px 10px}
+
+/* ---------------- animasyonlar ---------------- */
+@keyframes tara{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes cizgi{0%{left:0;opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+@keyframes belir{from{opacity:0}to{opacity:1}}
+@keyframes yuksel{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pat{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+@keyframes nabiz{0%{box-shadow:0 0 0 0 rgba(245,190,30,.9)}100%{box-shadow:0 0 0 18px rgba(245,190,30,0)}}
+@keyframes yak{0%{background:#fff}50%{background:#fff1d6}100%{background:#fff7ea}}
+.tara .cerceve,.gecis{position:relative;overflow:hidden;border-radius:8px}
+.gecis img.ust{position:absolute;inset:0;width:100%;height:100%}
+.anim .tara img{animation:tara 1.3s cubic-bezier(.4,0,.2,1) both;animation-delay:var(--g,0s)}
+.anim .tara .cerceve::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:var(--sari);box-shadow:0 0 14px 4px rgba(245,190,30,.7);animation:cizgi 1.3s cubic-bezier(.4,0,.2,1) both;animation-delay:var(--g,0s);pointer-events:none}
+.anim .gecis img.ust{animation:belir 1.1s ease both;animation-delay:var(--g,.9s)}
+.anim .kadem>*{animation:yuksel .55s ease both;animation-delay:calc(var(--i,0) * .18s + var(--g,0s))}
+.anim .basamak{animation:yuksel .5s ease both;animation-delay:calc(var(--i) * .7s)}
+.anim .basamak.durdu{animation:yuksel .5s ease both,yak 1s ease both;animation-delay:calc(var(--i) * .7s),calc(var(--i) * .7s + .4s)}
+.anim .basamak .cip,.anim .pat{animation:pat .5s ease both;animation-delay:calc(var(--i,0) * .7s + .45s)}
+.anim .stat{animation:yuksel .5s ease both;animation-delay:calc(var(--i,0) * .15s + var(--g,0s))}
+.anim tr{animation:yuksel .45s ease both;animation-delay:calc(var(--i,0) * .12s)}
+.anim .formul{animation:belir .8s ease both}
+.adim.anim{animation:yuksel .6s ease both}
+.nokta{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid #fff;background:var(--sari);animation:nabiz 1.2s ease-out infinite;pointer-events:none}
+.pikkap{position:relative}
+#icerik.degis{animation:belir .35s ease}
+@media (prefers-reduced-motion:reduce){.anim *,.anim,.nokta{animation:none!important}}
 </style>
 </head>
 <body>
@@ -128,7 +154,7 @@ const fmt = (x, b=2) => x == null ? "—" : "%" + Number(x).toFixed(b).replace("
 const SINIF = {basta_baret:"Başta baret", baret_var_basta_degil:"Baret var, başta değil", baret_yok:"Baret yok", belirsiz:"Belirsiz"};
 let AYAR = null, kaynak = null, roi = null, basYok = false, veri = null, sekme = "HSV", adim = {HSV:1, RGB:1};
 const deneyDurum = {bulaniklik:null, olcek:null}; let deneyVeri = {};
-function sifirla(){ roi = null; basYok = false; adim = {HSV:1, RGB:1}; deneyVeri = {}; deneyDurum.bulaniklik = deneyDurum.olcek = null;
+function sifirla(){ durdur(); gosterilen = {HSV:0, RGB:0}; roi = null; basYok = false; adim = {HSV:1, RGB:1}; deneyVeri = {}; deneyDurum.bulaniklik = deneyDurum.olcek = null;
   sekme = "HSV"; document.querySelectorAll(".sekme").forEach(x => x.classList.toggle("aktif", x.dataset.s === "HSV")); }
 
 async function api(yol, govde){
@@ -193,71 +219,98 @@ function bilgi(){
     <figure><img src="${veri.genel}" alt="etiketler"><figcaption>Gri: baş ROI · Yeşil: elle çizilmiş baret kutusu</figcaption></figure>`;
 }
 
-document.querySelectorAll(".sekme").forEach(b => b.onclick = () => { sekme = b.dataset.s;
+document.querySelectorAll(".sekme").forEach(b => b.onclick = () => { durdur(); sekme = b.dataset.s; gosterilen = {HSV:0, RGB:0};
   document.querySelectorAll(".sekme").forEach(x => x.classList.toggle("aktif", x === b)); ciz(); });
 
 function ciz(){
-  $("#icerik").className = "";
+  const ic = $("#icerik"); ic.className = ""; void ic.offsetWidth; ic.className = "degis";
   if(sekme === "HSV" || sekme === "RGB") return uzayCiz(sekme);
   if(sekme === "kars") return karsCiz();
   return deneyCiz(sekme);
 }
 
+const ANIM_SURE = 4200; let oynatici = null, gosterilen = {HSV:0, RGB:0};
+const tara = (src, alt, cap, g=0) => `<figure class="tara" style="--g:${g}s"><div class="cerceve"><img src="${src}" alt="${alt}"></div><figcaption>${cap}</figcaption></figure>`;
+const gecis = (alt_src, ust_src, cap, g=.9) => `<figure><div class="gecis" style="--g:${g}s"><img src="${alt_src}" alt=""><img class="ust" src="${ust_src}" alt=""></div><figcaption>${cap}</figcaption></figure>`;
+const say = (deger, tip) => `<span data-say="${deger}" data-tip="${tip}">${tip==="yuzde" ? fmt(deger) : Number(deger).toLocaleString("tr-TR")}</span>`;
+const st = (sinif, etiket, icerik, i=0, g=0) => `<div class="stat ${sinif}" style="--i:${i};--g:${g}s"><small>${etiket}</small><b>${icerik}</b></div>`;
+
+function sayaclar(kok){
+  kok.querySelectorAll(".anim [data-say]").forEach(el => {
+    const hedef = +el.dataset.say, tip = el.dataset.tip, bas = performance.now(), sure = 1400;
+    const gecikme = parseFloat(getComputedStyle(el.closest(".stat") || el).getPropertyValue("--g")) || 0;
+    const adimla = t => { const o = Math.min(1, Math.max(0, (t - bas - gecikme*1000) / sure)), e = 1 - Math.pow(1 - o, 3), v = hedef * e;
+      el.textContent = tip === "yuzde" ? fmt(v) : Math.round(v).toLocaleString("tr-TR"); if(o < 1) requestAnimationFrame(adimla); };
+    requestAnimationFrame(adimla);
+  });
+}
+
 function kararHtml(u){
-  const s = veri.uzaylar[u];
-  return `<div class="merdiven">${s.karar_izi.map(a => `<div class="basamak ${a.sonuc ? "durdu" : ""}"><span class="s">${esc(a.soru)}</span><span class="d">${esc(a.deger)}</span>${a.sonuc ? `→ <span class="cip c-${a.sonuc}">${SINIF[a.sonuc]}</span>` : "→ devam"}</div>`).join("")}</div>
-  <div class="sayi"><div class="stat amber"><small>Karar (${u})</small><b><span class="cip c-${s.sinif}">${esc(s.sinif_adi)}</span></b></div>
-  ${veri.etiketli ? `<div class="stat ${s.dogru_mu ? "yesil" : "kirmizi"}"><small>Gerçek: ${esc(veri.dogru_adi)}</small><b class="${s.dogru_mu ? "dogru" : "yanlis"}">${s.dogru_mu ? "✓ Doğru" : "✗ Yanlış"}</b></div>` : ""}</div>`;
+  const s = veri.uzaylar[u], n = s.karar_izi.length;
+  return `<div class="merdiven">${s.karar_izi.map((a,i) => `<div class="basamak ${a.sonuc ? "durdu" : ""}" style="--i:${i}"><span class="s">${esc(a.soru)}</span><span class="d">${esc(a.deger)}</span>${a.sonuc ? `→ <span class="cip c-${a.sonuc}">${SINIF[a.sonuc]}</span>` : "→ devam"}</div>`).join("")}</div>
+  <div class="sayi">${st("amber", `Karar (${u})`, `<span class="cip c-${s.sinif} pat" style="--i:${n}">${esc(s.sinif_adi)}</span>`, 0, n*.7)}
+  ${veri.etiketli ? st(s.dogru_mu ? "yesil" : "kirmizi", `Gerçek: ${esc(veri.dogru_adi)}`, `<span class="${s.dogru_mu ? "dogru" : "yanlis"}">${s.dogru_mu ? "✓ Doğru" : "✗ Yanlış"}</span>`, 1, n*.7) : ""}</div>`;
 }
 
 function uzayCiz(u){
-  const s = veri.uzaylar[u], n = adim[u], A = [];
-  const kanal = s.kanallar;
+  const s = veri.uzaylar[u], n = adim[u], A = [], kanal = s.kanallar;
   A.push([`Renk uzayına dönüşüm (BGR → ${u})`,
     `<p class="not">OpenCV görüntüyü BGR okur; <code>cv2.cvtColor</code> ile ${u}'ye çevrilir ve üç kanal ayrı ayrı incelenir.${u==="HSV" ? " H (ton) 0–179, S (doygunluk) ve V (parlaklık) 0–255 aralığındadır; H kanalı renk tekerleği olarak gösterildi." : " Her kanal kendi rengiyle gösterildi."} Orijinal görüntüde bir noktaya tıklayın: o pikselin değerleri ve aralık testi aşağıda görünür.</p>
-     <div class="sira k2" style="margin-top:8px"><figure><img class="tiklanir" id="pikResim" src="${veri.orijinal}" alt="orijinal"><figcaption><b>Orijinal</b> · tıklayıp piksel inceleyin</figcaption><div class="piksel" id="pikBilgi"></div></figure>
-     <div class="sira k3" style="align-content:start">${kanal.map(k => `<figure><img src="${k.gorsel}" alt="${k.ad}"><figcaption><b>${k.ad} kanalı</b></figcaption></figure>`).join("")}</div></div>`]);
+     <div class="sira k2" style="margin-top:8px"><figure><div class="pikkap"><img class="tiklanir" id="pikResim" src="${veri.orijinal}" alt="orijinal"></div><figcaption><b>Orijinal</b> · tıklayıp piksel inceleyin</figcaption><div class="piksel" id="pikBilgi"></div></figure>
+     <div class="sira k3 kadem" style="align-content:start;--g:.3s">${kanal.map((k,i) => `<figure style="--i:${i}"><img src="${k.gorsel}" alt="${k.ad}"><figcaption><b>${k.ad} kanalı</b></figcaption></figure>`).join("")}</div></div>`]);
   A.push([`Kanal kanal aralık testi`,
     `<p class="not">Her kanal için dondurulmuş alt–üst sınır uygulanır. Beyaz: o kanalda aralığa giren pikseller.</p>
-     <div class="sira k3">${kanal.map(k => `<figure><img src="${k.maske}" alt="${k.ad} maske"><figcaption><b>${k.alt} ≤ ${k.ad} ≤ ${k.ust}</b><br>Pikselin ${fmt(k.gecen_yuzde)}'i geçti</figcaption></figure>`).join("")}</div>`]);
+     <div class="sira k3">${kanal.map((k,i) => tara(k.maske, k.ad, `<b>${k.alt} ≤ ${k.ad} ≤ ${k.ust}</b><br>Pikselin ${say(k.gecen_yuzde,"yuzde")}'i geçti`, i*.55)).join("")}</div>`]);
   A.push([`Birleşik renk maskesi`,
     `<p class="not">Bir piksel ancak üç koşulu birlikte sağlarsa seçilir. Bu, <code>cv2.inRange</code>'in yaptığı işin aynısıdır (sunucu iki sonucun piksel piksel aynı olduğunu kontrol eder).</p>
      <div class="formul">maske = cv2.inRange(${u.toLowerCase()}, alt=[${s.alt.join(", ")}], üst=[${s.ust.join(", ")}])</div>
-     <div class="sira k2" style="margin-top:10px"><figure><img src="${s.maske}" alt="maske"><figcaption><b>İkili maske</b></figcaption></figure><figure><img src="${s.bindirme}" alt="bindirme"><figcaption><b>Görüntü üzerinde</b> (sarı: seçilen pikseller)</figcaption></figure></div>
-     <div class="sayi"><div class="stat"><small>Renkli piksel</small><b>${s.renkli_piksel.toLocaleString("tr-TR")}</b></div><div class="stat"><small>Toplam piksel</small><b>${s.toplam_piksel.toLocaleString("tr-TR")}</b></div><div class="stat amber"><small>Renkli alan</small><b>${fmt(s.alan)}</b></div></div>`]);
+     <div class="sira k2" style="margin-top:10px">${tara(s.maske, "maske", "<b>İkili maske</b>", .2)}${gecis(veri.orijinal, s.bindirme, "<b>Görüntü üzerinde</b> (sarı: seçilen pikseller)", 1.3)}</div>
+     <div class="sayi">${st("", "Renkli piksel", say(s.renkli_piksel,"sayi"), 0, 1.6)}${st("", "Toplam piksel", say(s.toplam_piksel,"sayi"), 1, 1.6)}${st("amber", "Renkli alan", say(s.alan,"yuzde"), 2, 1.6)}</div>`]);
   A.push([`Baş bölgesiyle örtüşme`,
     s.roi_kesit ? `<p class="not">“Baret başta mı?” sorusu için baş ROI içindeki renkli piksel oranı hesaplanır.</p>
-     <div class="sira k2"><figure style="max-width:420px"><img src="${s.roi_kesit}" alt="ROI"><figcaption><b>Baş ROI (beyaz çerçeve) çevresi</b></figcaption></figure>
-     <div><div class="formul">örtüşme = ROI içindeki renkli piksel / ROI pikseli<br>= ${s.roi_renkli.toLocaleString("tr-TR")} / ${s.roi_piksel.toLocaleString("tr-TR")}</div>
-     <div class="sayi"><div class="stat amber"><small>Baş örtüşmesi</small><b>${fmt(s.ortusme)}</b></div></div></div></div>`
+     <div class="sira k2">${gecis(s.roi_kesit, s.roi_kesit, "<b>Baş ROI (beyaz çerçeve) çevresi</b>", .1).replace("<figure>", '<figure style="max-width:420px" class="kadem">')}
+     <div class="kadem" style="--g:.5s"><div class="formul" style="--i:0">örtüşme = ROI içindeki renkli piksel / ROI pikseli<br>= ${say(s.roi_renkli,"sayi")} / ${say(s.roi_piksel,"sayi")}</div>
+     <div class="sayi" style="--i:1">${st("amber", "Baş örtüşmesi", say(s.ortusme,"yuzde"), 0, .9)}</div></div></div>`
     : `<p class="not">Baş bölgesi yok (baş görünmüyor). Örtüşme hesaplanamaz; kural doğrudan “belirsiz” der.</p>`]);
   A.push([`Dört sınıflı karar kuralı`, kararHtml(u)]);
   A.push([`Aday kutular ve TP / FP / FN`,
     `<p class="not">Maskedeki bağlı bileşenler (${AYAR.kutu.morfoloji_cekirdegi}×${AYAR.kutu.morfoloji_cekirdegi} açma/kapama, en az ${AYAR.kutu.en_kucuk_bilesen_piksel} piksel) aday kutu olur. ${veri.etiketli ? `Elle çizilmiş baret kutularıyla IoU ≥ ${AYAR.kutu.iou_esigi} bire bir eşleşme TP, eşleşmeyen aday FP, bulunamayan baret FN sayılır.` : "Bu görüntüde elle çizilmiş kutu olmadığı için TP/FP/FN hesaplanmaz; yalnızca aday sayısı gösterilir."}</p>
-     <figure><img src="${s.kutulu}" alt="kutular"></figure>
+     ${gecis(veri.orijinal, s.kutulu, "", .4)}
      <div class="lejant"><span><i style="background:#00c800"></i>Gerçek baret</span><span><i style="background:#0078ff"></i>TP aday</span><span><i style="background:#ff0000"></i>FP aday</span><span><i style="background:#b4b4b4"></i>Baş ROI</span></div>
-     <div class="sayi"><div class="stat"><small>Aday kutu</small><b>${s.aday}</b></div>${s.kutu ? `<div class="stat yesil"><small>TP</small><b>${s.kutu.tp}</b></div><div class="stat kirmizi"><small>FP</small><b>${s.kutu.fp}</b></div><div class="stat amber"><small>FN</small><b>${s.kutu.fn}</b></div>` : ""}</div>
+     <div class="sayi">${st("", "Aday kutu", say(s.aday,"sayi"), 0, 1.3)}${s.kutu ? st("yesil","TP",say(s.kutu.tp,"sayi"),1,1.3) + st("kirmizi","FP",say(s.kutu.fp,"sayi"),2,1.3) + st("amber","FN",say(s.kutu.fn,"sayi"),3,1.3) : ""}</div>
      <p class="not">Renk maskesi baret <i>nesnesini</i> kanıtlamaz; aynı renkteki her yüzey aday olabilir. Sınıf kararı ile kutu değerlendirmesi ayrı ölçümlerdir.</p>`]);
+  const once = gosterilen[u]; gosterilen[u] = n;
   $("#icerik").innerHTML = `<div class="kart"><p class="etiket">${u} yöntemi · adım ${n} / ${A.length}</p><h2>${u} ile baret rengi var mı, başta mı?</h2><p class="not">Aralık ${aralik(u)} · ayarlar G1/G2'de seçilip K1–K4'ten önce donduruldu.</p></div><div style="height:14px"></div>`
-    + A.slice(0, n).map((a,i) => `<div class="adim ${i === A.length-1 ? "son" : ""}"><div class="no">${i+1}</div><div class="kart"><h3>${a[0]}</h3>${a[1]}</div></div>`).join("")
-    + `<div class="gezinti"><button class="ikincil" id="geri" ${n<=1?"disabled":""}>← Önceki</button><button id="ileri" ${n>=A.length?"disabled":""}>Sonraki adım →</button><button class="ikincil" id="hepsi">Tümünü göster</button><span class="ilerleme">${n} / ${A.length}</span></div>`;
-  $("#geri").onclick = () => { adim[u]--; uzayCiz(u); };
-  $("#ileri").onclick = () => { adim[u]++; uzayCiz(u); document.querySelectorAll(".adim")[adim[u]-1]?.scrollIntoView({behavior:"smooth", block:"start"}); };
-  $("#hepsi").onclick = () => { adim[u] = A.length; uzayCiz(u); };
+    + A.slice(0, n).map((a,i) => `<div class="adim ${i === A.length-1 ? "son" : ""} ${i >= once ? "anim" : ""}" style="${i >= once && n - once > 1 ? `animation-delay:${(i-once)*.25}s` : ""}"><div class="no">${i+1}</div><div class="kart"><h3>${a[0]}</h3>${a[1]}</div></div>`).join("")
+    + `<div class="gezinti"><button class="ikincil" id="geri" ${n<=1?"disabled":""}>← Önceki</button><button id="ileri" ${n>=A.length?"disabled":""}>Sonraki adım →</button><button class="amber" id="oynat">${oynatici ? "■ Durdur" : "▶ Otomatik oynat"}</button><button class="ikincil" id="hepsi">Tümünü göster</button><span class="ilerleme">${n} / ${A.length}</span></div>`;
+  sayaclar($("#icerik"));
+  const yeni = document.querySelectorAll(".adim")[n-1];
+  if(n > once && once > 0) yeni?.scrollIntoView({behavior:"smooth", block:"start"});
+  $("#geri").onclick = () => { durdur(); adim[u]--; gosterilen[u] = Math.min(gosterilen[u], adim[u]); uzayCiz(u); };
+  $("#ileri").onclick = () => { durdur(); adim[u]++; uzayCiz(u); };
+  $("#hepsi").onclick = () => { durdur(); adim[u] = A.length; uzayCiz(u); };
+  $("#oynat").onclick = () => { if(oynatici) return durdur(), uzayCiz(u);
+    if(adim[u] >= A.length){ adim[u] = 1; gosterilen[u] = 0; }
+    oynatici = setInterval(() => { if(sekme !== u || adim[u] >= A.length) return durdur(), (sekme === u && uzayCiz(u)); adim[u]++; uzayCiz(u); }, ANIM_SURE);
+    uzayCiz(u); };
   const pr = $("#pikResim");
-  if(pr) pr.onclick = async e => { const r = pr.getBoundingClientRect();
-    const p = await api("/api/piksel", {...istek(), fx:(e.clientX-r.left)/r.width, fy:(e.clientY-r.top)/r.height});
+  if(pr) pr.onclick = async e => { const r = pr.getBoundingClientRect(), fx = (e.clientX-r.left)/r.width, fy = (e.clientY-r.top)/r.height;
+    pr.parentElement.querySelectorAll(".nokta").forEach(x => x.remove());
+    pr.parentElement.insertAdjacentHTML("beforeend", `<span class="nokta" style="left:${fx*100}%;top:${fy*100}%"></span>`);
+    const p = await api("/api/piksel", {...istek(), fx, fy});
     const satir = uz => `${uz} (${p[uz].map((v,i) => `${KANAL[uz][i]}=${v} <span class="${p[uz+"_icinde"][i]?"tik":"carpi"}">${p[uz+"_icinde"][i]?"✓":"✗"}</span>`).join(" ")}) → ${p[uz+"_icinde"].every(Boolean) ? '<b class="dogru">seçilir</b>' : '<b class="yanlis">seçilmez</b>'}`;
-    $("#pikBilgi").innerHTML = `<span class="ornek" style="background:${p.renk}"></span><span>x=${p.x}, y=${p.y}<br>${satir(u)}<br><span class="not">${satir(u==="HSV"?"RGB":"HSV")}</span></span>`; };
+    $("#pikBilgi").innerHTML = `<span class="ornek pat" style="background:${p.renk}"></span><span>x=${p.x}, y=${p.y}<br>${satir(u)}<br><span class="not">${satir(u==="HSV"?"RGB":"HSV")}</span></span>`;
+    $("#pikBilgi").classList.remove("anim"); void $("#pikBilgi").offsetWidth; $("#pikBilgi").classList.add("anim"); };
 }
+function durdur(){ if(oynatici){ clearInterval(oynatici); oynatici = null; } }
 const KANAL = {RGB:["R","G","B"], HSV:["H","S","V"]};
 
 function karsCiz(){
   const H = veri.uzaylar.HSV, R = veri.uzaylar.RGB;
-  const satir = (ad, f) => `<tr><td>${ad}</td><td>${f(H)}</td><td>${f(R)}</td></tr>`;
-  $("#icerik").innerHTML = `<div class="kart"><p class="etiket">Karşılaştırma</p><h2>Aynı görüntü, aynı kural: HSV ve RGB</h2>
+  let sn = 0; const satir = (ad, f) => `<tr style="--i:${++sn + 6}"><td>${ad}</td><td>${f(H)}</td><td>${f(R)}</td></tr>`;
+  $("#icerik").innerHTML = `<div class="kart anim"><p class="etiket">Karşılaştırma</p><h2>Aynı görüntü, aynı kural: HSV ve RGB</h2>
     <p class="not">Yalnızca renk uzayı değişir; baş ROI, eşikler ve kutu ayarları aynıdır.</p>
-    <div class="sira k2" style="margin-top:10px"><figure><img src="${H.kutulu}" alt="HSV"><figcaption><b>HSV</b> · ${aralik("HSV")}</figcaption></figure><figure><img src="${R.kutulu}" alt="RGB"><figcaption><b>RGB</b> · ${aralik("RGB")}</figcaption></figure></div>
+    <div class="sira k2" style="margin-top:10px">${gecis(veri.orijinal, H.kutulu, `<b>HSV</b> · ${aralik("HSV")}`, .2)}${gecis(veri.orijinal, R.kutulu, `<b>RGB</b> · ${aralik("RGB")}`, .7)}</div>
     <div class="lejant"><span><i style="background:#00c800"></i>Gerçek baret</span><span><i style="background:#0078ff"></i>TP</span><span><i style="background:#ff0000"></i>FP</span><span><i style="background:#b4b4b4"></i>Baş ROI</span></div>
     <table style="margin-top:12px"><tr><th>Ölçüm</th><th>HSV</th><th>RGB</th></tr>
     ${satir("Renkli alan", s => fmt(s.alan))}${satir("Baş örtüşmesi", s => fmt(s.ortusme))}
@@ -275,14 +328,14 @@ async function deneyCiz(tur){
   const ad = v => bl ? `σ = ${String(v).replace(".", ",")}` : `× ${String(v).replace(".", ",")}`;
   const g = d.gorsel;
   const hucre = s => `${fmt(s.alan)} · ${fmt(s.ortusme)}<br><span class="cip c-${s.sinif}" style="font-size:11px;padding:2px 8px">${esc(s.sinif_adi)}</span>${s.dogru_mu==null?"":s.dogru_mu?' <span class="dogru">✓</span>':' <span class="yanlis">✗</span>'}${s.kutu?`<br><small>TP/FP/FN ${s.kutu.tp}/${s.kutu.fp}/${s.kutu.fn}</small>`:""}`;
-  $("#icerik").innerHTML = `<div class="kart"><p class="etiket">Tek değişkenli deney</p>
+  $("#icerik").innerHTML = `<div class="kart anim"><p class="etiket">Tek değişkenli deney</p>
     <h2>${bl ? "Gaussian bulanıklık: yalnızca σ değişir" : "Küçültme: yalnızca ölçek katsayısı değişir"}</h2>
     <p class="not">${bl ? `Çekirdek ${d.ayar.cekirdek.join("×")}; σ = 0 filtresiz referanstır. Renk aralıkları, baş ROI ve eşikler sabit.` : `Küçültme ${d.ayar.kucultme_yontemi}; baş ROI ve baret kutuları aynı katsayıyla dönüştürülür. PSNR: küçültüp ${d.ayar.geri_buyutme_yontemi} ile geri büyütülen görüntünün orijinale benzerliği (yüksek = daha az kayıp).`}</p>
     <div class="duzeyler">${d.duzeyler.map(v => `<button class="${v==sec?"amber":"ikincil"}" data-v="${v}">${ad(v)}</button>`).join("")}</div>
-    <div class="sira k3"><figure><img src="${g.islenmis}" alt="işlenmiş"><figcaption><b>${ad(sec)}</b>${bl ? "" : ` · ${d.tablo.find(t=>t.duzey==sec).boyut.join(" × ")} px (pikseller büyütülerek gösterildi)`}</figcaption></figure>
-    <figure><img src="${g.HSV}" alt="HSV"><figcaption><b>HSV</b> maske + kutular</figcaption></figure><figure><img src="${g.RGB}" alt="RGB"><figcaption><b>RGB</b> maske + kutular</figcaption></figure></div>
+    <div class="sira k3 kadem"><figure style="--i:0"><img src="${g.islenmis}" alt="işlenmiş"><figcaption><b>${ad(sec)}</b>${bl ? "" : ` · ${d.tablo.find(t=>t.duzey==sec).boyut.join(" × ")} px (pikseller büyütülerek gösterildi)`}</figcaption></figure>
+    ${tara(g.HSV, "HSV", "<b>HSV</b> maske + kutular", .3).replace('<figure class="tara"', '<figure class="tara" data-x')}${tara(g.RGB, "RGB", "<b>RGB</b> maske + kutular", .8)}</div>
     <table style="margin-top:14px"><tr><th>${bl ? "σ" : "Ölçek"}</th>${bl ? "" : "<th>Boyut</th><th>PSNR</th>"}<th>HSV: alan · örtüşme · karar</th><th>RGB: alan · örtüşme · karar</th></tr>
-    ${d.tablo.map(t => `<tr class="${t.duzey==sec?"secili":""}"><td>${ad(t.duzey)}</td>${bl ? "" : `<td>${t.boyut.join("×")}</td><td>${t.psnr==null?"—":String(t.psnr).replace(".", ",")+" dB"}</td>`}<td>${hucre(t.HSV)}</td><td>${hucre(t.RGB)}</td></tr>`).join("")}</table>
+    ${d.tablo.map((t,i) => `<tr class="${t.duzey==sec?"secili":""}" style="--i:${i+4}"><td>${ad(t.duzey)}</td>${bl ? "" : `<td>${t.boyut.join("×")}</td><td>${t.psnr==null?"—":String(t.psnr).replace(".", ",")+" dB"}</td>`}<td>${hucre(t.HSV)}</td><td>${hucre(t.RGB)}</td></tr>`).join("")}</table>
     ${d.etiketli ? `<p class="not" style="margin-top:8px">Gerçek sınıf: ${esc(d.dogru_adi)}</p>` : ""}</div>`;
   document.querySelectorAll(".duzeyler button").forEach(b => b.onclick = () => { deneyDurum[tur] = +b.dataset.v; deneyCiz(tur); });
 }
