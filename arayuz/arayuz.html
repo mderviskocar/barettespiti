@@ -189,6 +189,7 @@ async function api(yol, govde){
   try{
     const r = await fetch(yol, govde ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(govde)} : {});
     const j = await r.json();
+    if(r.status === 404) throw new Error("Sunucu eski sürümle çalışıyor. Terminalde Ctrl+C ile durdurup python arayuz/sunucu.py ile yeniden başlatın, sonra sayfayı yenileyin.");
     if(!r.ok) throw new Error(j.hata || r.statusText);
     $("#hata").innerHTML = ""; return j;
   }catch(e){ $("#hata").innerHTML = `<div class="hata">Hata: ${esc(e.message)}</div>`; throw e; }
