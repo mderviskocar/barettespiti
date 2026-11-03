@@ -23,8 +23,8 @@ Amaç: Teslimden önce her üyenin çalışmasını yönergedeki kurallara göre
 | H4. Bulanıklık ve küçültme, tek değişkenli, ölçülü | ✅ | `sonuclar/bulaniklik/`, `sonuclar/olcek/`; yorumlar 04 ve 05 defterlerinde | Ahmet, Efe |
 | 8a. En fazla 6 slayt, çalışan defter, kaynak listesi, sonuç tablosu, çevrimdışı kayıt | ⚠️ | Defter, kaynak listesi, tablo hazır; **slayt ve kayıt bekleniyor** | Ekip |
 | 8b. Sonuç tablosu sütunları | ✅ | `sonuclar/sonuc_tablosu.md` (+ sınıf doğruluğu ve TP/FP/FN özeti) | Ortak hat |
-| 8d. Yarım sayfa bireysel not | ⚠️ | Efe, Murathan güncel; Derviş ve Ahmet'te sonuç bölümü, Nesli ve Omar'da yeni veri bekleniyor | Her üye |
-| 8e. Yapay zekâ beyanı | ⚠️ | Var: iskelet, Nesli, Omar, Efe. Diğer üyeler ekleyecek | Her üye |
+| 8d. Yarım sayfa bireysel not | ⚠️ | Güncel: Efe, Omar, Murathan. Derviş ve Ahmet'te sonuç bölümü, Nesli'de yeni veri bekleniyor | Her üye |
+| 8e. Yapay zekâ beyanı | ⚠️ | Var: iskelet, Nesli, Omar (güncel ek dahil), Efe. Derviş, Ahmet ve Murathan ekleyecek | Her üye |
 
 **Eşiklerin dayanağı ve geçmiş:** Karar eşikleri (%2.5 alan, %5 baş örtüşmesi) ekibin önceki veri setinde G1/G2'den seçtiği başlangıç kuralıdır; yeni G1/G2'de kontrol edilip K1–K4'ten önce dondurulmuştur. Yeni G2'de sarı piksel olmadığı için %2.5 alan eşiği geliştirme setinde sınanamamıştır; bu bir sınırlılıktır. Önceki veri setinde RGB eşiğinin kontrol sonucu görüldükten sonra değiştirilip geri alındığı git geçmişinde görünür (bkz. 2.2); güncel çalıştırmada eşikler kontrol öncesi dondurulmuş ve değiştirilmemiştir. Veri seti 3 Kasım'da kaynağı ve lisansı belirsiz/filigranlı görüntüler yerine kaynaklı görüntülerle yenilenmiş, bütün deneyler yeni veriyle baştan çalıştırılmıştır.
 
@@ -82,5 +82,5 @@ Amaç: Teslimden önce her üyenin çalışmasını yönergedeki kurallara göre
 |---|---|
 | En fazla 6 slayt + konuşmacı notları + soru-cevap | Ahmet (sunum), herkes kendi slaytı |
 | Çevrimdışı kayıt (canlı demonun ekran videosu) | Murathan |
-| Bireysel notlara yeni veriyle sonuç ve yorum | Nesli, Omar, Derviş, Ahmet |
+| Bireysel notlara yeni veriyle sonuç ve yorum (Omar ve Efe tamamladı) | Nesli, Derviş, Ahmet |
 | Yapay zekâ beyanı | Ahmet, Derviş, Murathan (ve kullanan herkes) |
