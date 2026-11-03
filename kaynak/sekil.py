@@ -66,3 +66,23 @@ def suzulmus_maske(etiket, adaylar):
     """Yalnızca şekil ölçütünü geçen bileşenlerden oluşan maske (0/255)."""
     gecen = [a["etiket"] for a in adaylar if a["gecti"]]
     return np.isin(etiket, gecen).astype(np.uint8) * 255 if gecen else np.zeros(etiket.shape, np.uint8)
+
+
+def yerel_karar(ham_ortusme, suzulmus_alan, bas_roi, kural):
+    """Ek kural (keşif): önce baş bölgesi, sonra şekilden geçen alan. Eşikler ana kuralla aynı.
+
+    Dönüş: (sınıf, karar_izi) — karar_izi arayüzde basamak basamak gösterilir."""
+    iz = [{"soru": "Baş bölgesi (ROI) var mı?", "deger": "var" if bas_roi else "yok",
+           "sonuc": None if bas_roi else "belirsiz"}]
+    if bas_roi is None:
+        return "belirsiz", iz
+    esik_o, esik_a = kural["en_az_bas_ortusmesi_yuzde"], kural["en_az_renk_alani_yuzde"]
+    if ham_ortusme >= esik_o:
+        iz.append({"soru": f"Baş bölgesinde baret rengi ≥ %{esik_o:g} mi?".replace(".", ","), "deger": f"%{ham_ortusme:.2f}".replace(".", ","),
+                   "sonuc": "basta_baret"})
+        return "basta_baret", iz
+    iz.append({"soru": f"Baş bölgesinde baret rengi ≥ %{esik_o:g} mi?".replace(".", ","), "deger": f"%{ham_ortusme:.2f}".replace(".", ","), "sonuc": None})
+    sinif = "baret_yok" if suzulmus_alan < esik_a else "baret_var_basta_degil"
+    iz.append({"soru": f"Şekli uyan renkli alan ≥ %{esik_a:g} mi?".replace(".", ","), "deger": f"%{suzulmus_alan:.2f}".replace(".", ","),
+               "sonuc": sinif})
+    return sinif, iz

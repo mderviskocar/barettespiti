@@ -1,8 +1,21 @@
 {
   "durum": "ek_kesif",
   "not": "Ana yöntemin parçası değildir. Hata analizinde (K3 yanlış alarmı) önerilen sonraki kontrol olarak, K1-K4 sonuçları bilindikten sonra eklendi; bu yüzden yalnızca keşif amaçlı raporlanır. Ana sonuç tablosu (sonuclar/) değişmez. Model eğitimi yoktur; yalnızca geometrik ölçüler kullanılır.",
-  "en_boy_orani": [0.6, 2.0],
-  "en_az_doluluk": 0.40,
-  "en_az_disbukeylik": 0.60,
-  "gerekce": "Eşikler baret kubbesinin geometrisinden önceden belirlendi ve yalnızca G1'deki gerçek baret bileşeniyle kontrol edildi (G1 HSV: en-boy 1,27, doluluk 0,64, dışbükeylik 0,90; RGB: 1,28 / 0,64 / 0,87 -> geçer). Önden/yandan bakılan baret yüksekliğinin yaklaşık 1-2 katı genişliktedir; dikey direk ve çerçeveler en-boy < 0,6, dağınık lekeler ve çizgiler düşük doluluk/dışbükeylik verir. G2'de renkli bileşen yoktur."
+  "en_boy_orani": [
+    0.6,
+    2.0
+  ],
+  "en_az_doluluk": 0.4,
+  "en_az_disbukeylik": 0.6,
+  "gerekce": "Eşikler baret kubbesinin geometrisinden önceden belirlendi ve yalnızca G1'deki gerçek baret bileşeniyle kontrol edildi (G1 HSV: en-boy 1,27, doluluk 0,64, dışbükeylik 0,90; RGB: 1,28 / 0,64 / 0,87 -> geçer). Önden/yandan bakılan baret yüksekliğinin yaklaşık 1-2 katı genişliktedir; dikey direk ve çerçeveler en-boy < 0,6, dağınık lekeler ve çizgiler düşük doluluk/dışbükeylik verir. G2'de renkli bileşen yoktur.",
+  "yerel_kural": {
+    "sira": [
+      "Baş bölgesi yoksa: belirsiz",
+      "Baş bölgesindeki renkli piksel oranı (ham renk maskesi) >= %5: basta_baret",
+      "Şekil ölçütünü geçen renkli alan < %2,5: baret_yok",
+      "Aksi halde: baret_var_basta_degil"
+    ],
+    "gerekce": "Ana kural önce bütün görüntüdeki renkli alana bakar; kalabalık ya da uzak sahnede her baret küçük kaldığı için toplam alan %2,5'in altına düşer ve baş bölgesine hiç bakılmadan 'baret yok' denir (K1, K2 ve slayt 6'daki sınırlılık). Ek kural 'başta mı?' sorusunu önce yerel olarak yanıtlar; 'baret var mı?' sorusu için de şekil ölçütünden geçen alanı kullanır. Eşikler (%5, %2,5) ana kuralla aynıdır; yalnızca sıra ve kullanılan maske değişir.",
+    "not": "K1-K4 sonuçları görüldükten sonra tasarlandı; ana sonuç değildir. Gerçek sınaması yeni, daha önce görülmemiş görüntülerle yapılmalıdır."
+  }
 }

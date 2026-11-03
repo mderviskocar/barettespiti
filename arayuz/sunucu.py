@@ -284,9 +284,11 @@ def sekil_tek(g, uzay):
     so = {"alan": yuzde(sonra["alan_yuzde"]), "ortusme": yuzde(sonra["ortusme_yuzde"]), "sinif": sonra["sinif"],
           "sinif_adi": SINIF_ADI[sonra["sinif"]], "dogru_mu": None if dogru is None else sonra["sinif"] == dogru,
           "aday": len(sonra["adaylar"]), "kutu": degerlendirme_ozeti(sonra)}
+    ek = {"sinif": sonra["ek_sinif"], "sinif_adi": SINIF_ADI[sonra["ek_sinif"]], "iz": sonra["ek_iz"],
+          "dogru_mu": None if dogru is None else sonra["ek_sinif"] == dogru}
     return {
         "uzay": uzay, "etiketli": g["etiketli"], "dogru_adi": SINIF_ADI.get(dogru),
-        "once": ozet(once, dogru), "sonra": so, "elenen": len(elenen), "nedenler": nedenler, "ornekler": ornekler,
+        "once": ozet(once, dogru), "sonra": so, "ek": ek, "elenen": len(elenen), "nedenler": nedenler, "ornekler": ornekler,
         "once_gorsel": veri_url(kutulari_ciz(goruntu, once["adaylar"], kutular or [], once["degerlendirme"] or BOS, roi)),
         "sonra_gorsel": veri_url(sekil_kutulari_ciz(goruntu, sonra["adaylar"], kutular, sonra["degerlendirme"], roi, elenen)),
         "maske_once": veri_url(maske_bindir(goruntu, ham, renk=(255, 0, 255))),
@@ -304,7 +306,8 @@ def sekil_toplam():
         goruntu = goruntu_oku(k["dosya"])
         for uzay in ("HSV", "RGB"):
             once, sonra, _ = sekil_analizi(goruntu, uzay, AYARLAR, SEKIL, k["bas_roi"], k["baret_kutulari"])
-            t = toplam.setdefault(uzay, {"tp": [0, 0], "fp": [0, 0], "fn": [0, 0], "dogru": [0, 0]})
+            t = toplam.setdefault(uzay, {"tp": [0, 0], "fp": [0, 0], "fn": [0, 0], "dogru": [0, 0], "dogru_ek": 0})
+            t["dogru_ek"] += sonra["ek_sinif"] == k["dogru_sinif"]
             for i, s in enumerate((once, sonra)):
                 for a in ("tp", "fp", "fn"):
                     t[a][i] += s["degerlendirme"][a]

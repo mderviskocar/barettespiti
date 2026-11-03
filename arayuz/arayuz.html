@@ -333,6 +333,7 @@ function uzayCiz(u){
 }
 
 let sekilDurum = {uzay:"HSV", adim:1, gosterilen:0, veri:{}};
+const veriUzay = u => veri.uzaylar[u];
 const v2 = x => String(x).replace(".", ",");
 function cubuk(ad, deger, ust, alt, ustSinir, i){
   const yuz = x => Math.min(100, Math.max(0, x / ust * 100));
@@ -373,14 +374,22 @@ async function sekilCiz(){
        <div class="oncesonra" style="--i:3;margin-top:8px">${st("", "Sınıf (önce)", `<span class="cip c-${o.sinif}">${esc(o.sinif_adi)}</span>`, 0, 1.1)}<span class="ok">→</span>${st(s.dogru_mu === false ? "kirmizi" : "yesil", "Sınıf (sonra)", `<span class="cip c-${s.sinif}">${esc(s.sinif_adi)}</span>${s.dogru_mu == null ? "" : s.dogru_mu ? ' <span class="dogru">✓</span>' : ' <span class="yanlis">✗</span>'}`, 1, 1.5)}</div>
        ${d.etiketli ? `<p class="not" style="--i:4">Gerçek sınıf: ${esc(d.dogru_adi)} · renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p>` : `<p class="not" style="--i:4">Renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p><p class="not" style="--i:5">Etiketsiz görüntü: hangi adayın gerçek baret olduğu bilinmediği için TP/FP/FN hesaplanmaz.${o.sinif === "belirsiz" ? " Baş bölgesi çizilmediği için kural “belirsiz” der; baret var/yok sorusunu yanıtlamak için baş bölgesi gerekir." : ""}</p>`}
      </div></div>`]);
+  A.push(["Ek kural: önce baş bölgesine bak",
+    `<p class="not">Ana kural önce <b>bütün görüntüdeki</b> renkli alana bakar (≥ %2,5). Kalabalık ya da uzak sahnede her baret küçük kalır, toplam alan eşiğin altına düşer ve baş bölgesine hiç bakılmadan “baret yok” denir. Ek kural “başta mı?” sorusunu önce <b>baş bölgesinde</b> yanıtlar; “baret var mı?” için şekli uyan alanı kullanır. Eşikler aynıdır, yalnızca sıra değişir.</p>
+     <div class="sira k2" style="margin-top:8px">
+       <div><p class="etiket" style="color:var(--gri)">Ana kural (dondurulmuş)</p>
+         <div class="merdiven">${veriUzay(u).karar_izi.map((a,i) => `<div class="basamak ${a.sonuc ? "durdu" : ""}" style="--i:${i}"><span class="s">${esc(a.soru)}</span><span class="d">${esc(a.deger)}</span>${a.sonuc ? `→ <span class="cip c-${a.sonuc}">${SINIF[a.sonuc]}</span>` : "→ devam"}</div>`).join("")}</div></div>
+       <div><p class="etiket" style="color:var(--amber)">Ek kural (keşif)</p>
+         <div class="merdiven">${d.ek.iz.map((a,i) => `<div class="basamak ${a.sonuc ? "durdu" : ""}" style="--i:${i+.5}"><span class="s">${esc(a.soru)}</span><span class="d">${esc(a.deger)}</span>${a.sonuc ? `→ <span class="cip c-${a.sonuc}">${SINIF[a.sonuc]}</span>` : "→ devam"}</div>`).join("")}</div></div></div>
+     <div class="oncesonra" style="margin-top:12px">${st("", "Ana kural", `<span class="cip c-${o.sinif}">${esc(o.sinif_adi)}</span>${o.dogru_mu == null ? "" : o.dogru_mu ? ' <span class="dogru">✓</span>' : ' <span class="yanlis">✗</span>'}`, 0, 1.8)}<span class="ok">→</span>${st(d.ek.dogru_mu === false ? "kirmizi" : "yesil", "Ek kural", `<span class="cip c-${d.ek.sinif}">${esc(d.ek.sinif_adi)}</span>${d.ek.dogru_mu == null ? "" : d.ek.dogru_mu ? ' <span class="dogru">✓</span>' : ' <span class="yanlis">✗</span>'}`, 1, 2.2)}</div>`]);
   const T = d.toplam;
-  const satir = (uz, i) => { const t = T[uz]; return `<tr style="--i:${i}"><td><b>${uz}</b></td><td>${t.tp[0]} → <b>${t.tp[1]}</b></td><td>${t.fp[0]} → <b>${t.fp[1]}</b></td><td>${t.fn[0]} → <b>${t.fn[1]}</b></td><td>${t.dogru[0]}/4 → <b>${t.dogru[1]}/4</b></td></tr>`; };
+  const satir = (uz, i) => { const t = T[uz]; return `<tr style="--i:${i}"><td><b>${uz}</b></td><td>${t.tp[0]} → <b>${t.tp[1]}</b></td><td>${t.fp[0]} → <b>${t.fp[1]}</b></td><td>${t.fn[0]} → <b>${t.fn[1]}</b></td><td>${t.dogru[0]}/4 → <b>${t.dogru[1]}/4</b></td><td><b>${t.dogru_ek}/4</b></td></tr>`; };
   A.push(["Veri seti toplamı: kontrol görüntüleri K1–K4",
-    `${d.etiketli ? "" : '<p class="not">Bu tablo seçtiğiniz görüntüden değil, etiketli kontrol görüntülerinden (K1–K4) hesaplanır; şekil ölçütünün genel etkisini gösterir.</p>'}<table><tr><th>Uzay</th><th>TP</th><th>FP</th><th>FN</th><th>Doğru sınıf</th></tr>${satir("HSV",1)}${satir("RGB",2)}</table>
+    `${d.etiketli ? "" : '<p class="not">Bu tablo seçtiğiniz görüntüden değil, etiketli kontrol görüntülerinden (K1–K4) hesaplanır; şekil ölçütünün genel etkisini gösterir.</p>'}<table><tr><th>Uzay</th><th>TP</th><th>FP</th><th>FN</th><th>Doğru sınıf (ana kural)</th><th>Doğru sınıf (ek kural)</th></tr>${satir("HSV",1)}${satir("RGB",2)}</table>
      <div class="sira k2 kadem" style="margin-top:12px;--g:.6s">
-       <div class="formul-kart" style="--i:0"><b>Kazanç</b><br>Yanlış alarm yaklaşık yarıya iner (HSV ${T.HSV.fp[0]} → ${T.HSV.fp[1]}, RGB ${T.RGB.fp[0]} → ${T.RGB.fp[1]}). K3'te RGB'nin “baret var” yanlış kararı düzelir: sarı makine parçaları ince ve uzun olduğu için elenir.</div>
+       <div class="formul-kart" style="--i:0"><b>Kazanç</b><br>Yanlış alarm yaklaşık yarıya iner (HSV ${T.HSV.fp[0]} → ${T.HSV.fp[1]}, RGB ${T.RGB.fp[0]} → ${T.RGB.fp[1]}). K3'te RGB'nin “baret var” yanlış kararı düzelir: sarı makine parçaları ince ve uzun olduğu için elenir. Ek kural (önce baş) ile K1 ve K2'deki küçük/uzak baretler de “başta baret” olarak doğru sınıflanır.</div>
        <div class="formul-kart" style="--i:1"><b>Bedel</b><br>Küçük (K2, uzak) ve parçalı (K1, yansımalı) baretlerde şekil güvenilir ölçülemez; HSV'de TP ${T.HSV.tp[0]} → ${T.HSV.tp[1]} düşer. Sonraki adım: ölçmeden önce bileşenleri birleştirmek ve çok küçük bileşenlerde şekil yerine konumu (baş bölgesine yakınlık) kullanmak.</div></div>
-     <div class="uyari" style="margin-top:12px">Bu sekme <b>ek ve keşif amaçlıdır</b>: ödevin istediği yöntem değildir ve K1–K4 sonuçları görüldükten sonra eklendiği için ana sonuç tablosu değişmez. Eşikler (${v2(E.en_boy_orani[0])}–${v2(E.en_boy_orani[1])}, ≥ ${v2(E.en_az_doluluk)}, ≥ ${v2(E.en_az_disbukeylik)}) baret geometrisinden önceden seçilip yalnızca G1'deki gerçek baretle kontrol edildi. Ayrıntı: <code>ayarlar/sekil_olcutu.json</code>, <code>python betikler/sekil_deneyi.py</code>.</div>`]);
+     <div class="uyari" style="margin-top:12px">Bu sekme <b>ek ve keşif amaçlıdır</b>: ödevin istediği yöntem değildir ve K1–K4 sonuçları görüldükten sonra eklendiği için ana sonuç tablosu değişmez. Ek kuralın 4/4'ü bu yüzden kanıt değildir; gerçek sınama daha önce görülmemiş yeni görüntülerle yapılmalıdır. Eşikler (${v2(E.en_boy_orani[0])}–${v2(E.en_boy_orani[1])}, ≥ ${v2(E.en_az_doluluk)}, ≥ ${v2(E.en_az_disbukeylik)}) baret geometrisinden önceden seçilip yalnızca G1'deki gerçek baretle kontrol edildi. Ayrıntı: <code>ayarlar/sekil_olcutu.json</code>, <code>python betikler/sekil_deneyi.py</code>.</div>`]);
   const once = d0.gosterilen; d0.gosterilen = n;
   $("#icerik").innerHTML = `<div class="kart"><p class="etiket">Ek · model eğitimi olmadan bir iyileştirme</p>
     <h2>Renge şekil ölçütü eklersek? <span class="secici">${["HSV","RGB"].map(x => `<button class="${x===u?"aktif":""}" data-u="${x}">${x}</button>`).join("")}</span></h2>
