@@ -45,3 +45,10 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 - Ön tahmin: İki cümlelik tahmin taslağı Claude Code tarafından yazıldı; Omar kontrol çalıştırılmadan önce onayladı ve kayda alındı.
 - Doğrulama: Aralık adayları yalnızca G1/G2 üzerinde karşılaştırıldı. Kontrol görüntüleri ayarlar dondurulduktan sonra bir kez çalıştırıldı ve sonuçlar notebook içinde yeniden hesaplanıp CSV ile karşılaştırıldı. K2 baret rengi ve G2 dışı piksel oranı doğrudan piksel ölçümüyle denetlendi. `scripts/validate_project.py` hatasız tamamlandı.
 - Sınır: Karar kuralının eşikleri Derviş ile birlikte gözden geçirilmelidir; %2 alan eşiği G1/G2'den ayarlanamadı. Maskeler görsel olarak yalnızca G1/G2 için incelendi; kontrol maskeleri notebook çıktısında gösterilir.
+
+## Efe — ölçek deneyi
+
+- Araç: OpenAI Codex.
+- Amaç: tahmin ve yorumlarımı dosyalara kaydetmek, 05_olcek defterini çalıştırmak, bireysel notu düzenlemek.
+- Etkilenen dosyalar: belgeler/tahminler.csv, defterler/05_olcek.ipynb, bireysel_notlar/efe.md.
+- Doğrulama: tahmin ve yorum cümleleri benimdir; sayıları sonuclar/olcek/olcek_sonuclari.csv ve geri_buyutme.csv ile karşılaştırdım; python betikler/dogrula.py hatasız çalıştı.
