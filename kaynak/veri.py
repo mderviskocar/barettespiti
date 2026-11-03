@@ -27,7 +27,7 @@ def goruntu_oku(yol):
 
 
 def maske_oku(kimlik, katman):
-    """Fırçayla boyanmış gerçek maske (etiketler/maskeler/<kimlik>_<katman>.png); yoksa None."""
+    """İsteğe bağlı piksel düzeyi gerçek maske (etiketler/maskeler/<kimlik>_<katman>.png); yoksa None."""
     yol = KOK / "etiketler" / "maskeler" / f"{kimlik}_{katman}.png"
     if not yol.is_file():
         return None

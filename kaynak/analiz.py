@@ -1,5 +1,5 @@
 """Tek görüntü analizi: renk maskesi -> alan ve baş örtüşmesi -> dört sınıflı karar
--> aday kutular -> TP/FP/FN (-> fırça maskesi varsa piksel karşılaştırması).
+-> aday kutular -> TP/FP/FN.
 
 Bütün deneyler (temel, bulanıklık, ölçek) ve canlı demo bu fonksiyonu kullanır;
 böylece yalnızca bir değişken değiştirilir, gerisi aynı kalır.

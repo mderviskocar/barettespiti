@@ -85,7 +85,7 @@ Tahmin ve bireysel yorum **üyenin kendisine aittir**; başkası yerine yazamaz 
 
 | Üye | Yapması gereken |
 |---|---|
-| Nesli | K1 sınıfını yeniden incelemek; yeni veride aynı renkli nesne içeren kontrol görüntüsünü seçmek; sınıfları yöntemden önce yazmak; fırça etiketleri; notu yeni yollara güncellemek |
+| Nesli | K1 sınıfını yeniden incelemek; yeni veride aynı renkli nesne içeren kontrol görüntüsünü seçmek; sınıfları yöntemden önce yazmak; baş ve baret kutularını elle çizmek; notu yeni yollara güncellemek |
 | Omar | Ortak dondurulmuş kuralı kabul edip eşik değişikliğini notunda açıklamak; yeni veride RGB yorumunu yazmak |
 | Derviş | **Tahmin (önce)**, HSV yorumu ve RGB karşılaştırması, yarım sayfa not, yapay zekâ beyanı |
 | Ahmet | Ölçülebilir tahmin (sayısal deneyden önce), `04_bulaniklik` sonuçlarının yorumu, not güncellemesi, yapay zekâ beyanı |

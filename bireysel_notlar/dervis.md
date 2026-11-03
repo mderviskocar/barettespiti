@@ -1,16 +1,16 @@
-# Derviş — bireysel deney notu
+# Derviş — HSV renk segmentasyonu ve RGB karşılaştırması
 
-Durum: Doldurulmamış şablon. Tamamlandığında yaklaşık yarım sayfa olmalıdır.
+- **Deney kimliği:** dervis_hsv_baseline.
+- **Görüntüler:** G1/G2 geliştirme, K1–K4 kontrol görüntüleridir. HSV eşikleri geliştirme görüntülerinde belirlenecek ve kontrol deneyinden önce sabitlenecektir.
+- **Deney öncesi tahmin:** HSV’nin renk tonu, doygunluk ve parlaklığı ayrı değerlendirmesi sayesinde değişen aydınlatma koşullarında sarı baret piksellerini RGB’den daha iyi seçebilmesini bekliyorum. Ancak çok düşük parlaklık, düşük doygunluk ve benzer renkli nesneler nedeniyle HSV’nin de kaçırma veya yanlış alarm üretebileceğini öngörüyorum.
+- **Düşük ışık hipotezi:** K2’deki sarı baretin karanlık nedeniyle RGB eşiklerinin dışında kalabileceğini düşünüyorum. HSV’de renk tonu korunuyorsa baretin daha belirgin seçilmesini bekliyorum; ancak parlaklık değeri seçilen V alt sınırının altında kalırsa HSV de bareti kaçırabilir.
+- **Küçük baret hipotezi:** K3’teki baretlerin az sayıda piksel kaplaması nedeniyle HSV maskesinin küçük ve parçalı bölgeler oluşturabileceğini bekliyorum. Baş ROI içerisinde baret rengi seçilse bile toplam maske alanının düşük kalması, kullanılan ortak karar kuralına bağlı olarak yanlış sınıflandırmaya yol açabilir.
+- **Benzer renkli nesne ve yanlış alarm hipotezi:** Sarı ekipman, yelek ve sarı ışık altındaki yüzeylerin baretle aynı HSV aralığına girebileceğini düşünüyorum. Bu nedenle HSV’nin yalnızca renge dayanarak gerçek baret ile benzer renkli nesneleri kesin biçimde ayıramayacağını ve yanlış seçimler oluşturabileceğini öngörüyorum.
+- **Başta ve elde baret karşılaştırması:** K4’te elde tutulan sarı baretin maskede seçilmesini, ancak baş ROI ile örtüşmesinin düşük kalmasını bekliyorum. Ortak karar kuralının bu görüntüyü `helmet_off_head`, başların görünmediği K1 görüntüsünü ise `uncertain` olarak sınıflandırmasını bekliyorum.
+- **Deney ayarları:** OpenCV’nin 8 bit HSV gösteriminde H=0–179, S/V=0–255 aralıkları kullanılacaktır. Alt ve üst HSV eşikleri yalnızca G1/G2 üzerinde seçilecek; kontrol sırasında görüntü çözünürlüğü, baş ROI koordinatları ve ortak karar kuralları sabit tutulacaktır.
+- **Ölçülecek sonuçlar:** Her kontrol görüntüsünde HSV maskesi, maske alanı yüzdesi, baş ROI örtüşme yüzdesi, tahmin edilen sınıf ve doğru/yanlış durumu kaydedilecektir. Sonuçlar aynı görüntülerdeki RGB ölçümleriyle karşılaştırılacak; K1’de baş ROI bulunmadığından örtüşme N/A olarak belirtilecektir.
+- **Beklenen sınırlılıklar:** HSV maskesi nesnenin şeklini veya gerçekten baret olup olmadığını tek başına değerlendirmez. Dört kontrol görüntüsündeki sonuçlar gerçek işyeri güvenilirliği veya genel başarı oranı olarak sunulamaz.
+- **Sonraki kontrol:** RGB ve HSV’nin farklı sonuç verdiği görüntülerde maskeler ve baş örtüşmeleri karşılaştırılarak olası nedenler incelenecektir. Kontrol sonuçlarına bakılarak dondurulmuş eşikler değiştirilmeyecektir.
+- **Yeniden üretim:** `src/hsv.py`, `configs/hsv_config.json`, `notebooks/dervis_hsv.ipynb`, `results/hsv_results.csv` ve `results/masks/hsv/` kullanılacaktır.
 
-- Deney: BGR→HSV dönüşümü, sabit eşikler; dört maske, alan/baş örtüşmesi, dört sınıf kararı ve RGB karşılaştırması.
-- Notebook: notebooks/dervis_hsv.ipynb
-- Branch: feat/hsv-segmentation
-- Deney kimliği ve kullanılan görüntüler:
-- Deneyden önceki iki cümlelik tahmin:
-- Sabit ve değişen parametreler:
-- Gerçekten çalıştırılan işlem/hücre:
-- Ölçülen sonuç ve ilgili tablo/görsel:
-- Tahmin ile sonucun karşılaştırması:
-- Hata nedeni ve sınırlılık:
-- Sonraki kontrol:
-- Yapay zekâ kullanımı ve doğrulama: docs/ai_usage.md kaydına referans.
+> Kayıt notu: Bu metin deney çalıştırılmadan önce yazılmıştır. Görüntü kimlikleri önceki veri setine göredir (metindeki K2 düşük ışık → yeni K1; K3 küçük baret → yeni K2; "başları görünmeyen K1" → artık G2). Yeni yapıdaki dosyalar: `kaynak/renk.py`, `ayarlar/deney_ayarlari.json`, `defterler/03_hsv_segmentasyonu.ipynb`, `sonuclar/temel_sonuclar.csv`, `sonuclar/maskeler/`.

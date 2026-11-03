@@ -1,0 +1,13 @@
+kimlik,bolum,kosul,yontem,dogru_sinif,kural_sinifi,dogru_mu,maske_alani_yuzde,bas_ortusmesi_yuzde,aday_kutu,tp,fp,fn,eslesen_iou,piksel_kesinlik_yuzde,piksel_duyarlilik_yuzde
+G1,gelistirme,"Gün ışığı; sarı baret başta, yüz net görünür (normal ışık)",RGB,basta_baret,basta_baret,evet,4.79,36.48,24,1,23,0,0.85,N/A,N/A
+G1,gelistirme,"Gün ışığı; sarı baret başta, yüz net görünür (normal ışık)",HSV,basta_baret,basta_baret,evet,4.69,33.76,10,1,9,0,0.85,N/A,N/A
+G2,gelistirme,"Gün ışığı; baş görünür, kumaş şapka, baret yok",RGB,baret_yok,baret_yok,evet,0.00,0.00,0,0,0,0,-,N/A,N/A
+G2,gelistirme,"Gün ışığı; baş görünür, kumaş şapka, baret yok",HSV,baret_yok,baret_yok,evet,0.00,0.00,0,0,0,0,-,N/A,N/A
+K1,kontrol,"Loş, soğuk mavi iç mekân ışığı; sarı baret başta; sarı-yeşil reflektif yelek",RGB,basta_baret,baret_yok,hayir,0.40,6.08,2,0,2,1,-,N/A,N/A
+K1,kontrol,"Loş, soğuk mavi iç mekân ışığı; sarı baret başta; sarı-yeşil reflektif yelek",HSV,basta_baret,baret_yok,hayir,0.81,12.69,1,1,0,0,0.81,N/A,N/A
+K2,kontrol,Uzak; küçük baş ve baret,RGB,basta_baret,baret_yok,hayir,0.03,17.74,3,0,3,2,-,N/A,N/A
+K2,kontrol,Uzak; küçük baş ve baret,HSV,basta_baret,baret_yok,hayir,0.03,17.88,3,1,2,1,0.65,N/A,N/A
+K3,kontrol,"Gün ışığı; başı açık işçi (kumaş şapka), sarı-turuncu iş makinesi (aynı renkte nesne)",RGB,baret_yok,baret_var_basta_degil,hayir,2.65,0.00,27,0,27,0,-,N/A,N/A
+K3,kontrol,"Gün ışığı; başı açık işçi (kumaş şapka), sarı-turuncu iş makinesi (aynı renkte nesne)",HSV,baret_yok,baret_yok,evet,1.46,2.57,33,0,33,0,-,N/A,N/A
+K4,kontrol,"Gün ışığı; sarı baret elde, başı açık ve görünür",RGB,baret_var_basta_degil,baret_var_basta_degil,evet,17.59,2.61,14,1,13,0,0.91,N/A,N/A
+K4,kontrol,"Gün ışığı; sarı baret elde, başı açık ve görünür",HSV,baret_var_basta_degil,baret_var_basta_degil,evet,17.01,0.00,2,1,1,0,0.91,N/A,N/A

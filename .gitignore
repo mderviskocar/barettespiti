@@ -17,3 +17,4 @@ Desktop.ini
 _silinecek/
 sunum/kayitlar/*
 !sunum/kayitlar/.gitkeep
+tmp/

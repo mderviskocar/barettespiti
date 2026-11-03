@@ -1,4 +1,32 @@
-# Ahmet — Gaussian Blur görsel deney notu
+# Ahmet — Gaussian Blur ve renk tabanlı sınıflandırma dayanıklılığı
+
+- **Deney kimliği:** `ahmet_gaussian_blur`.
+- **Görüntüler:** G1/G2 geliştirme, K1–K4 kontrol görüntüleridir. Gaussian Blur deneyi, sabitlenmiş kontrol görüntüleri üzerinde yürütülecektir.
+
+- **Deney öncesi tahmin:** Gaussian Blur'un sigma değeri arttıkça görüntüdeki keskin renk geçişlerinin yumuşamasını ve özellikle küçük veya düşük ışıkta bulunan baretlerde RGB/HSV maske alanlarının değişmesini bekliyorum. Bulanıklaştırmanın bazı küçük maske parçalarını ortadan kaldırabileceğini, birbirine yakın bölgeleri birleştirebileceğini ve baş ROI örtüşmesindeki değişimlerin sınıflandırma kararını etkileyebileceğini öngörüyorum.
+
+- **Küçük baret ve bulanıklık hipotezi:** K3'teki küçük baretlerin görüntüde sınırlı sayıda piksel kaplaması nedeniyle yüksek sigma değerlerinden daha fazla etkilenmesini bekliyorum. Özellikle σ=3.0 seviyesinde baret sınırlarının çevredeki renklerle karışması ve baş ROI içerisindeki maskeli piksel oranının azalması olasıdır.
+
+- **Düşük ışık hipotezi:** K2'de baretin düşük aydınlatma nedeniyle renk eşiklerine yakın pikseller içerebileceğini düşünüyorum. Gaussian Blur sonucunda bu piksellerin komşu renklerle karışması, RGB ve HSV yöntemlerinde farklı büyüklükte maske değişimlerine yol açabilir.
+
+- **Maske bütünlüğü ve sınıflandırma hipotezi:** Düşük sigma değerlerinde gürültü niteliğindeki küçük renk bölgelerinin azalabileceğini, yüksek sigma değerlerinde ise gerçek baret ayrıntılarının da kaybolabileceğini öngörüyorum. Bu nedenle Gaussian Blur'un her görüntüde sınıflandırmayı iyileştirmesini beklemiyorum; bazı durumlarda karar değişebilirken bazı durumlarda aynı kalabilir.
+
+- **Deney ayarları:** Gaussian çekirdek boyutu 15×15 olarak sabittir. Bağımsız değişken sigma olup filtresiz referans σ=0 ve filtreli seviyeler σ=0.5, 1.5, 3.0 olarak belirlenmiştir. Görüntü çözünürlüğü, baş ROI koordinatları, RGB/HSV eşikleri ve ortak sınıflandırma kuralları sabit tutulacaktır.
+
+- **Ölçülecek sonuçlar:** Her kontrol görüntüsünde RGB/HSV maske alanı yüzdesi, baş ROI örtüşme yüzdesi, tahmin edilen sınıf ve ground truth ile eşleşme durumu karşılaştırılacaktır. Baş ROI bulunmayan K1 görüntüsünde örtüşme sonucu N/A olarak kaydedilecektir.
+
+- **Beklenen sınırlılıklar:** Gaussian Blur küçük görüntülerde kaybolmuş ayrıntıları geri getirmez ve renk maskesinin gerçek bir baret nesnesini tanımasını sağlamaz. Olası iyileşmelerin veya başarısızlıkların yalnızca mevcut altı görüntülük veri seti kapsamında yorumlanması gerekir.
+
+- **Sonraki kontrol:** Gaussian Blur uygulanmamış referans görüntü ile farklı sigma seviyelerindeki maske ve sınıflandırma sonuçları karşılaştırılarak ön tahminler değerlendirilecektir.
+
+- **Yeniden üretim:** `src/gaussian_blur.py`, `notebooks/ahmet_gaussian_blur.ipynb` ve `results/gaussian_blur/` kullanılacaktır.
+
+> Kayıt notu: Bu metin deney çalıştırılmadan önce yazılmıştır. Görüntü kimlikleri önceki veri setine göredir (metindeki K3 küçük baretler → yeni K2; K2 düşük ışık → yeni K1; "baş ROI bulunmayan K1" → yeni veri setinde tüm kontrol görüntülerinde baş ROI var). Yeni yapıdaki dosyalar: `kaynak/bulaniklik.py`, `defterler/04_bulaniklik.ipynb`, `sonuclar/bulaniklik/`.
+
+---
+
+## Önceki görsel inceleme notu (2 Kasım, önceki veri seti)
+
 
 ## Deneyin amacı
 

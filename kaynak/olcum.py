@@ -81,7 +81,7 @@ def kutulari_degerlendir(tahminler, gercekler, iou_esigi=0.5):
 
 
 def piksel_karsilastir(renk_maskesi, baret_maskesi):
-    """Renk maskesini fırçayla boyanmış gerçek baret maskesiyle piksel düzeyinde karşılaştırır.
+    """Renk maskesini piksel düzeyi gerçek baret maskesiyle karşılaştırır (aralık kalibrasyonunda kullanılır).
 
     kesinlik : renkli piksellerin yüzde kaçı gerçekten baret (düşükse: yanlış alarm, H1)
     duyarlilik: baret piksellerinin yüzde kaçı yakalandı (düşükse: kaçırma)

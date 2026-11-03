@@ -1,7 +1,7 @@
 """Renk aralığı ve karar eşiklerini YALNIZCA geliştirme görüntülerinde (G1, G2) ölçer.
 
 Kullanım:  python betikler/aralik_kalibrasyonu.py
-Fırçayla boyanmış G1 baret maskesi ve G1/G2 baş ROI'leri gerekir. Kontrol görüntüleri
+G1/G2 baş ROI'leri (betikler/kutu_ciz.py) ve aralık seçiminde kullanılan G1 baret piksel maskesi (etiketler/kalibrasyon) kullanılır. Kontrol görüntüleri
 (K1-K4) hiç okunmaz. Çıktı:
   1) G1 baret piksellerinin RGB ve HSV dağılımı (yüzdelik 2-98) -> aralık önerisi
   2) Mevcut ayardaki aralıkla G1/G2 ölçümü: baret piksel yakalama, yanlış renkli alan,
@@ -21,14 +21,22 @@ import numpy as np  # noqa: E402
 from kaynak.olcum import alan_ve_ortusme, piksel_karsilastir  # noqa: E402
 from kaynak.renk import renk_maskesi  # noqa: E402
 from kaynak.siniflandirma import sinifla  # noqa: E402
-from kaynak.veri import ayarlari_oku, goruntu_oku, maske_oku, veri_setini_oku  # noqa: E402
+from kaynak.veri import ayarlari_oku, goruntu_oku, veri_setini_oku  # noqa: E402
+
+def kalibrasyon_maskesi(kimlik):
+    """Aralık seçiminde kullanılan baret piksel maskesi (etiketler/kalibrasyon); yoksa None."""
+    yol = KOK / "etiketler" / "kalibrasyon" / f"{kimlik}_baret_firca.png"
+    if not yol.is_file():
+        return None
+    return (cv2.imdecode(np.frombuffer(yol.read_bytes(), np.uint8), cv2.IMREAD_GRAYSCALE) > 127).astype(np.uint8) * 255
+
 
 ayarlar = ayarlari_oku()
 gelistirme = veri_setini_oku("gelistirme")
 print("Yalnızca geliştirme görüntüleri:", [k["kimlik"] for k in gelistirme])
 
 for k in gelistirme:
-    baret = maske_oku(k["kimlik"], "baret")
+    baret = kalibrasyon_maskesi(k["kimlik"])
     if baret is None or not baret.any():
         continue
     g = goruntu_oku(k["dosya"])
@@ -41,7 +49,7 @@ for k in gelistirme:
 print("\nMevcut aralık ve kuralla geliştirme ölçümü:")
 for k in gelistirme:
     g = goruntu_oku(k["dosya"])
-    baret = maske_oku(k["kimlik"], "baret")
+    baret = kalibrasyon_maskesi(k["kimlik"])
     for uzay in ("RGB", "HSV"):
         m = renk_maskesi(g, uzay, ayarlar["renk_araliklari"])
         alan, ortusme = alan_ve_ortusme(m, k["bas_roi"])

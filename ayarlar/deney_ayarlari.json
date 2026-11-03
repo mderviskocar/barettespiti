@@ -16,8 +16,9 @@
     "belirsiz": "Belirsiz: baş görünmüyor, nesne çok küçük veya görüntü çok karanlık"
   },
   "renk_araliklari": {
-    "dondurulmus": false,
-    "not": "Veri seti değişti: aralıklar yeni G1/G2 üzerinde betikler/aralik_kalibrasyonu.py ile yeniden seçilip dondurulacak (Omar: RGB, Derviş: HSV). Aşağıdaki değerler önceki veri setinde dondurulmuş başlangıç aralıklarıdır. K1-K4 sonucu görüldükten sonra değiştirilmez.",
+    "dondurulmus": true,
+    "secim_tarihi": "2026-11-03",
+    "not": "Aralıklar yalnızca G1/G2 geliştirme görüntülerinde seçilip K1-K4 çalıştırılmadan önce donduruldu (yönerge 5a). K1-K4 sonucu görüldükten sonra değiştirilmez.",
     "RGB": {
       "alt": [
         180,
@@ -28,28 +29,31 @@
         255,
         255,
         120
-      ]
+      ],
+      "gerekce": "Ekibin ortak başlangıç RGB aralığı. G1'deki baret piksellerinin (etiketler/kalibrasyon/G1_baret_firca.png)  %84.9'unu yakalıyor; renkli piksellerin %58.4'ü baret. G2'de seçilen alan %0."
     },
     "HSV": {
       "alt": [
         18,
-        80,
+        120,
         80
       ],
       "ust": [
-        50,
+        30,
         255,
         255
       ],
-      "aciklama": "OpenCV 8-bit: H 0-179, S ve V 0-255"
+      "aciklama": "OpenCV 8-bit: H 0-179, S ve V 0-255",
+      "gerekce": "Ödev yönergesindeki örnek aralık (H 18-30, S > 120, V > 80). G1'deki baret piksellerinin (etiketler/kalibrasyon/G1_baret_firca.png)  %87.1'ini yakalıyor ve renkli piksellerin %61.1'i baret; önceki başlangıç aralığı [18,80,80]-[50,255,255] %91.2 yakalayıp yalnızca %41.5 kesinlik veriyordu. G2'de seçilen alan %0."
     }
   },
   "karar_kurali": {
-    "dondurulmus": false,
+    "dondurulmus": true,
     "en_az_renk_alani_yuzde": 2.5,
     "en_az_bas_ortusmesi_yuzde": 5.0,
     "kural": "1) Baş görünmüyorsa (bas_roi yok): belirsiz. 2) Görüntüdeki renkli alan < %2.5: baret_yok. 3) Baş bölgesindeki renkli piksel oranı >= %5: basta_baret. 4) Aksi halde: baret_var_basta_degil. Renk maskesi baret nesnesini kanıtlamaz; kural yalnızca renk ve konuma bakar.",
-    "not": "Eşikler yeni G1/G2 ölçümleriyle gözden geçirilip renk aralıklarıyla birlikte dondurulacak."
+    "not": "Eşikler (%2.5 alan, %5 baş örtüşmesi) ekibin ortak başlangıç kuralıdır; yeni G1/G2 ile kontrol edildi ve K1-K4 öncesi donduruldu. G1: RGB alan %4.79 / örtüşme %36.48, HSV alan %4.69 / örtüşme %33.76 -> basta_baret (doğru). G2: iki yöntemde de renkli alan %0.00 < %2.5 -> baret_yok (doğru; baş ROI çizildiğinde).",
+    "secim_tarihi": "2026-11-03"
   },
   "kutu_degerlendirme": {
     "dondurulmus": true,

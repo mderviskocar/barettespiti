@@ -220,7 +220,7 @@ def main():
     eksik = [k["kimlik"] for k in tum if not str(k.get("etiket_durumu", "tamam")).startswith("tamam")]
     if eksik:
         raise SystemExit("Etiketi tamamlanmamış görüntüler: " + ", ".join(eksik) +
-                         ". Önce: python betikler/etiket_boyama.py ve python betikler/etiketleri_uret.py --yaz")
+                         ". Önce: python betikler/kutu_ciz.py")
     kontrol = [k for k in tum if k["bolum"] == "kontrol"]
     temel = temel_deney(tum, ayarlar)
     bulanik = bulaniklik_deneyi(kontrol, ayarlar)

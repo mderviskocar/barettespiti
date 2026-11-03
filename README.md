@@ -13,17 +13,16 @@ Bu çalışmada altı görüntülük küçük bir veri setinde **renk tabanlı b
 2. **Dört sınıflı karar** — renkli alan ve elle işaretlenmiş baş bölgesiyle örtüşme:
    baş görünmüyor → *belirsiz*; renkli alan < %2.5 → *baret yok*; baş örtüşmesi ≥ %5 → *başta baret*; aksi halde → *baret var, başta değil*.
 3. **Kutu düzeyi sayım** — maskenin bağlı bileşenleri aday kutu; elle çizilmiş baret kutularıyla IoU ≥ 0.50 → TP / FP / FN.
-4. **Piksel karşılaştırması** — fırçayla boyanmış gerçek baret maskesiyle kesinlik ve duyarlılık (renkli bölge ≠ baret nesnesi, H1).
-5. **Tek değişkenli deneyler** — Gaussian Blur (σ) ve küçültme (ölçek katsayısı); diğer her şey sabit.
+4. **Tek değişkenli deneyler** — Gaussian Blur (σ) ve küçültme (ölçek katsayısı); diğer her şey sabit.
 
 ## Klasör yapısı
 | Klasör | İçerik |
 |---|---|
 | `veri/` | `gelistirme/` (G1–G2), `kontrol/` (K1–K4), `kaynaklar.csv` (kaynak, lisans, çözünürlük) |
-| `etiketler/` | `gercek_etiketler.json` (sınıf, gerekçe, baş ROI, baret kutuları), `maskeler/` (fırça maskeleri), `onizlemeler/` |
+| `etiketler/` | `gercek_etiketler.json` (sınıf, gerekçe, elle çizilmiş baş ROI ve baret kutuları), `onizlemeler/`, `kalibrasyon/` (aralık seçiminde kullanılan G1 baret pikselleri) |
 | `ayarlar/` | `deney_ayarlari.json` — dondurulmuş renk aralıkları, karar kuralı, bulanıklık ve ölçek parametreleri |
 | `kaynak/` | Ortak kod: `renk.py`, `siniflandirma.py`, `olcum.py`, `kutular.py`, `bulaniklik.py`, `olcek.py`, `analiz.py`, `gorsel.py`, `veri.py` |
-| `betikler/` | `etiket_boyama.py`, `etiketleri_uret.py`, `deneyleri_calistir.py`, `defterleri_calistir.py`, `canli_demo.py`, `dogrula.py` |
+| `betikler/` | `kutu_ciz.py`, `aralik_kalibrasyonu.py`, `deneyleri_calistir.py`, `defterleri_calistir.py`, `canli_demo.py`, `dogrula.py` |
 | `defterler/` | `00_canli_demo` ve üye defterleri (01–06) |
 | `sonuclar/` | `sonuc_tablosu.csv/.md`, `temel_sonuclar.csv`, `maskeler/`, `kutular/`, `bulaniklik/`, `olcek/`, `ozet.json` |
 | `belgeler/` | `tahminler.csv`, `deney_protokolu.md`, `bireysel_not_sablonu.md`, `yapay_zeka_beyani.md` |
@@ -41,7 +40,7 @@ Kimin ne yaptığının GitHub geçmişine dayalı kaydı: [`belgeler/katkilar.m
 | Derviş | HSV segmentasyonu, RGB karşılaştırması | `03_hsv_segmentasyonu` |
 | Ahmet | Gaussian Blur deneyi | `04_bulaniklik` |
 | Efe | Küçültme / ölçek deneyi | `05_olcek` |
-| Murathan | Kutu değerlendirmesi, TP/FP/FN, piksel karşılaştırması | `06_kutu_degerlendirme` |
+| Murathan | Kutu değerlendirmesi, TP/FP/FN, hata analizi | `06_kutu_degerlendirme` |
 
 ## Çalıştırma
 ```bash
@@ -52,7 +51,7 @@ python betikler/deneyleri_calistir.py      # bütün deneyler + sonuç tablosu
 python betikler/defterleri_calistir.py     # defterleri çıktılarıyla yeniden üretir
 python betikler/canli_demo.py K3           # canlı demo (yeni görüntü için dosya yolu verin)
 ```
-Etiketleme: `python betikler/etiket_boyama.py` → `python betikler/etiketleri_uret.py --yaz` · Aralık seçimi (yalnızca G1/G2): `python betikler/aralik_kalibrasyonu.py`
+Etiketleme (yönerge 5b, 6b — elle): `python betikler/kutu_ciz.py` · Aralık seçimi (yalnızca G1/G2): `python betikler/aralik_kalibrasyonu.py`
 
 ## Sonuç tablosu
 `sonuclar/sonuc_tablosu.md` — Görüntü · Koşul · Doğru sınıf · Kuralın sınıfı · Maske alanı · TP / FP / FN. Tablo `deneyleri_calistir.py` tarafından üretilir; elle düzenlenmez.

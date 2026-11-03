@@ -1,0 +1,18 @@
+{
+  "RGB": {
+    "sinif_dogru": 1,
+    "sinif_toplam": 4,
+    "tp": 1,
+    "fp": 45,
+    "fn": 3
+  },
+  "HSV": {
+    "sinif_dogru": 2,
+    "sinif_toplam": 4,
+    "tp": 3,
+    "fp": 36,
+    "fn": 1
+  },
+  "bulaniklik_sinif_degisimi": [],
+  "olcek_sinif_degisimi": []
+}

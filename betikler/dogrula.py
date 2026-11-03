@@ -31,7 +31,7 @@ for k in kayitlar:
     kontrol("BELİRTİLECEK" not in (k.get("kaynak_url", "") + k.get("lisans", "")),
             f"{k['kimlik']}: kaynak URL'si ve lisans yazılmalı (veri/kaynaklar.csv).", uyari=True)
     kontrol(str(k.get("etiket_durumu", "tamam")).startswith("tamam"),
-            f"{k['kimlik']}: etiket henüz boyanmadı (betikler/etiket_boyama.py).", uyari=True)
+            f"{k['kimlik']}: baş/baret kutuları henüz çizilmedi (betikler/kutu_ciz.py).", uyari=True)
     try:
         g = goruntu_oku(k["dosya"])
         kontrol(g.shape[1] == k["genislik"] and g.shape[0] == k["yukseklik"], f"{k['kimlik']}: çözünürlük kaynak listesiyle uyuşmuyor.")
