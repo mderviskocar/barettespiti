@@ -32,7 +32,17 @@ with (KOK / "sonuclar/temel_sonuclar.csv").open(encoding="utf-8-sig", newline=""
 
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
     name = "arialbd.ttf" if bold else "arial.ttf"
-    return ImageFont.truetype(str(Path("C:/Windows/Fonts") / name), size)
+    windows = Path("C:/Windows/Fonts") / name
+    try:
+        return ImageFont.truetype(str(windows), size)
+    except OSError:
+        pass
+    # Windows dışı ortamda metrik olarak Arial ile aynı Liberation Sans kullanılır
+    yedek = "LiberationSans-Bold.ttf" if bold else "LiberationSans-Regular.ttf"
+    for klasor in ("/usr/share/fonts/truetype/liberation2", "/usr/share/fonts/truetype/liberation"):
+        if (Path(klasor) / yedek).is_file():
+            return ImageFont.truetype(str(Path(klasor) / yedek), size)
+    return ImageFont.truetype("DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf", size)
 
 
 def foto(kimlik: str) -> Image.Image:
@@ -90,7 +100,7 @@ def maske_izgarasi() -> Path:
                 "basta_baret": "Başta baret",
                 "belirsiz": "Belirsiz",
             }[result["kural_sinifi"]]
-            draw.text((x + 12, y + 233), f"Alan %{float(result['maske_alani_yuzde']):.2f}",
+            draw.text((x + 12, y + 233), f"Alan %{float(result['maske_alani_yuzde']):.2f}".replace(".", ","),
                       fill="#132b40", font=font(23, True))
             draw.text((x + 12, y + 259), f"{short_class}  •  {label}",
                       fill="#11657b" if label == "Doğru" else "#a64138", font=font(20, True))

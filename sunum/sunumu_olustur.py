@@ -16,7 +16,7 @@ from PIL import Image
 
 KOK = Path(__file__).resolve().parents[1]
 OUT = KOK / "sunum" / "baret_tespiti_sunum.pptx"
-FONT = "Aptos"
+FONT = "Arial"  # Windows ve LibreOffice (Liberation Sans) aynı ölçülerle çizer
 NAVY = RGBColor(18, 43, 64)
 TEAL = RGBColor(7, 120, 136)
 ORANGE = RGBColor(209, 105, 30)
@@ -122,6 +122,7 @@ def notes(slide, body: str):
 s = base("Baret var mı? Başta mı?", 1, "Nesli", 4)
 picture(s, "sunum/gorseller/alti_goruntu_anotasyon.png", 0.56, 1.12, 12.18, 4.72)
 txt(s, "2 geliştirme  +  4 kontrol görüntüsü", 0.69, 5.93, 6.0, 0.42, 22, TEAL, True)
+txt(s, "Renk tabanlı başlangıç yöntemi · hazır dedektör yok", 7.05, 5.93, 5.7, 0.42, 18, ORANGE, True)
 txt(s, "Başta baret  •  Başta değil  •  Baret yok  •  Belirsiz",
     0.69, 6.40, 11.9, 0.37, 18, NAVY)
 notes(s, """
@@ -138,9 +139,9 @@ Kaynak: veri/kaynaklar.csv; etiketler/gercek_etiketler.json; belgeler/tahminler.
 s = base("Aynı görüntü, iki renk yöntemi", 2, "Omar · Derviş", 4)
 picture(s, "sunum/gorseller/sekiz_maske.png", 0.57, 1.12, 12.15, 4.58)
 txt(s, "RGB  1/4 doğru", 0.72, 5.81, 3.0, 0.45, 25, TEAL, True)
-txt(s, "HSV  2/4 doğru", 3.65, 5.81, 3.0, 0.45, 25, ORANGE, True)
-txt(s, "Alan <%2,5 → baret yok   |   ROI ≥%5 → başta baret",
-    0.72, 6.33, 11.6, 0.42, 18, NAVY)
+txt(s, "HSV  2/4 doğru", 4.05, 5.81, 3.0, 0.45, 25, ORANGE, True)
+txt(s, "Kural:  baş yok → belirsiz  |  alan <%2,5 → baret yok  |  baş örtüşmesi ≥%5 → başta baret  |  aksi → başta değil",
+    0.72, 6.33, 12.0, 0.42, 15, NAVY)
 notes(s, """
 OMAR — BİREYSEL DENEY ANLATIMI (yaklaşık 1 dakika)
 RGB'de sarı baret rengini sabit alt ve üst kanal sınırlarıyla seçtim. Güncel ortak aralık alt 180, 140, 0 ve üst 255, 255, 120; bu aralık geliştirme görüntülerinde seçilip kontrol öncesi donduruldu. Tahminimde sabit RGB'nin loş ışıkta ve küçük uzaktaki barette zorlanacağını, eldeki baretin de yanlış baş kararı üretebileceğini yazmıştım. Kontrolde K1 ve K2 gerçekten “baret yok” tahmini aldı; K4 ise doğru biçimde “baret var, başta değil” çıktı. K3'te sarı iş makinesi RGB maskesinde yüzde 2,65 alan oluşturdu ve yanlış alarm doğurdu. Sonuç dört kontrolden biri doğru; daha geniş bir başarı iddiası değil.
@@ -186,7 +187,7 @@ txt(s, "RGB 27 yanlış kutu\nHSV 33 yanlış kutu", 8.18, 2.18, 4.45, 1.25, 25,
 rect(s, 8.20, 3.80, 4.20, 0.027, RGBColor(213, 225, 230))
 txt(s, "K1–K4 toplamı", 8.18, 4.07, 4.45, 0.38, 18, MUTED, True)
 txt(s, "RGB   1 TP / 45 FP / 3 FN\nHSV   3 TP / 36 FP / 1 FN", 8.18, 4.57, 4.50, 0.92, 21, NAVY, True)
-txt(s, "Aday kutular renk maskesinden;\nhazır nesne dedektörü yok.", 8.18, 5.72, 4.45, 0.73, 17, MUTED)
+txt(s, "Neden: yöntem yalnızca renge bakıyor.\nSonraki kontrol: aday kutulara şekil\nölçütü (en–boy, doluluk), G1/G2'de.", 8.18, 5.55, 4.50, 1.05, 15, MUTED)
 notes(s, """
 MURATHAN — BİREYSEL DENEY ANLATIMI (yaklaşık 1 dakika)
 Ben renk maskelerinin bağlı bileşenlerinden aday kutular çıkardım. Elle çizilmiş gerçek baret kutularıyla IoU en az 0,50 olacak biçimde bire bir eşleştirdim: eşleşen TP, eşleşmeyen aday FP, bulunamayan gerçek baret FN. Ön tahminimde sarı ekipman ve yeleklerin yanlış kutu üreteceğini, elde tutulan baretin ise kutu olarak bulunsa da başta sayılmayacağını yazmıştım. K1–K4 toplamında RGB bir TP, kırk beş FP ve üç FN; HSV üç TP, otuz altı FP ve bir FN verdi. K4'te eldeki baret her iki yöntemde de TP, fakat görüntü sınıfı “baret var, başta değil”dir.
@@ -198,8 +199,37 @@ Kaynak: sonuclar/temel_sonuclar.csv; sonuclar/ozet.json; ayarlar/deney_ayarlari.
 """)
 
 # 5 — Canlı demo
-s = base("Canlı uygulama: aynı dondurulmuş kural", 5, "Nesli · Murathan", 4)
-picture(s, "sonuclar/kutular/K2_hsv.png", 0.61, 1.15, 7.77, 5.55)
+s = base("Sonuç tablosu ve canlı uygulama", 5, "Nesli · Murathan", 4)
+SINIF = {"basta_baret": "Başta baret", "baret_var_basta_degil": "Başta değil", "baret_yok": "Baret yok", "belirsiz": "Belirsiz"}
+KOSUL = {"K1": "Loş ışık", "K2": "Uzak, küçük", "K3": "Sarı makine", "K4": "Elde baret"}
+basliklar = ["Görüntü", "Koşul", "Doğru sınıf", "Yöntem", "Kuralın sınıfı", "Maske alanı", "TP / FP / FN"]
+satirlar = []
+for kimlik in ("K1", "K2", "K3", "K4"):
+    for yontem in ("RGB", "HSV"):
+        r = temel[kimlik, yontem]
+        satirlar.append([kimlik, KOSUL[kimlik], SINIF[r["dogru_sinif"]], yontem,
+                         SINIF[r["kural_sinifi"]] + ("" if r["dogru_mu"] == "evet" else " ✗"),
+                         "%" + r["maske_alani_yuzde"].replace(".", ","), f"{r['tp']} / {r['fp']} / {r['fn']}"])
+tablo = s.shapes.add_table(len(satirlar) + 1, len(basliklar), Inches(0.58), Inches(1.18),
+                           Inches(7.85), Inches(5.35)).table
+genislik = [0.85, 1.20, 1.15, 0.80, 1.40, 1.05, 1.40]
+for j, w in enumerate(genislik):
+    tablo.columns[j].width = Inches(w)
+for i, satir in enumerate([basliklar] + satirlar):
+    for j, deger in enumerate(satir):
+        hucre = tablo.cell(i, j)
+        hucre.text = str(deger)
+        hucre.margin_left = hucre.margin_right = Inches(0.04)
+        para = hucre.text_frame.paragraphs[0]
+        para.alignment = PP_ALIGN.CENTER
+        for run in para.runs:
+            run.font.name = FONT
+            run.font.size = Pt(12 if i else 12)
+            run.font.bold = i == 0 or j == 0
+            run.font.color.rgb = WHITE if i == 0 else (ORANGE if "✗" in str(deger) else NAVY)
+        hucre.fill.solid()
+        hucre.fill.fore_color.rgb = TEAL if i == 0 else (PALE if (i - 1) // 2 % 2 == 0 else WHITE)
+txt(s, "✗ = kuralın sınıfı yanlış  •  TP/FP/FN: IoU ≥ 0,50 (renk maskesi kutuları)", 0.60, 6.60, 7.9, 0.32, 11, MUTED)
 txt(s, "1  Görüntü / baş ROI", 8.55, 1.45, 4.0, 0.48, 22, TEAL, True)
 txt(s, "2  RGB ve HSV maskeleri", 8.55, 2.24, 4.0, 0.48, 22, TEAL, True)
 txt(s, "3  Alan → örtüşme → sınıf", 8.55, 3.03, 4.1, 0.48, 22, TEAL, True)
@@ -208,12 +238,15 @@ rect(s, 8.52, 5.12, 4.20, 0.93, PALE)
 txt(s, "python betikler/canli_demo.py K3", 8.69, 5.25, 3.88, 0.65, 16, NAVY, True)
 txt(s, "Yeni görüntüde etiket yoksa TP/FP/FN hesaplanmaz.", 8.55, 6.23, 4.12, 0.44, 13, MUTED)
 notes(s, """
+SONUÇ TABLOSU (yönerge 8b)
+Soldaki tablo hocanın istediği sütunları taşır: görüntü, koşul, doğru sınıf, kuralın sınıfı, maske alanı ve TP/FP/FN. Sınıf doğruluğu RGB'de 1/4, HSV'de 2/4; kutu düzeyinde RGB 1/45/3, HSV 3/36/1. İki ölçü ayrı tutulur. Tablo sonuclar/sonuc_tablosu.md dosyasıyla aynıdır.
+
 CANLI UYGULAMA — NESLİ VE MURATHAN (yaklaşık 4 dakika)
 Öğretim elemanının seçtiği görüntüyü betikler/canli_demo.py dosyasına vereceğiz. Veri setindeki K1, K2, K3 veya K4 kimliğiyle çağrılırsa kayıtlı baş ROI ve gerçek kutular okunur. Dosya yolu verilirse baş bölgesi ekranda fareyle seçilir; baş görünmüyorsa Esc ile belirsiz kararı verilebilir. Yeni görüntüde gerçek etiket bulunmadığı için doğru/yanlış, TP/FP/FN veya başarı oranı üretmeyeceğiz.
 
 Önce orijinal görüntüyü ve hedef baş ROI'sini gösterin. Ardından RGB ve HSV maske bindirmelerini, tüm görüntüdeki renkli alan yüzdesini ve baş ROI örtüşmesini ayrı ayrı okuyun. Kural sırayla baş ROI'nin varlığını, yüzde 2,5 alan sınırını ve yüzde 5 örtüşme sınırını kullanır. Son olarak renk maskesinden çıkan aday kutuları gösterin; bunların hazır bir dedektör çıktısı olmadığını vurgulayın. Öğretim elemanı mevcut K3'ü seçerse RGB'nin benzer renkli makinede yanlış alarm verdiğini gösteren mevcut sonuca bağlayın; yeni bir görüntü seçerse o anki çıktıyı önceden bilinmeyen bir sonuç olarak yorumlayın. Demo için gerekirse defterler/00_canli_demo.ipynb kullanılabilir, fakat sunum slaytlarla yürür.
 
-Kaynak: betikler/canli_demo.py; kaynak/analiz.py; ayarlar/deney_ayarlari.json; sonuclar/kutular/K2_hsv.png.
+Kaynak: sonuclar/temel_sonuclar.csv; sonuclar/sonuc_tablosu.md; betikler/canli_demo.py; kaynak/analiz.py; ayarlar/deney_ayarlari.json.
 """)
 
 # 6 — Sonuç ve sınırlar
