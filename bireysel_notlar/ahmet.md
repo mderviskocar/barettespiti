@@ -23,6 +23,28 @@
 
 > Kayıt notu: Bu metin deney çalıştırılmadan önce yazılmıştır. Görüntü kimlikleri önceki veri setine göredir (metindeki K3 küçük baretler → yeni K2; K2 düşük ışık → yeni K1; "baş ROI bulunmayan K1" → yeni veri setinde tüm kontrol görüntülerinde baş ROI var). Yeni yapıdaki dosyalar: `kaynak/bulaniklik.py`, `defterler/04_bulaniklik.ipynb`, `sonuclar/bulaniklik/`.
 
+## Güncel ölçümlerin ön tahminle karşılaştırılması (3 Kasım)
+
+`sonuclar/bulaniklik/bulaniklik_sonuclari.csv` içindeki 32 satırda K1–K4 için hiçbir RGB/HSV sınıf kararı sigma ile değişmedi. Küçük baretli güncel K2'de σ=0→3 baş ROI örtüşmesi RGB'de %17,74→%14,91 azalırken HSV'de %17,88→%22,85 arttı. Böylece yüksek sigma için öngörülen örtüşme azalması RGB'de desteklendi, HSV'de desteklenmedi. K2'nin toplam maske alanı RGB'de %0,03→%0,02 ve HSV'de %0,03→%0,04 oldu; bütün düzeyler ortak %2,5 alan eşiğinin altında kaldığı için karar her seferinde `baret_yok` (gerçek sınıf `basta_baret`).
+
+Düşük ışıklı güncel K1'de RGB alanı %0,40→%0,34, HSV alanı %0,81→%0,80 azaldı; kararlar değişmedi. Karmaşık arka planlı K3'te RGB alanı %2,65→%2,70 artarken HSV alanı %1,46→%1,26 azaldı; iki yöntemin etkisi aynı yönde değildi. Ön tahminin maske duyarlılığı kısmı destekleniyor; olası sınıf değişimi bu dört kontrolde görülmedi. Sunum görselleri `sonuclar/bulaniklik/sunum/` altındadır.
+
+---
+
+## Sonuç (güncel veri, 3 Kasım)
+
+Gaussian Blur deneyinde 15×15 kernel boyutunu sabit tutarak σ=0, 0.5, 1.5 ve 3.0 değerlerini karşılaştırdım. K1–K4 kontrol görüntülerinde RGB ve HSV maske alanlarını, baş ROI örtüşmelerini ve sınıflandırma kararlarını inceledim.
+
+Deney öncesinde, bulanıklık arttıkça küçük baretlerde baş örtüşmesinin azalabileceğini ve maske değişimlerinin bazı sınıflandırma kararlarını etkileyebileceğini öngörmüştüm.
+
+Sonuçlarda tahminim kısmen desteklendi. Güncel K2 görüntüsünde RGB baş örtüşmesi %17,74'ten %14,91'e düşerken HSV baş örtüşmesi %17,88'den %22,85'e çıktı. Maske alanları da değişti ancak K1–K4 görüntülerinin hiçbirinde RGB veya HSV sınıflandırma kararı değişmedi.
+
+Özellikle K2'de toplam maske alanı %2,5 eşiğinin altında kaldığı için baş örtüşmesindeki değişiklikler sınıflandırmaya yansımadı. Bu durum, küçük baretlerin görüntünün tamamı üzerinden hesaplanan alan oranıyla değerlendirilmesinin bir sınırlılık oluşturabileceğini gösterdi.
+
+Sonraki kontrol olarak, yeni geliştirme görüntülerinde maske alanını tüm görüntü yerine baş ROI çevresinde hesaplayan alternatif bir yaklaşımı denemeyi öneriyorum. Bu yaklaşımın küçük baretlerde yanlış negatifleri azaltıp azaltmadığı ayrıca ölçülmelidir.
+
+**Veri seti notu:** Ön tahminlerde geçen K3 küçük baret ifadesi önceki veri setine aittir. Güncel veri setindeki karşılığı K2'dir. Orijinal tahmin metni değiştirilmemiştir.
+
 ---
 
 ## Önceki görsel inceleme notu (2 Kasım, önceki veri seti)

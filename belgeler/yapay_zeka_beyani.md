@@ -53,6 +53,21 @@ Her üye sonraki AI kullanımlarında araç, amaç, etkilenen dosya/hücre ve ge
 - Etkilenen dosyalar: `defterler/02_rgb_segmentasyonu.ipynb`, `bireysel_notlar/omar.md`, `belgeler/yapay_zeka_beyani.md`.
 - Doğrulama: Sayıları `sonuclar/temel_sonuclar.csv` ve `sonuclar/sonuc_tablosu.md` ile karşılaştırdım (RGB 1/4); `python betikler/dogrula.py` hatasız çalıştı. Yorum cümlelerinin taslağını Claude Code yazdı; içeriği kontrol edip kendi görüşüm olarak kabul ettim. Tahminim (`rgb_baseline`) ve ayar dosyaları değiştirilmedi.
 
+### Ahmet — Bulanıklık deneyi
+
+- **Araç:** OpenAI Codex.
+- **Kullanım amacı:** Gaussian Blur deney defterinin çalıştırılması, mevcut sonuç dosyalarındaki ölçümlerin özetlenmesi ve kendi hazırladığım yorumların notebook ile bireysel notuma aktarılması.
+- **Etkilenen dosyalar:** `defterler/04_bulaniklik.ipynb`, `bireysel_notlar/ahmet.md`, `belgeler/yapay_zeka_beyani.md`.
+- **İnsan katkısı:** Deney sonuçlarına ilişkin değerlendirmeler, sınırlılık açıklaması ve sonraki kontrol önerisi tarafımdan belirlenmiştir.
+- **Doğrulama:** Sayısal değerler mevcut Gaussian Blur CSV dosyasıyla karşılaştırılmıştır. Notebook ve proje doğrulama betiğinin sonuçları ayrıca kontrol edilmiştir.
+
+## Ahmet — Sunum
+
+- **Araç:** OpenAI Codex.
+- **Amaç:** Projenin gerçek çıktılarını kullanarak altı slaytlık sunum, konuşmacı notları, görseller ve soru-cevap belgesi hazırlamak.
+- **Etkilenen dosyalar:** `sunum/` altındaki sunum, PDF, görseller, üretim betikleri ve soru-cevap dosyası.
+- **Doğrulama:** Sayısal değerler kaynak CSV ve JSON dosyalarıyla karşılaştırıldı; slayt sayısı, 16:9 oranı, altı Notes bölümü, PowerPoint paket bütünlüğü ve altı sayfalık PDF kontrol edildi. PDF slaytları görsel olarak incelendi.
+
 ## Efe — ölçek deneyi
 
 - Araç: OpenAI Codex.
