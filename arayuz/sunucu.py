@@ -289,7 +289,8 @@ def sekil_tek(g, uzay):
         "once": ozet(once, dogru), "sonra": so, "elenen": len(elenen), "nedenler": nedenler, "ornekler": ornekler,
         "once_gorsel": veri_url(kutulari_ciz(goruntu, once["adaylar"], kutular or [], once["degerlendirme"] or BOS, roi)),
         "sonra_gorsel": veri_url(sekil_kutulari_ciz(goruntu, sonra["adaylar"], kutular, sonra["degerlendirme"], roi, elenen)),
-        "maske_once": veri_url(maske_bindir(goruntu, ham)), "maske_sonra": veri_url(maske_bindir(goruntu, sonra["maske"])),
+        "maske_once": veri_url(maske_bindir(goruntu, ham, renk=(255, 0, 255))),
+        "maske_sonra": veri_url(maske_bindir(goruntu, sonra["maske"], renk=(255, 0, 255))),
     }
 
 

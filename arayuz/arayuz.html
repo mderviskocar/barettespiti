@@ -365,18 +365,18 @@ async function sekilCiz(){
      <div class="sayi">${st("", "Kalan aday", say(s.aday,"sayi"), 0, 1.5)}${st("kirmizi", "Elenen aday", say(d.elenen,"sayi"), 1, 1.5)}
      ${Object.entries(d.nedenler).map(([k,v],i) => st("amber", `Nedeni: ${k}`, say(v,"sayi"), i+2, 1.5)).join("")}</div>`]);
   A.push(["Sonuç: bu görüntüde ne değişti?",
-    `<div class="sira k2">${gecis(d.maske_once, d.maske_sonra, "<b>Renk maskesi → yalnızca şekli uyan bileşenler</b>", .4)}
+    `<div class="sira k2">${gecis(d.maske_once, d.maske_sonra, "<b>Renk maskesi → yalnızca şekli uyan bileşenler</b> (mor)", .4)}
      <div class="kadem">
        <div class="oncesonra" style="--i:0">${st("", "Aday (önce)", say(o.aday,"sayi"), 0, .2)}<span class="ok">→</span>${st("amber", "Aday (sonra)", say(s.aday,"sayi"), 1, .6)}</div>
        ${o.kutu ? `<div class="oncesonra" style="--i:1;margin-top:8px">${st("kirmizi", "FP (önce)", say(o.kutu.fp,"sayi"), 0, .5)}<span class="ok">→</span>${st("kirmizi", "FP (sonra)", say(s.kutu.fp,"sayi"), 1, .9)}</div>
        <div class="oncesonra" style="--i:2;margin-top:8px">${st("yesil", "TP (önce)", say(o.kutu.tp,"sayi"), 0, .8)}<span class="ok">→</span>${st("yesil", "TP (sonra)", say(s.kutu.tp,"sayi"), 1, 1.2)}</div>` : ""}
        <div class="oncesonra" style="--i:3;margin-top:8px">${st("", "Sınıf (önce)", `<span class="cip c-${o.sinif}">${esc(o.sinif_adi)}</span>`, 0, 1.1)}<span class="ok">→</span>${st(s.dogru_mu === false ? "kirmizi" : "yesil", "Sınıf (sonra)", `<span class="cip c-${s.sinif}">${esc(s.sinif_adi)}</span>${s.dogru_mu == null ? "" : s.dogru_mu ? ' <span class="dogru">✓</span>' : ' <span class="yanlis">✗</span>'}`, 1, 1.5)}</div>
-       ${d.etiketli ? `<p class="not" style="--i:4">Gerçek sınıf: ${esc(d.dogru_adi)} · renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p>` : `<p class="not" style="--i:4">Renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p>`}
+       ${d.etiketli ? `<p class="not" style="--i:4">Gerçek sınıf: ${esc(d.dogru_adi)} · renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p>` : `<p class="not" style="--i:4">Renkli alan ${fmt(o.alan)} → ${fmt(s.alan)}</p><p class="not" style="--i:5">Etiketsiz görüntü: hangi adayın gerçek baret olduğu bilinmediği için TP/FP/FN hesaplanmaz.${o.sinif === "belirsiz" ? " Baş bölgesi çizilmediği için kural “belirsiz” der; baret var/yok sorusunu yanıtlamak için baş bölgesi gerekir." : ""}</p>`}
      </div></div>`]);
   const T = d.toplam;
   const satir = (uz, i) => { const t = T[uz]; return `<tr style="--i:${i}"><td><b>${uz}</b></td><td>${t.tp[0]} → <b>${t.tp[1]}</b></td><td>${t.fp[0]} → <b>${t.fp[1]}</b></td><td>${t.fn[0]} → <b>${t.fn[1]}</b></td><td>${t.dogru[0]}/4 → <b>${t.dogru[1]}/4</b></td></tr>`; };
-  A.push(["Bütün kontrol görüntülerinde (K1–K4)",
-    `<table><tr><th>Uzay</th><th>TP</th><th>FP</th><th>FN</th><th>Doğru sınıf</th></tr>${satir("HSV",1)}${satir("RGB",2)}</table>
+  A.push(["Veri seti toplamı: kontrol görüntüleri K1–K4",
+    `${d.etiketli ? "" : '<p class="not">Bu tablo seçtiğiniz görüntüden değil, etiketli kontrol görüntülerinden (K1–K4) hesaplanır; şekil ölçütünün genel etkisini gösterir.</p>'}<table><tr><th>Uzay</th><th>TP</th><th>FP</th><th>FN</th><th>Doğru sınıf</th></tr>${satir("HSV",1)}${satir("RGB",2)}</table>
      <div class="sira k2 kadem" style="margin-top:12px;--g:.6s">
        <div class="formul-kart" style="--i:0"><b>Kazanç</b><br>Yanlış alarm yaklaşık yarıya iner (HSV ${T.HSV.fp[0]} → ${T.HSV.fp[1]}, RGB ${T.RGB.fp[0]} → ${T.RGB.fp[1]}). K3'te RGB'nin “baret var” yanlış kararı düzelir: sarı makine parçaları ince ve uzun olduğu için elenir.</div>
        <div class="formul-kart" style="--i:1"><b>Bedel</b><br>Küçük (K2, uzak) ve parçalı (K1, yansımalı) baretlerde şekil güvenilir ölçülemez; HSV'de TP ${T.HSV.tp[0]} → ${T.HSV.tp[1]} düşer. Sonraki adım: ölçmeden önce bileşenleri birleştirmek ve çok küçük bileşenlerde şekil yerine konumu (baş bölgesine yakınlık) kullanmak.</div></div>
