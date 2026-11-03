@@ -17,4 +17,5 @@ Desktop.ini
 _silinecek/
 sunum/kayitlar/*
 !sunum/kayitlar/.gitkeep
+!sunum/kayitlar/*.mp4
 tmp/

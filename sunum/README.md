@@ -29,5 +29,5 @@ Arayüzde öğretim elemanının seçtiği görüntü (veri setinden ya da yeni 
 
 ## Çevrimdışı kayıt
 
-- Kayıt: [`demo_kaydi.mp4`](demo_kaydi.mp4) — 54 sn, demo arayüzünün ekran kaydı (K1 ve K4 için HSV adımları: kanal dönüşümü, kanal kanal aralık testi, birleşik maske, baş örtüşmesi, karar kuralı, aday kutular ve TP/FP/FN).
+- Kayıt: [`kayitlar/demo_kaydi.mp4`](kayitlar/demo_kaydi.mp4) — 54 sn, demo arayüzünün ekran kaydı (K1 ve K4 için HSV adımları: kanal dönüşümü, kanal kanal aralık testi, birleşik maske, baş örtüşmesi, karar kuralı, aday kutular ve TP/FP/FN).
 - Canlı çalıştırmada sorun çıkarsa bu kayıt gösterilir.
