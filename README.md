@@ -24,6 +24,7 @@ Bu çalışmada altı görüntülük küçük bir veri setinde **renk tabanlı b
 | `kaynak/` | Ortak kod: `renk.py`, `siniflandirma.py`, `olcum.py`, `kutular.py`, `bulaniklik.py`, `olcek.py`, `analiz.py`, `gorsel.py`, `veri.py` |
 | `betikler/` | `kutu_ciz.py`, `aralik_kalibrasyonu.py`, `deneyleri_calistir.py`, `defterleri_calistir.py`, `canli_demo.py`, `dogrula.py` |
 | `arayuz/` | Adım adım canlı demo arayüzü (`sunucu.py` + `arayuz.html`; ek kütüphane gerekmez). HSV ve RGB adımları, karşılaştırma, bulanıklık ve ölçek deneyleri; yeni görüntü yüklenip baş bölgesi fareyle çizilebilir. Ayarlar dondurulmuştur, arayüzden değiştirilemez. |
+| Ek: şekil ölçütü | Ödevin istediği yöntem değildir; hata analizindeki “sonraki kontrol”ün keşif amaçlı denemesi. Renk adaylarını en-boy oranı, doluluk ve dışbükeyliğe göre süzer (model eğitimi yok): `kaynak/sekil.py`, `ayarlar/sekil_olcutu.json`, `betikler/sekil_deneyi.py`, `sonuclar/sekil/`, arayüzde 6. sekme. K1–K4 sonuçları bilindikten sonra eklendiği için ana sonuç tablosu değişmez. |
 | `defterler/` | `00_canli_demo` ve üye defterleri (01–06) |
 | `sonuclar/` | `sonuc_tablosu.csv/.md`, `temel_sonuclar.csv`, `maskeler/`, `kutular/`, `bulaniklik/`, `olcek/`, `ozet.json` |
 | `belgeler/` | `tahminler.csv`, `deney_protokolu.md`, `bireysel_not_sablonu.md`, `yapay_zeka_beyani.md` |
@@ -52,6 +53,7 @@ python betikler/deneyleri_calistir.py      # bütün deneyler + sonuç tablosu
 python betikler/defterleri_calistir.py     # defterleri çıktılarıyla yeniden üretir
 python betikler/canli_demo.py K3           # canlı demo (yeni görüntü için dosya yolu verin)
 python arayuz/sunucu.py                    # adım adım demo arayüzü -> http://127.0.0.1:8765
+python betikler/sekil_deneyi.py            # EK (keşif): şekil ölçütü -> sonuclar/sekil/
 ```
 Etiketleme (yönerge 5b, 6b — elle): `python betikler/kutu_ciz.py` · Aralık seçimi (yalnızca G1/G2): `python betikler/aralik_kalibrasyonu.py`
 

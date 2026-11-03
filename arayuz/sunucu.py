@@ -27,12 +27,17 @@ import numpy as np  # noqa: E402
 
 from kaynak.analiz import analiz_et  # noqa: E402
 from kaynak.bulaniklik import bulaniklastir  # noqa: E402
-from kaynak.gorsel import kutulari_ciz, maske_bindir  # noqa: E402
+from kaynak.gorsel import kalinlik, kutulari_ciz, maske_bindir  # noqa: E402
 from kaynak.olcek import geri_buyut, kutu_olcekle, olcekle  # noqa: E402
-from kaynak.renk import DONUSUM  # noqa: E402
+from kaynak.renk import DONUSUM, renk_maskesi  # noqa: E402
+from kaynak.sekil import sekil_ayarlarini_oku  # noqa: E402
 from kaynak.veri import ayarlari_oku, goruntu_oku, veri_setini_oku  # noqa: E402
 
+sys.path.insert(0, str(KOK / "betikler"))
+from sekil_deneyi import sekil_analizi  # noqa: E402
+
 AYARLAR = ayarlari_oku()
+SEKIL = sekil_ayarlarini_oku()
 ARALIK = AYARLAR["renk_araliklari"]
 KURAL = AYARLAR["karar_kurali"]
 KAYITLAR = {k["kimlik"]: k for k in veri_setini_oku()}
@@ -230,6 +235,87 @@ def deney(g, tur, secili):
             "ayar": ayar, "etiketli": g["etiketli"], "dogru_adi": SINIF_ADI.get(dogru)}
 
 
+
+# ---------------------------------------------------------------- şekil ölçütü (ek, keşif amaçlı)
+def sekil_kutulari_ciz(goruntu, adaylar, gercekler, degerlendirme, roi, elenenler=()):
+    tuval = kutulari_ciz(goruntu, [{"kutu": a["kutu"]} for a in adaylar], gercekler or [], degerlendirme or BOS, roi)
+    k = kalinlik(tuval)
+    for a in elenenler:
+        x1, y1, x2, y2 = a["kutu"]
+        cv2.rectangle(tuval, (x1, y1), (x2 - 1, y2 - 1), (150, 150, 150), max(1, k - 1))
+        cv2.line(tuval, (x1, y1), (x2 - 1, y2 - 1), (150, 150, 150), max(1, k - 1))
+    return tuval
+
+
+def aday_kesiti(goruntu, maske, a):
+    x1, y1, x2, y2 = a["kutu"]
+    h, w = goruntu.shape[:2]
+    px, py = max(6, (x2 - x1) // 3), max(6, (y2 - y1) // 3)
+    b1, c1, b2, c2 = max(0, x1 - px), max(0, y1 - py), min(w, x2 + px), min(h, y2 + py)
+    tuval = maske_bindir(goruntu, maske, oran=0.35)
+    kal = max(1, round(max(x2 - x1, y2 - y1) / 70))
+    cv2.rectangle(tuval, (x1, y1), (x2 - 1, y2 - 1), (255, 255, 255), kal)
+    cv2.drawContours(tuval, [a["zarf"]], -1, (138, 122, 10), kal)
+    cv2.drawContours(tuval, [a["kontur"]], -1, (30, 190, 245), kal)
+    kesit = tuval[c1:c2, b1:b2]
+    return veri_url(kesit, 240, yakin=(b2 - b1) < 240)
+
+
+def sekil_tek(g, uzay):
+    goruntu, roi, kutular, dogru = g["goruntu"], g["roi"], g["kutular"], g["dogru"]
+    once, sonra, adaylar = sekil_analizi(goruntu, uzay, AYARLAR, SEKIL, roi, kutular)
+    ham = renk_maskesi(goruntu, uzay, ARALIK)
+    elenen = [a for a in adaylar if not a["gecti"]]
+    nedenler = {}
+    for a in elenen:
+        for n in a["nedenler"]:
+            nedenler[n] = nedenler.get(n, 0) + 1
+    tp_kume = {e["tahmin"] for e in (once["degerlendirme"] or BOS)["eslesmeler"]}
+    once_kutular = [a["kutu"] for a in once["adaylar"]]
+
+    def tp_mi(a):
+        return any(once_kutular[i] == a["kutu"] for i in tp_kume)
+    ornekler = []
+    secim = sorted(adaylar, key=lambda a: (not tp_mi(a), -a["alan_piksel"]))[:6]
+    for a in secim:
+        ornekler.append({"gorsel": aday_kesiti(goruntu, ham, a), "alan": a["alan_piksel"], "tp": tp_mi(a),
+                         "en_boy": round(a["en_boy"], 2), "doluluk": round(a["doluluk"], 2),
+                         "disbukeylik": round(a["disbukeylik"], 2), "gecti": a["gecti"], "nedenler": a["nedenler"]})
+    so = {"alan": yuzde(sonra["alan_yuzde"]), "ortusme": yuzde(sonra["ortusme_yuzde"]), "sinif": sonra["sinif"],
+          "sinif_adi": SINIF_ADI[sonra["sinif"]], "dogru_mu": None if dogru is None else sonra["sinif"] == dogru,
+          "aday": len(sonra["adaylar"]), "kutu": degerlendirme_ozeti(sonra)}
+    return {
+        "uzay": uzay, "etiketli": g["etiketli"], "dogru_adi": SINIF_ADI.get(dogru),
+        "once": ozet(once, dogru), "sonra": so, "elenen": len(elenen), "nedenler": nedenler, "ornekler": ornekler,
+        "once_gorsel": veri_url(kutulari_ciz(goruntu, once["adaylar"], kutular or [], once["degerlendirme"] or BOS, roi)),
+        "sonra_gorsel": veri_url(sekil_kutulari_ciz(goruntu, sonra["adaylar"], kutular, sonra["degerlendirme"], roi, elenen)),
+        "maske_once": veri_url(maske_bindir(goruntu, ham)), "maske_sonra": veri_url(maske_bindir(goruntu, sonra["maske"])),
+    }
+
+
+def sekil_toplam():
+    if "sekil_toplam" in ONBELLEK:
+        return ONBELLEK["sekil_toplam"]
+    toplam = {}
+    for k in KAYITLAR.values():
+        if k["bolum"] != "kontrol":
+            continue
+        goruntu = goruntu_oku(k["dosya"])
+        for uzay in ("HSV", "RGB"):
+            once, sonra, _ = sekil_analizi(goruntu, uzay, AYARLAR, SEKIL, k["bas_roi"], k["baret_kutulari"])
+            t = toplam.setdefault(uzay, {"tp": [0, 0], "fp": [0, 0], "fn": [0, 0], "dogru": [0, 0]})
+            for i, s in enumerate((once, sonra)):
+                for a in ("tp", "fp", "fn"):
+                    t[a][i] += s["degerlendirme"][a]
+                t["dogru"][i] += s["sinif"] == k["dogru_sinif"]
+    ONBELLEK["sekil_toplam"] = toplam
+    return toplam
+
+
+def sekil(g, uzay):
+    return {**sekil_tek(g, uzay), "toplam": sekil_toplam(), "esik": SEKIL}
+
+
 def piksel(g, fx, fy):
     goruntu = g["goruntu"]
     h, w = goruntu.shape[:2]
@@ -305,6 +391,8 @@ class Isleyici(BaseHTTPRequestHandler):
                 if anahtar not in ONBELLEK:
                     if self.path == "/api/analiz":
                         ONBELLEK[anahtar] = tam_analiz(g)
+                    elif self.path == "/api/sekil":
+                        ONBELLEK[anahtar] = sekil(g, istek.get("uzay", "HSV"))
                     elif self.path == "/api/deney":
                         ONBELLEK[anahtar] = deney(g, istek["tur"], istek["secili"])
                     else:

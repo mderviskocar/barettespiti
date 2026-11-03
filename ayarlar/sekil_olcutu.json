@@ -1,0 +1,8 @@
+{
+  "durum": "ek_kesif",
+  "not": "Ana yöntemin parçası değildir. Hata analizinde (K3 yanlış alarmı) önerilen sonraki kontrol olarak, K1-K4 sonuçları bilindikten sonra eklendi; bu yüzden yalnızca keşif amaçlı raporlanır. Ana sonuç tablosu (sonuclar/) değişmez. Model eğitimi yoktur; yalnızca geometrik ölçüler kullanılır.",
+  "en_boy_orani": [0.6, 2.0],
+  "en_az_doluluk": 0.40,
+  "en_az_disbukeylik": 0.60,
+  "gerekce": "Eşikler baret kubbesinin geometrisinden önceden belirlendi ve yalnızca G1'deki gerçek baret bileşeniyle kontrol edildi (G1 HSV: en-boy 1,27, doluluk 0,64, dışbükeylik 0,90; RGB: 1,28 / 0,64 / 0,87 -> geçer). Önden/yandan bakılan baret yüksekliğinin yaklaşık 1-2 katı genişliktedir; dikey direk ve çerçeveler en-boy < 0,6, dağınık lekeler ve çizgiler düşük doluluk/dışbükeylik verir. G2'de renkli bileşen yoktur."
+}
