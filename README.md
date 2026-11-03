@@ -57,4 +57,5 @@ Etiketleme (yönerge 5b, 6b — elle): `python betikler/kutu_ciz.py` · Aralık 
 `sonuclar/sonuc_tablosu.md` — Görüntü · Koşul · Doğru sınıf · Kuralın sınıfı · Maske alanı · TP / FP / FN. Tablo `deneyleri_calistir.py` tarafından üretilir; elle düzenlenmez.
 
 ## Bilimsel dürüstlük
+Karar eşiklerinin dayanağı, veri setinin yenilenmesi ve önceki çalışmalardaki hatalar `belgeler/denetim_raporu.md` içinde açıkça kaydedilmiştir.
 Her deneyden önce iki cümlelik tahmin `belgeler/tahminler.csv` dosyasına yazılır. Eşikler kontrol sonuçları görüldükten sonra değiştirilmez. Yanlış sınıflar ve hatalar gizlenmez. Çalıştırılmamış çıktı veya uydurma ölçüm yoktur. Yapay zekâ kullanımı `belgeler/yapay_zeka_beyani.md` içinde beyan edilir.

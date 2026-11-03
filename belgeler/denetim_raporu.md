@@ -1,31 +1,32 @@
 # Denetim Raporu — Hocanın Kurallarına Uygunluk ve Önceki Çalışmalardaki Hatalar
 
-*Hazırlayan: Murathan · 3 Kasım 2026, 01:30 · Kaynak: GitHub geçmişi (`git log --all`), `sonuclar/` ölçümleri ve ödev yönergesi (YZM411_G1_Baret_Tespiti_Siniflandirma.pdf).*
+*Hazırlayan: Murathan · ilk sürüm 3 Kasım 01:30, güncelleme 3 Kasım 23:30 · Kaynak: GitHub geçmişi (`git log --all`), `sonuclar/` ölçümleri ve ödev yönergesi (YZM411_G1_Baret_Tespiti_Siniflandirma.pdf).*
 
 Amaç: Teslimden önce her üyenin çalışmasını yönergedeki kurallara göre denetlemek; hataları gizlemeden, kanıtıyla ve düzeltme yoluyla kaydetmek. Yönerge: *"Her örnekte doğru sonuç almanız beklenmez; ayarları sabit tutmanız, başarısızlığı gizlememeniz ve nedenini açıklamanız beklenir."*
 
 ---
 
-## 1. Yönerge maddelerine uygunluk
+## 1. Yönerge maddelerine uygunluk (güncel veri seti)
 
-| Yönerge maddesi | Durum | Kanıt / eksik | Sorumlu |
+| Yönerge maddesi | Durum | Kanıt / not | Sorumlu |
 |---|---|---|---|
-| 2a. 2 geliştirme + 4 kontrol, bağımsız görüntüler | ✅ | `veri/kaynaklar.csv` | Nesli |
-| 2b. Normal ışık, gölge, uzak/küçük, **aynı renkte nesne**, başta ↔ elde/masada | ⚠️ | Aynı renkte bağımsız nesne yalnızca G1'de (geliştirme). Kontrolde yok; "gölge" gece görüntüsüyle (K2) temsil ediliyor. Yeni veri seçimiyle kapatılacak. | Nesli |
-| 3. Sınıflar yöntemden önce belirlendi | ✅ | `etiketler/gercek_etiketler.json` (commit 593ae0a, yöntemlerden önce) | Nesli |
-| 3b. Örtülü baş "baret yok" denmez, kanıt yetersizse "belirsiz" | ⚠️ | K1 "başlar kadraj dışında → belirsiz" diye etiketli; ancak sağdaki işçinin başı şapkayla görünür durumda. Etiket yeniden incelenmeli (bkz. 2.1). | Nesli |
-| 4. **Her deneyden önce iki cümlelik tahmin** ("tahmini olmayan deney puanlanmaz") | ⚠️ | Var: Nesli, Omar, Ahmet, Murathan. **Yok: Derviş (HSV), Efe (ölçek).** | Her üye |
-| 5a. Bir RGB + bir HSV aralığı G1/G2'de seçilip **dondurulmuş**; 8 maske ve alan oranı | ⚠️ | Takımda iki farklı RGB aralığı vardı (bkz. 2.2). Yeni yapıda tek aralık: `ayarlar/deney_ayarlari.json`. 8 maske: `sonuclar/maskeler/`. | Omar, Derviş |
-| 5b. Maskeden sınıfa kural açıkça yazılı, baş ROI ile örtüşme | ✅ | `ayarlar/deney_ayarlari.json → karar_kurali`, `kaynak/siniflandirma.py` | Omar, Derviş |
-| 5c. Kontrol sınıfı ↔ doğru sınıf karşılaştırması | ✅ | `sonuclar/sonuc_tablosu.md` (RGB 2/4, HSV 2/4 doğru) | Omar, Derviş |
-| 6. Hazır dedektör (isteğe bağlı) | — | Kullanılmadı; "renk tabanlı başlangıç yöntemi" olarak adlandırıldı. TP/FP/FN renk maskesi kutularıyla ölçüldü (IoU ≥ 0.50). | Murathan |
-| 7. Bir yanlış alarm + bir kaçırma, neden ve sonraki kontrol | ✅ | Bölüm 3 ve `bireysel_notlar/murathan.md` | Murathan + deney sahipleri |
-| H4. Bulanıklık ve küçültme, **tek değişkenli ve ölçülü** | ⚠️ | Ahmet'in ilk çalışması yalnızca görseldi (`blur_results.csv` boştu). Ortak hat şimdi sayısal tabloyu üretiyor; **yorum ve not deney sahibine ait.** Ölçek: Efe'den gönderim yok. | Ahmet, Efe |
-| 8a. En fazla 6 slayt, çalışan defter, kaynak listesi, sonuç tablosu, çevrimdışı kayıt | ❌ / ✅ | Defter, kaynak listesi ve tablo hazır. **Slayt ve kayıt yok.** | Ekip |
-| 8b. Sonuç tablosu sütunları (Görüntü, Koşul, Doğru sınıf, Kuralın sınıfı, Maske alanı, TP/FP/FN) | ✅ | `sonuclar/sonuc_tablosu.csv/.md` | Ortak hat |
-| 8d. Her üyeden yarım sayfa not | ⚠️ | Dolu: Nesli, Omar, Ahmet, Murathan. **Boş: Derviş, Efe.** Dolu notlar eski dosya yollarını anlatıyor; yeni veriyle güncellenmeli. | Her üye |
-| 8e. Yapay zekâ beyanı (araç, amaç, dosya, doğrulama) | ⚠️ | Var: proje iskeleti, Nesli, Omar. **Yok: Ahmet, Derviş, Efe, Murathan.** Kullanılmadıysa "Üretici yapay zekâ kullanmadım" yazılmalı. | Her üye |
-| Bilimsel dürüstlük: çalıştırılmamış çıktı/uydurma ölçüm yok | ✅ | Bütün tablolar `betikler/deneyleri_calistir.py` ile üretilir; elle sayı girilmez. | Ekip |
+| 2a. 2 geliştirme + 4 kontrol, bağımsız görüntüler | ✅ | `veri/kaynaklar.csv` (Pexels ve CHV; URL ve lisans) | Nesli / ekip |
+| 2b. Normal ışık, gölge/loş, uzak-küçük, aynı renkte nesne, başta ↔ elde | ✅ | G1 normal ışık · K1 loş ışık · K2 uzak-küçük · K3 sarı makine (baret yok) · K4 elde baret | Ekip |
+| 3. Sınıflar yöntemden önce, gerekçeli | ✅ | `etiketler/gercek_etiketler.json` | Ekip |
+| 3b. Görünmeyen baş için kutu uydurulmadı | ✅ | Baş ROI ve baret kutuları elle çizildi (`betikler/kutu_ciz.py`) | Ekip |
+| 4. Her deneyden önce iki cümlelik tahmin | ✅ | `belgeler/tahminler.csv`: Nesli, Omar, Derviş, Ahmet, Efe, Murathan | Her üye |
+| 5a. Bir RGB + bir HSV aralığı G1/G2'de seçilip donduruldu; 8 maske ve alan | ✅ | `ayarlar/deney_ayarlari.json` (gerekçeli), `sonuclar/maskeler/` | Omar, Derviş |
+| 5b. Maskeden sınıfa kural, baş ROI örtüşmesi | ✅ | `karar_kurali` (G1/G2'de kontrol edildi) | Omar, Derviş |
+| 5c. Kontrol sınıfı ↔ doğru sınıf | ✅ | `sonuclar/sonuc_tablosu.md`: RGB 1/4, HSV 2/4 doğru | Omar, Derviş |
+| 6. Hazır dedektör (isteğe bağlı) | — | Kullanılmadı; TP/FP/FN renk maskesi kutularıyla (IoU ≥ 0.50) | Murathan |
+| 7. Bir yanlış alarm + bir kaçırma, neden + sonraki kontrol | ✅ | Bölüm 3 ve `defterler/06_kutu_degerlendirme.ipynb` | Murathan + deney sahipleri |
+| H4. Bulanıklık ve küçültme, tek değişkenli, ölçülü | ✅ | `sonuclar/bulaniklik/`, `sonuclar/olcek/`; yorumlar 04 ve 05 defterlerinde | Ahmet, Efe |
+| 8a. En fazla 6 slayt, çalışan defter, kaynak listesi, sonuç tablosu, çevrimdışı kayıt | ⚠️ | Defter, kaynak listesi, tablo hazır; **slayt ve kayıt bekleniyor** | Ekip |
+| 8b. Sonuç tablosu sütunları | ✅ | `sonuclar/sonuc_tablosu.md` (+ sınıf doğruluğu ve TP/FP/FN özeti) | Ortak hat |
+| 8d. Yarım sayfa bireysel not | ⚠️ | Efe, Murathan güncel; Derviş ve Ahmet'te sonuç bölümü, Nesli ve Omar'da yeni veri bekleniyor | Her üye |
+| 8e. Yapay zekâ beyanı | ⚠️ | Var: iskelet, Nesli, Omar, Efe. Diğer üyeler ekleyecek | Her üye |
+
+**Eşiklerin dayanağı ve geçmiş:** Karar eşikleri (%2.5 alan, %5 baş örtüşmesi) ekibin önceki veri setinde G1/G2'den seçtiği başlangıç kuralıdır; yeni G1/G2'de kontrol edilip K1–K4'ten önce dondurulmuştur. Yeni G2'de sarı piksel olmadığı için %2.5 alan eşiği geliştirme setinde sınanamamıştır; bu bir sınırlılıktır. Önceki veri setinde RGB eşiğinin kontrol sonucu görüldükten sonra değiştirilip geri alındığı git geçmişinde görünür (bkz. 2.2); güncel çalıştırmada eşikler kontrol öncesi dondurulmuş ve değiştirilmemiştir. Veri seti 3 Kasım'da kaynağı ve lisansı belirsiz/filigranlı görüntüler yerine kaynaklı görüntülerle yenilenmiş, bütün deneyler yeni veriyle baştan çalıştırılmıştır.
 
 ---
 
@@ -61,34 +62,25 @@ Amaç: Teslimden önce her üyenin çalışmasını yönergedeki kurallara göre
 
 ---
 
-## 3. Ölçümlerin gösterdiği yöntem hataları (ekip hata analizi)
-
-Değerler `sonuclar/` altındaki gerçek çalıştırmalardır (mevcut 6 görüntü). Nihai sunum yeni veriyle yeniden üretilecek.
+## 3. Ölçümlerin gösterdiği yöntem hataları (güncel veri, ekip hata analizi)
 
 | Hata | Görüntü | Ölçüm | Olası neden | Sonraki kontrol |
 |---|---|---|---|---|
-| **Yanlış alarm** (H1, S2) | K4 | Baret bulundu (IoU 0.92) ama RGB 17, HSV 19 FP: yelek, sarı kordon, ten rengi, filigran | Yöntem yalnızca renge bakıyor | Şekil ölçütü (en-boy, doluluk) veya baş ROI çevresi koşulu, G1/G2'de tanımlanıp aynı görüntüde yeniden ölçme |
-| **Kaçırma** (S1) | K2 (gece) | RGB: alan %0.08, baret seçilmedi → FN; HSV: baret iki parçaya bölündü (IoU 0.39 / 0.19) → FN, sokak ışığındaki çit 35 FP | Karanlıkta parlaklık RGB alt sınırının altında; HSV'de renkli ışık sahneyi sarıya çekiyor | Yakın lekeleri birleştirme kuralı |
-| **Kural hatası** | K2 HSV, K3 RGB/HSV | Baş örtüşmesi %16–24 (eşik %5'in çok üstü) ama **toplam alan < %2.5** olduğu için *baret yok* | Küresel alan eşiği küçük/uzak baretleri cezalandırıyor; kural sırası (önce alan) | Alan eşiğini baş ROI çevresinde hesaplayan kural (geliştirme setinde) |
-| **Kutu ≠ başta** (S3) | K4 | Kutu IoU 0.92 ile doğru; baret elde | Kutu yalnızca nesnenin konumunu verir | Sınıf kararı baş ROI ile ayrı tutuldu |
-| **Bulanıklığın etkisi** | K2 HSV | σ 0 → 1.5: TP 0 → 1, FN 1 → 0, FP 35 → 34 | Bulanıklık baretin iki parçasını birleştiriyor | Ahmet'in yorumuna bırakılır |
-| **Bulanıklığın etkisi** | K4 RGB | σ 0 → 3.0: FP 17 → 27 | Kenarlarda yeni karışım renkleri aralığa giriyor | Ahmet'in yorumuna bırakılır |
-| **Küçültmenin etkisi** (S5) | K3 HSV | ×1.0: TP 2 · ×0.75: TP 1 · ×0.5 ve ×0.25: TP 0 (en küçük baret 1050 → 66 piksel) | Küçük baret piksel sayısı ve sabit 50 piksel eşiği | Efe'nin yorumuna bırakılır |
-| **Geri büyütme** (S5) | K1–K4 | ×0.25 → geri büyütme: PSNR 20.7–27.7 dB, ortalama mutlak fark 3.9–16.2 | Kaybolan yüksek frekans geri gelmez | Efe'nin yorumuna bırakılır |
-| **Sınıf değişimi** | Tümü | Bulanıklık ve ölçek hiçbir görüntünün sınıfını değiştirmedi | Kararı alan eşiği belirliyor; σ ve ölçek alan yüzdesini çok az değiştiriyor | Değişim olmaması da yorumlanmalı (yönerge izin veriyor) |
+| **Yanlış alarm** (H1, S2) | K3 | RGB alan %2.65, 27 FP → baret yokken "baret var, başta değil"; HSV 33 FP, alan %1.46 → sınıf doğru | Yöntem yalnızca renge bakıyor; sarı-turuncu makine aralığa giriyor | Aday kutulara en–boy oranı/doluluk ölçütü (G1/G2'de) |
+| **Kaçırma — kural** | K1, K2 | HSV K1'de bareti buldu (IoU 0.81, baş örtüşmesi %12.69), K2'de örtüşme %17.88; toplam alan %0.81 / %0.03 < %2.5 → "baret yok" | Küresel alan eşiği küçük/uzak bareti cezalandırıyor | Alanı baş ROI çevresinde hesaplayan kural (G1/G2'de) |
+| **Kaçırma — renk** (S1) | K1 | RGB baretin yalnızca bir kısmını seçti (IoU 0.28 → FN) | Loş ışıkta R ≥ 180 alt sınırının altında kalan pikseller | HSV ile karşılaştırma (HSV IoU 0.81) |
+| **Kutu ≠ başta** (S3) | K4 | Elde baret iki yöntemde IoU 0.91 ile bulundu; sınıf doğru "baret var, başta değil" | Kutu nesnenin konumunu verir, başta olduğunu değil | Karar baş ROI ile ayrı verildi |
+| **Bulanıklık** | K2 HSV, K3 RGB | σ 0 → 3.0: K2 HSV baş örtüşmesi %17.88 → %22.85; K3 RGB FP 27 → 18; sınıf değişmedi | Bulanıklık küçük parçaları birleştiriyor/eliyor | Ahmet'in yorumuna bırakılır |
+| **Küçültme** (S5) | K2 HSV | ×1.0 → ×0.25: TP 1 → 0, en küçük baret 1050 → 66 px; geri büyütmede PSNR 27.5 dB | Piksel kaybı ve sabit 50 px eşiği | Efe'nin notu: eşiği ölçekle küçültüp ayrıştırmak |
+| **Sınıf değişimi** | Tümü | Bulanıklık ve ölçek hiçbir görüntünün sınıfını değiştirmedi | Kararı alan eşiği belirliyor | — |
 
 ---
 
-## 4. Puan kaybetmemek için her üyenin kendisinin yapması gerekenler
+## 4. Teslim öncesi kalanlar
 
-Tahmin ve bireysel yorum **üyenin kendisine aittir**; başkası yerine yazamaz (yönerge 4a, 8d ve sunumda "her üyenin kendi deneyi").
-
-| Üye | Yapması gereken |
+| Konu | Sorumlu |
 |---|---|
-| Nesli | K1 sınıfını yeniden incelemek; yeni veride aynı renkli nesne içeren kontrol görüntüsünü seçmek; sınıfları yöntemden önce yazmak; baş ve baret kutularını elle çizmek; notu yeni yollara güncellemek |
-| Omar | Ortak dondurulmuş kuralı kabul edip eşik değişikliğini notunda açıklamak; yeni veride RGB yorumunu yazmak |
-| Derviş | **Tahmin (önce)**, HSV yorumu ve RGB karşılaştırması, yarım sayfa not, yapay zekâ beyanı |
-| Ahmet | Ölçülebilir tahmin (sayısal deneyden önce), `04_bulaniklik` sonuçlarının yorumu, not güncellemesi, yapay zekâ beyanı |
-| Efe | **Tahmin (önce)**, `05_olcek` sonuçlarının yorumu (en az bir kaçırma + S5), yarım sayfa not, yapay zekâ beyanı |
-| Murathan | Yeni veriyle hata analizini güncellemek, yapay zekâ beyanı |
-| Ekip | En fazla 6 slayt, çevrimdışı kayıt, PR ile main'e birleştirme |
+| En fazla 6 slayt + konuşmacı notları + soru-cevap | Ahmet (sunum), herkes kendi slaytı |
+| Çevrimdışı kayıt (canlı demonun ekran videosu) | Murathan |
+| Bireysel notlara yeni veriyle sonuç ve yorum | Nesli, Omar, Derviş, Ahmet |
+| Yapay zekâ beyanı | Ahmet, Derviş, Murathan (ve kullanan herkes) |

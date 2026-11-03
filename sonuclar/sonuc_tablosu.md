@@ -8,3 +8,12 @@
 | K3 | Gün ışığı; başı açık işçi (kumaş şapka), sarı-turuncu iş makinesi (aynı renkte nesne) | Baret yok | HSV | Baret yok | Evet | 1.46 | 2.57 | 0 / 33 / 0 |
 | K4 | Gün ışığı; sarı baret elde, başı açık ve görünür | Baret var, başta değil | RGB | Baret var, başta değil | Evet | 17.59 | 2.61 | 1 / 13 / 0 |
 | K4 | Gün ışığı; sarı baret elde, başı açık ve görünür | Baret var, başta değil | HSV | Baret var, başta değil | Evet | 17.01 | 0.00 | 1 / 1 / 0 |
+
+**Özet (K1–K4).** Görüntü düzeyi dört sınıflı karar ve kutu düzeyi sayım ayrı tutulur:
+
+| Yöntem | Sınıf doğru / toplam | TP | FP | FN |
+|---|---|---|---|---|
+| RGB | 1 / 4 | 1 | 45 | 3 |
+| HSV | 2 / 4 | 3 | 36 | 1 |
+
+TP/FP/FN: elle çizilmiş baret kutularıyla IoU ≥ 0.50 bire bir eşleştirme (renk maskesi kutuları; hazır dedektör yok).

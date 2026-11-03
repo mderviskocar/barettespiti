@@ -183,6 +183,17 @@ def sonuc_tablosu(temel):
     basliklar = list(tablo[0])
     md = ["| " + " | ".join(basliklar) + " |", "|" + "---|" * len(basliklar)]
     md += ["| " + " | ".join(str(t[b]) for b in basliklar) + " |" for t in tablo]
+    md.append("")
+    md.append("**Özet (K1–K4).** Görüntü düzeyi dört sınıflı karar ve kutu düzeyi sayım ayrı tutulur:")
+    md.append("")
+    md.append("| Yöntem | Sınıf doğru / toplam | TP | FP | FN |")
+    md.append("|---|---|---|---|---|")
+    for uzay in UZAYLAR:
+        k = [s for s in temel if s["bolum"] == "kontrol" and s["yontem"] == uzay]
+        md.append(f"| {uzay} | {sum(s['dogru_mu'] == 'evet' for s in k)} / {len(k)} | {sum(s['tp'] for s in k)} | "
+                  f"{sum(s['fp'] for s in k)} | {sum(s['fn'] for s in k)} |")
+    md.append("")
+    md.append("TP/FP/FN: elle çizilmiş baret kutularıyla IoU ≥ 0.50 bire bir eşleştirme (renk maskesi kutuları; hazır dedektör yok).")
     (SONUC / "sonuc_tablosu.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     return tablo
 
