@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baret Tespiti · Adım Adım Demo</title>
+<style>
+:root{
+  --lacivert:#102a43; --turkuaz:#0a7a8a; --amber:#e28b1a; --sari:#f5be1e; --kirmizi:#c44034;
+  --yesil:#2e8b57; --gri:#5b6b7b; --cizgi:#d9e2ec; --soluk:#f3f6f9; --kart:#ffffff; --metin:#1f2d3d;
+  --golge:0 1px 2px rgba(16,42,67,.06),0 4px 14px rgba(16,42,67,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--soluk);color:var(--metin);font-size:15px}
+header{background:var(--lacivert);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;border-bottom:4px solid var(--sari)}
+header h1{font-size:19px;margin:0;font-weight:700;letter-spacing:.2px}
+header .alt{font-size:12.5px;opacity:.8}
+header .kilit{margin-left:auto;font-size:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:8px;line-height:1.5}
+main{display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px 24px;max-width:1500px;margin:0 auto}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:14px}}
+.kart{background:var(--kart);border:1px solid var(--cizgi);border-radius:12px;box-shadow:var(--golge);padding:16px}
+.etiket{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--turkuaz);margin:0 0 8px}
+h2{margin:0 0 4px;font-size:20px;color:var(--lacivert)}
+h3{margin:0 0 6px;font-size:16px;color:var(--lacivert)}
+.izgara{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kucuk{border:2px solid transparent;border-radius:8px;overflow:hidden;cursor:pointer;background:var(--soluk);position:relative}
+.kucuk img{width:100%;height:84px;object-fit:cover;display:block}
+.kucuk span{position:absolute;left:6px;top:6px;background:var(--lacivert);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px}
+.kucuk.secili{border-color:var(--amber)}
+.kucuk:hover{border-color:var(--turkuaz)}
+button,.dugme{font:inherit;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;background:var(--turkuaz);color:#fff;font-weight:600}
+button.ikincil{background:#fff;color:var(--lacivert);border:1px solid var(--cizgi)}
+button.amber{background:var(--amber)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.yukle{display:block;text-align:center;margin-top:10px;background:var(--lacivert)}
+.yukle input{display:none}
+.not{font-size:12.5px;color:var(--gri);line-height:1.45}
+.sekmeler{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.sekme{background:#fff;color:var(--lacivert);border:1px solid var(--cizgi);border-radius:20px;padding:8px 16px;font-weight:600}
+.sekme.aktif{background:var(--lacivert);color:#fff;border-color:var(--lacivert)}
+.adim{display:grid;grid-template-columns:44px 1fr;gap:14px;margin-bottom:16px;animation:gir .25s ease}
+@keyframes gir{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.no{width:40px;height:40px;border-radius:50%;background:var(--turkuaz);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:17px}
+.adim.son .no{background:var(--amber)}
+.sira{display:grid;gap:10px}
+.sira.k3{grid-template-columns:repeat(3,1fr)} .sira.k2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:700px){.sira.k3,.sira.k2{grid-template-columns:1fr}}
+figure{margin:0} figure img{width:100%;max-height:560px;object-fit:contain;border-radius:8px;display:block;border:1px solid var(--cizgi);background:#000}
+figcaption{font-size:12.5px;color:var(--gri);margin-top:5px;line-height:1.4}
+figcaption b{color:var(--metin)}
+.sayi{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
+.stat{border:1px solid var(--cizgi);border-left:5px solid var(--turkuaz);border-radius:10px;padding:8px 12px;background:#fff;min-width:130px}
+.stat b{display:block;font-size:22px;color:var(--lacivert)} .stat small{color:var(--gri);font-size:12px}
+.stat.amber{border-left-color:var(--amber)} .stat.kirmizi{border-left-color:var(--kirmizi)} .stat.yesil{border-left-color:var(--yesil)}
+.formul{font-family:Consolas,monospace;background:var(--soluk);border:1px solid var(--cizgi);border-radius:8px;padding:8px 10px;font-size:13px;margin-top:8px}
+.merdiven{display:grid;gap:8px;margin-top:6px}
+.basamak{display:flex;align-items:center;gap:10px;border:1px solid var(--cizgi);border-radius:10px;padding:9px 12px;background:#fff}
+.basamak.durdu{border-color:var(--amber);background:#fff7ea}
+.basamak .s{flex:1} .basamak .d{font-family:Consolas,monospace;font-weight:700}
+.cip{display:inline-block;padding:5px 12px;border-radius:16px;font-weight:700;font-size:13px;color:#fff}
+.c-basta_baret{background:var(--turkuaz)} .c-baret_var_basta_degil{background:var(--amber)} .c-baret_yok{background:var(--kirmizi)} .c-belirsiz{background:var(--gri)}
+.dogru{color:var(--yesil);font-weight:700} .yanlis{color:var(--kirmizi);font-weight:700}
+.gezinti{display:flex;gap:8px;align-items:center;margin:4px 0 16px 58px}
+.gezinti .ilerleme{margin-left:8px;color:var(--gri);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:#fff}
+th{background:var(--lacivert);color:#fff;font-weight:600;padding:8px;text-align:left}
+td{padding:7px 8px;border-bottom:1px solid var(--cizgi)}
+tr.secili td{background:#fff7ea;font-weight:600}
+.duzeyler{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
+.lejant{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--gri);margin-top:6px}
+.lejant i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+#roiAlan{position:relative;display:inline-block;max-width:100%;cursor:crosshair;user-select:none}
+#roiAlan img{max-width:100%;display:block;border-radius:8px}
+#roiKutu{position:absolute;border:2px dashed var(--sari);background:rgba(245,190,30,.18);pointer-events:none;display:none}
+.piksel{display:flex;gap:12px;align-items:center;margin-top:8px;font-size:13px;flex-wrap:wrap}
+.piksel .ornek{width:28px;height:28px;border-radius:6px;border:1px solid var(--cizgi)}
+.tik{color:var(--yesil);font-weight:700} .carpi{color:var(--kirmizi);font-weight:700}
+.tiklanir{cursor:crosshair}
+#yukleniyor{position:fixed;inset:0;background:rgba(243,246,249,.7);display:none;align-items:center;justify-content:center;z-index:9;font-weight:700;color:var(--lacivert)}
+.hata{background:#fdecea;border:1px solid var(--kirmizi);color:var(--kirmizi);padding:10px;border-radius:8px;margin-bottom:12px}
+.bos{color:var(--gri);text-align:center;padding:60px 10px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Baret Tespiti ve Sınıflandırması · Adım Adım Demo</h1>
+    <div class="alt">YZM 411 Bilgisayarlı Görü · renk tabanlı yöntem (cv2.inRange), hazır dedektör yok</div>
+  </div>
+  <div class="kilit" id="kilit">Ayarlar yükleniyor…</div>
+</header>
+<main>
+  <aside>
+    <div class="kart">
+      <p class="etiket">1 · Görüntü seç</p>
+      <div class="izgara" id="liste"></div>
+      <label class="dugme yukle">Yeni görüntü yükle<input type="file" id="dosya" accept="image/*"></label>
+      <p class="not" style="margin-top:10px">Veri setindeki görüntülerde baş bölgesi ve baret kutuları elle çizilmiş etiketlerden gelir. Yeni görüntüde baş bölgesini siz çizersiniz.</p>
+    </div>
+    <div class="kart" id="bilgi" style="margin-top:14px;display:none"></div>
+  </aside>
+  <section>
+    <div id="hata"></div>
+    <div id="roiPanel" class="kart" style="display:none;margin-bottom:14px">
+      <p class="etiket">Baş bölgesini (ROI) çizin</p>
+      <p class="not">Fareyle başın etrafına bir dikdörtgen sürükleyin. Kural “baret başta mı?” sorusunu bu bölgeye göre yanıtlar. Baş görünmüyorsa karar “belirsiz” olur.</p>
+      <div id="roiAlan"><img id="roiResim" alt="ROI çizimi" draggable="false"><div id="roiKutu"></div></div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button id="roiTamam" disabled>Analiz et</button>
+        <button class="ikincil" id="basYok">Baş görünmüyor → analiz et</button>
+      </div>
+    </div>
+    <div class="sekmeler" id="sekmeler" style="display:none">
+      <button class="sekme aktif" data-s="HSV">1 · HSV adımları</button>
+      <button class="sekme" data-s="RGB">2 · RGB adımları</button>
+      <button class="sekme" data-s="kars">3 · HSV ↔ RGB</button>
+      <button class="sekme" data-s="bulaniklik">4 · Bulanıklık deneyi</button>
+      <button class="sekme" data-s="olcek">5 · Ölçek deneyi</button>
+    </div>
+    <div id="icerik" class="bos">Soldan bir görüntü seçin ya da yeni bir görüntü yükleyin.</div>
+  </section>
+</main>
+<div id="yukleniyor">Hesaplanıyor…</div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = (x, b=2) => x == null ? "—" : "%" + Number(x).toFixed(b).replace(".", ",");
+const SINIF = {basta_baret:"Başta baret", baret_var_basta_degil:"Baret var, başta değil", baret_yok:"Baret yok", belirsiz:"Belirsiz"};
+let AYAR = null, kaynak = null, roi = null, basYok = false, veri = null, sekme = "HSV", adim = {HSV:1, RGB:1};
+const deneyDurum = {bulaniklik:null, olcek:null}; let deneyVeri = {};
+function sifirla(){ roi = null; basYok = false; adim = {HSV:1, RGB:1}; deneyVeri = {}; deneyDurum.bulaniklik = deneyDurum.olcek = null;
+  sekme = "HSV"; document.querySelectorAll(".sekme").forEach(x => x.classList.toggle("aktif", x.dataset.s === "HSV")); }
+
+async function api(yol, govde){
+  $("#yukleniyor").style.display = "flex";
+  try{
+    const r = await fetch(yol, govde ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(govde)} : {});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.hata || r.statusText);
+    $("#hata").innerHTML = ""; return j;
+  }catch(e){ $("#hata").innerHTML = `<div class="hata">Hata: ${esc(e.message)}</div>`; throw e; }
+  finally{ $("#yukleniyor").style.display = "none"; }
+}
+const aralik = u => `[${AYAR[u].alt.join(", ")}] – [${AYAR[u].ust.join(", ")}]`;
+
+async function basla(){
+  const j = await api("/api/liste"); AYAR = j.ayarlar;
+  $("#kilit").innerHTML = `<b>Dondurulmuş ayarlar</b> · RGB ${aralik("RGB")} · HSV ${aralik("HSV")}<br>Kural: alan &lt; %${AYAR.kural.en_az_renk_alani_yuzde} → baret yok · baş örtüşmesi ≥ %${AYAR.kural.en_az_bas_ortusmesi_yuzde} → başta · IoU ≥ ${AYAR.kutu.iou_esigi}`;
+  $("#liste").innerHTML = j.ogeler.map((o,i) => `<div class="kucuk" data-i="${i}" title="${esc(o.kosul)}"><img src="${o.kucuk}" alt="${esc(o.ad)}"><span>${o.tur==="demo"?"Demo":esc(o.ad)}</span></div>`).join("");
+  document.querySelectorAll(".kucuk").forEach(el => el.onclick = () => sec(j.ogeler[+el.dataset.i], el));
+}
+
+function sec(o, el){
+  document.querySelectorAll(".kucuk").forEach(k => k.classList.remove("secili")); if(el) el.classList.add("secili");
+  sifirla();
+  if(o.tur === "veri"){ kaynak = {tur:"veri", kimlik:o.kimlik}; $("#roiPanel").style.display = "none"; analiz(); }
+  else { kaynak = o.tur === "demo" ? {tur:"demo", ad:o.ad} : o; roiAc(o.onizleme || o.kucuk_buyuk || null); }
+}
+
+async function roiAc(onizleme){
+  $("#sekmeler").style.display = "none"; $("#icerik").className = "bos"; $("#icerik").innerHTML = "Önce baş bölgesini çizin.";
+  if(!onizleme){ const j = await api("/api/analiz", {kaynak, roi:null, bas_yok:true}); onizleme = j.orijinal; }
+  $("#roiResim").src = onizleme; $("#roiPanel").style.display = "block"; $("#roiKutu").style.display = "none"; $("#roiTamam").disabled = true;
+}
+(function roiCizim(){
+  const alan = $("#roiAlan"), kutu = $("#roiKutu"); let bas = null;
+  const konum = e => { const r = $("#roiResim").getBoundingClientRect(); return [Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)), Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))]; };
+  const ciz = (a,b) => { const r = $("#roiResim").getBoundingClientRect();
+    Object.assign(kutu.style, {display:"block", left:Math.min(a[0],b[0])*r.width+"px", top:Math.min(a[1],b[1])*r.height+"px", width:Math.abs(a[0]-b[0])*r.width+"px", height:Math.abs(a[1]-b[1])*r.height+"px"}); };
+  alan.addEventListener("pointerdown", e => { bas = konum(e); alan.setPointerCapture(e.pointerId); });
+  alan.addEventListener("pointermove", e => { if(bas) ciz(bas, konum(e)); });
+  alan.addEventListener("pointerup", e => { if(!bas) return; const s = konum(e); roi = [bas[0], bas[1], s[0], s[1]]; bas = null;
+    $("#roiTamam").disabled = Math.abs(roi[0]-roi[2]) < .005 || Math.abs(roi[1]-roi[3]) < .005; });
+})();
+$("#roiTamam").onclick = () => { basYok = false; $("#roiPanel").style.display = "none"; analiz(); };
+$("#basYok").onclick = () => { basYok = true; roi = null; $("#roiPanel").style.display = "none"; analiz(); };
+$("#dosya").onchange = e => { const f = e.target.files[0]; if(!f) return; const fr = new FileReader();
+  fr.onload = async () => { const j = await api("/api/yukle", {veri:fr.result, ad:f.name});
+    document.querySelectorAll(".kucuk").forEach(k => k.classList.remove("secili"));
+    sifirla();
+    kaynak = {tur:"yuklenen", anahtar:j.anahtar, ad:j.ad}; roiAc(j.onizleme); };
+  fr.readAsDataURL(f); e.target.value = ""; };
+
+const istek = () => ({kaynak, roi, bas_yok:basYok});
+async function analiz(){ veri = await api("/api/analiz", istek()); $("#sekmeler").style.display = "flex"; bilgi(); ciz(); }
+
+function bilgi(){
+  const b = $("#bilgi"); b.style.display = "block";
+  b.innerHTML = `<p class="etiket">Seçili görüntü</p><h3>${esc(veri.ad)}</h3>
+    <p class="not">${esc(veri.kosul)}</p>
+    <p class="not">Boyut: ${veri.boyut[0]} × ${veri.boyut[1]} px<br>Baş ROI: ${veri.roi ? "[" + veri.roi.join(", ") + "]" : "yok (baş görünmüyor)"}<br>
+    ${veri.etiketli ? `Gerçek sınıf: <span class="cip c-${veri.dogru}">${esc(veri.dogru_adi)}</span><br>Elle çizilmiş baret kutusu: ${veri.gercek_kutu}` : "Etiketsiz görüntü: doğru/yanlış ve TP/FP/FN hesaplanmaz."}</p>
+    <figure><img src="${veri.genel}" alt="etiketler"><figcaption>Gri: baş ROI · Yeşil: elle çizilmiş baret kutusu</figcaption></figure>`;
+}
+
+document.querySelectorAll(".sekme").forEach(b => b.onclick = () => { sekme = b.dataset.s;
+  document.querySelectorAll(".sekme").forEach(x => x.classList.toggle("aktif", x === b)); ciz(); });
+
+function ciz(){
+  $("#icerik").className = "";
+  if(sekme === "HSV" || sekme === "RGB") return uzayCiz(sekme);
+  if(sekme === "kars") return karsCiz();
+  return deneyCiz(sekme);
+}
+
+function kararHtml(u){
+  const s = veri.uzaylar[u];
+  return `<div class="merdiven">${s.karar_izi.map(a => `<div class="basamak ${a.sonuc ? "durdu" : ""}"><span class="s">${esc(a.soru)}</span><span class="d">${esc(a.deger)}</span>${a.sonuc ? `→ <span class="cip c-${a.sonuc}">${SINIF[a.sonuc]}</span>` : "→ devam"}</div>`).join("")}</div>
+  <div class="sayi"><div class="stat amber"><small>Karar (${u})</small><b><span class="cip c-${s.sinif}">${esc(s.sinif_adi)}</span></b></div>
+  ${veri.etiketli ? `<div class="stat ${s.dogru_mu ? "yesil" : "kirmizi"}"><small>Gerçek: ${esc(veri.dogru_adi)}</small><b class="${s.dogru_mu ? "dogru" : "yanlis"}">${s.dogru_mu ? "✓ Doğru" : "✗ Yanlış"}</b></div>` : ""}</div>`;
+}
+
+function uzayCiz(u){
+  const s = veri.uzaylar[u], n = adim[u], A = [];
+  const kanal = s.kanallar;
+  A.push([`Renk uzayına dönüşüm (BGR → ${u})`,
+    `<p class="not">OpenCV görüntüyü BGR okur; <code>cv2.cvtColor</code> ile ${u}'ye çevrilir ve üç kanal ayrı ayrı incelenir.${u==="HSV" ? " H (ton) 0–179, S (doygunluk) ve V (parlaklık) 0–255 aralığındadır; H kanalı renk tekerleği olarak gösterildi." : " Her kanal kendi rengiyle gösterildi."} Orijinal görüntüde bir noktaya tıklayın: o pikselin değerleri ve aralık testi aşağıda görünür.</p>
+     <div class="sira k2" style="margin-top:8px"><figure><img class="tiklanir" id="pikResim" src="${veri.orijinal}" alt="orijinal"><figcaption><b>Orijinal</b> · tıklayıp piksel inceleyin</figcaption><div class="piksel" id="pikBilgi"></div></figure>
+     <div class="sira k3" style="align-content:start">${kanal.map(k => `<figure><img src="${k.gorsel}" alt="${k.ad}"><figcaption><b>${k.ad} kanalı</b></figcaption></figure>`).join("")}</div></div>`]);
+  A.push([`Kanal kanal aralık testi`,
+    `<p class="not">Her kanal için dondurulmuş alt–üst sınır uygulanır. Beyaz: o kanalda aralığa giren pikseller.</p>
+     <div class="sira k3">${kanal.map(k => `<figure><img src="${k.maske}" alt="${k.ad} maske"><figcaption><b>${k.alt} ≤ ${k.ad} ≤ ${k.ust}</b><br>Pikselin ${fmt(k.gecen_yuzde)}'i geçti</figcaption></figure>`).join("")}</div>`]);
+  A.push([`Birleşik renk maskesi`,
+    `<p class="not">Bir piksel ancak üç koşulu birlikte sağlarsa seçilir. Bu, <code>cv2.inRange</code>'in yaptığı işin aynısıdır (sunucu iki sonucun piksel piksel aynı olduğunu kontrol eder).</p>
+     <div class="formul">maske = cv2.inRange(${u.toLowerCase()}, alt=[${s.alt.join(", ")}], üst=[${s.ust.join(", ")}])</div>
+     <div class="sira k2" style="margin-top:10px"><figure><img src="${s.maske}" alt="maske"><figcaption><b>İkili maske</b></figcaption></figure><figure><img src="${s.bindirme}" alt="bindirme"><figcaption><b>Görüntü üzerinde</b> (sarı: seçilen pikseller)</figcaption></figure></div>
+     <div class="sayi"><div class="stat"><small>Renkli piksel</small><b>${s.renkli_piksel.toLocaleString("tr-TR")}</b></div><div class="stat"><small>Toplam piksel</small><b>${s.toplam_piksel.toLocaleString("tr-TR")}</b></div><div class="stat amber"><small>Renkli alan</small><b>${fmt(s.alan)}</b></div></div>`]);
+  A.push([`Baş bölgesiyle örtüşme`,
+    s.roi_kesit ? `<p class="not">“Baret başta mı?” sorusu için baş ROI içindeki renkli piksel oranı hesaplanır.</p>
+     <div class="sira k2"><figure style="max-width:420px"><img src="${s.roi_kesit}" alt="ROI"><figcaption><b>Baş ROI (beyaz çerçeve) çevresi</b></figcaption></figure>
+     <div><div class="formul">örtüşme = ROI içindeki renkli piksel / ROI pikseli<br>= ${s.roi_renkli.toLocaleString("tr-TR")} / ${s.roi_piksel.toLocaleString("tr-TR")}</div>
+     <div class="sayi"><div class="stat amber"><small>Baş örtüşmesi</small><b>${fmt(s.ortusme)}</b></div></div></div></div>`
+    : `<p class="not">Baş bölgesi yok (baş görünmüyor). Örtüşme hesaplanamaz; kural doğrudan “belirsiz” der.</p>`]);
+  A.push([`Dört sınıflı karar kuralı`, kararHtml(u)]);
+  A.push([`Aday kutular ve TP / FP / FN`,
+    `<p class="not">Maskedeki bağlı bileşenler (${AYAR.kutu.morfoloji_cekirdegi}×${AYAR.kutu.morfoloji_cekirdegi} açma/kapama, en az ${AYAR.kutu.en_kucuk_bilesen_piksel} piksel) aday kutu olur. ${veri.etiketli ? `Elle çizilmiş baret kutularıyla IoU ≥ ${AYAR.kutu.iou_esigi} bire bir eşleşme TP, eşleşmeyen aday FP, bulunamayan baret FN sayılır.` : "Bu görüntüde elle çizilmiş kutu olmadığı için TP/FP/FN hesaplanmaz; yalnızca aday sayısı gösterilir."}</p>
+     <figure><img src="${s.kutulu}" alt="kutular"></figure>
+     <div class="lejant"><span><i style="background:#00c800"></i>Gerçek baret</span><span><i style="background:#0078ff"></i>TP aday</span><span><i style="background:#ff0000"></i>FP aday</span><span><i style="background:#b4b4b4"></i>Baş ROI</span></div>
+     <div class="sayi"><div class="stat"><small>Aday kutu</small><b>${s.aday}</b></div>${s.kutu ? `<div class="stat yesil"><small>TP</small><b>${s.kutu.tp}</b></div><div class="stat kirmizi"><small>FP</small><b>${s.kutu.fp}</b></div><div class="stat amber"><small>FN</small><b>${s.kutu.fn}</b></div>` : ""}</div>
+     <p class="not">Renk maskesi baret <i>nesnesini</i> kanıtlamaz; aynı renkteki her yüzey aday olabilir. Sınıf kararı ile kutu değerlendirmesi ayrı ölçümlerdir.</p>`]);
+  $("#icerik").innerHTML = `<div class="kart"><p class="etiket">${u} yöntemi · adım ${n} / ${A.length}</p><h2>${u} ile baret rengi var mı, başta mı?</h2><p class="not">Aralık ${aralik(u)} · ayarlar G1/G2'de seçilip K1–K4'ten önce donduruldu.</p></div><div style="height:14px"></div>`
+    + A.slice(0, n).map((a,i) => `<div class="adim ${i === A.length-1 ? "son" : ""}"><div class="no">${i+1}</div><div class="kart"><h3>${a[0]}</h3>${a[1]}</div></div>`).join("")
+    + `<div class="gezinti"><button class="ikincil" id="geri" ${n<=1?"disabled":""}>← Önceki</button><button id="ileri" ${n>=A.length?"disabled":""}>Sonraki adım →</button><button class="ikincil" id="hepsi">Tümünü göster</button><span class="ilerleme">${n} / ${A.length}</span></div>`;
+  $("#geri").onclick = () => { adim[u]--; uzayCiz(u); };
+  $("#ileri").onclick = () => { adim[u]++; uzayCiz(u); document.querySelectorAll(".adim")[adim[u]-1]?.scrollIntoView({behavior:"smooth", block:"start"}); };
+  $("#hepsi").onclick = () => { adim[u] = A.length; uzayCiz(u); };
+  const pr = $("#pikResim");
+  if(pr) pr.onclick = async e => { const r = pr.getBoundingClientRect();
+    const p = await api("/api/piksel", {...istek(), fx:(e.clientX-r.left)/r.width, fy:(e.clientY-r.top)/r.height});
+    const satir = uz => `${uz} (${p[uz].map((v,i) => `${KANAL[uz][i]}=${v} <span class="${p[uz+"_icinde"][i]?"tik":"carpi"}">${p[uz+"_icinde"][i]?"✓":"✗"}</span>`).join(" ")}) → ${p[uz+"_icinde"].every(Boolean) ? '<b class="dogru">seçilir</b>' : '<b class="yanlis">seçilmez</b>'}`;
+    $("#pikBilgi").innerHTML = `<span class="ornek" style="background:${p.renk}"></span><span>x=${p.x}, y=${p.y}<br>${satir(u)}<br><span class="not">${satir(u==="HSV"?"RGB":"HSV")}</span></span>`; };
+}
+const KANAL = {RGB:["R","G","B"], HSV:["H","S","V"]};
+
+function karsCiz(){
+  const H = veri.uzaylar.HSV, R = veri.uzaylar.RGB;
+  const satir = (ad, f) => `<tr><td>${ad}</td><td>${f(H)}</td><td>${f(R)}</td></tr>`;
+  $("#icerik").innerHTML = `<div class="kart"><p class="etiket">Karşılaştırma</p><h2>Aynı görüntü, aynı kural: HSV ve RGB</h2>
+    <p class="not">Yalnızca renk uzayı değişir; baş ROI, eşikler ve kutu ayarları aynıdır.</p>
+    <div class="sira k2" style="margin-top:10px"><figure><img src="${H.kutulu}" alt="HSV"><figcaption><b>HSV</b> · ${aralik("HSV")}</figcaption></figure><figure><img src="${R.kutulu}" alt="RGB"><figcaption><b>RGB</b> · ${aralik("RGB")}</figcaption></figure></div>
+    <div class="lejant"><span><i style="background:#00c800"></i>Gerçek baret</span><span><i style="background:#0078ff"></i>TP</span><span><i style="background:#ff0000"></i>FP</span><span><i style="background:#b4b4b4"></i>Baş ROI</span></div>
+    <table style="margin-top:12px"><tr><th>Ölçüm</th><th>HSV</th><th>RGB</th></tr>
+    ${satir("Renkli alan", s => fmt(s.alan))}${satir("Baş örtüşmesi", s => fmt(s.ortusme))}
+    ${satir("Karar", s => `<span class="cip c-${s.sinif}">${esc(s.sinif_adi)}</span>`)}
+    ${veri.etiketli ? satir("Gerçek sınıfla", s => s.dogru_mu ? '<span class="dogru">✓ doğru</span>' : '<span class="yanlis">✗ yanlış</span>') : ""}
+    ${satir("Aday kutu", s => s.aday)}${veri.etiketli ? satir("TP / FP / FN", s => `${s.kutu.tp} / ${s.kutu.fp} / ${s.kutu.fn}`) : ""}</table></div>`;
+}
+
+async function deneyCiz(tur){
+  const d0 = tur === "bulaniklik" ? AYAR.bulaniklik.sigma_degerleri : AYAR.olcek.katsayilar;
+  if(deneyDurum[tur] == null) deneyDurum[tur] = d0[tur === "bulaniklik" ? 2 : 2];
+  const sec = deneyDurum[tur], k = tur + sec;
+  if(!deneyVeri[k]) deneyVeri[k] = await api("/api/deney", {...istek(), tur, secili:sec});
+  const d = deneyVeri[k], bl = tur === "bulaniklik";
+  const ad = v => bl ? `σ = ${String(v).replace(".", ",")}` : `× ${String(v).replace(".", ",")}`;
+  const g = d.gorsel;
+  const hucre = s => `${fmt(s.alan)} · ${fmt(s.ortusme)}<br><span class="cip c-${s.sinif}" style="font-size:11px;padding:2px 8px">${esc(s.sinif_adi)}</span>${s.dogru_mu==null?"":s.dogru_mu?' <span class="dogru">✓</span>':' <span class="yanlis">✗</span>'}${s.kutu?`<br><small>TP/FP/FN ${s.kutu.tp}/${s.kutu.fp}/${s.kutu.fn}</small>`:""}`;
+  $("#icerik").innerHTML = `<div class="kart"><p class="etiket">Tek değişkenli deney</p>
+    <h2>${bl ? "Gaussian bulanıklık: yalnızca σ değişir" : "Küçültme: yalnızca ölçek katsayısı değişir"}</h2>
+    <p class="not">${bl ? `Çekirdek ${d.ayar.cekirdek.join("×")}; σ = 0 filtresiz referanstır. Renk aralıkları, baş ROI ve eşikler sabit.` : `Küçültme ${d.ayar.kucultme_yontemi}; baş ROI ve baret kutuları aynı katsayıyla dönüştürülür. PSNR: küçültüp ${d.ayar.geri_buyutme_yontemi} ile geri büyütülen görüntünün orijinale benzerliği (yüksek = daha az kayıp).`}</p>
+    <div class="duzeyler">${d.duzeyler.map(v => `<button class="${v==sec?"amber":"ikincil"}" data-v="${v}">${ad(v)}</button>`).join("")}</div>
+    <div class="sira k3"><figure><img src="${g.islenmis}" alt="işlenmiş"><figcaption><b>${ad(sec)}</b>${bl ? "" : ` · ${d.tablo.find(t=>t.duzey==sec).boyut.join(" × ")} px (pikseller büyütülerek gösterildi)`}</figcaption></figure>
+    <figure><img src="${g.HSV}" alt="HSV"><figcaption><b>HSV</b> maske + kutular</figcaption></figure><figure><img src="${g.RGB}" alt="RGB"><figcaption><b>RGB</b> maske + kutular</figcaption></figure></div>
+    <table style="margin-top:14px"><tr><th>${bl ? "σ" : "Ölçek"}</th>${bl ? "" : "<th>Boyut</th><th>PSNR</th>"}<th>HSV: alan · örtüşme · karar</th><th>RGB: alan · örtüşme · karar</th></tr>
+    ${d.tablo.map(t => `<tr class="${t.duzey==sec?"secili":""}"><td>${ad(t.duzey)}</td>${bl ? "" : `<td>${t.boyut.join("×")}</td><td>${t.psnr==null?"—":String(t.psnr).replace(".", ",")+" dB"}</td>`}<td>${hucre(t.HSV)}</td><td>${hucre(t.RGB)}</td></tr>`).join("")}</table>
+    ${d.etiketli ? `<p class="not" style="margin-top:8px">Gerçek sınıf: ${esc(d.dogru_adi)}</p>` : ""}</div>`;
+  document.querySelectorAll(".duzeyler button").forEach(b => b.onclick = () => { deneyDurum[tur] = +b.dataset.v; deneyCiz(tur); });
+}
+basla();
+</script>
+</body>
+</html>
